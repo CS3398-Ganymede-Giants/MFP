@@ -14,6 +14,3 @@ http.createServer(function (request, response) {
 
 //Simple console log confirmation
 console.log('Server started');
-
-
-   
