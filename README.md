@@ -1,6 +1,7 @@
 # MFP
-Team Project
 
+!!! INCOMPLETE !!!
+just what i have so far
 this branch refers to these tasks
 
 color scheme,
