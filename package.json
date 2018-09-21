@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "repository": {
-    "type": "git",
+    "type": "git", 
     "url": "git+https://github.com/CS3398-Ganymede-Giants/MFP.git"
   },
   "keywords": [],
