@@ -16,4 +16,7 @@ http.createServer(function (request, response) {
 console.log('Server started');
 
 
+<<<<<<< HEAD
  
+=======
+>>>>>>> testHerokuBranch
