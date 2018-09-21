@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/CS3398-Ganymede-Giants/MFP#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    
   }
 }
