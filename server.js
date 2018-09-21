@@ -9,7 +9,7 @@ var port = process.env.PORT || 8080;
 // Creating the server, telling it to listen on the port Heroku Assigns
 http.createServer(function (request, response) {
     response.writeHead(200, {'Content-Type': 'text/plain'});
-    response.end('Hello World!\n');
+    response.end('Hello World!!\n');
 }).listen(port);
 
 //Simple console log confirmation
