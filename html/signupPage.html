@@ -11,24 +11,20 @@ body {
     padding: 10px;
     background: #34495E;
 }
-
 /* Header styles*/
 .header {
     padding: 30px;
     text-align: left;
     background: white;
 }
-
 .header h1 {
     font-size: 30px;
 }
-
 /* Style the top navigation bar */
 .topnav {
     overflow: hidden;
     background-color: #21B375;
 }
-
 /* Style the topnav links, text color */
 .topnav a {
     float: left;
@@ -38,41 +34,41 @@ body {
     padding: 14px 16px;
     text-decoration: none;
 }
-
 /* Change color on hover */
 .topnav a:hover {
     background-color: #91d9bb;
     color: black;
 }
-
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
     float: left;
-    width: 50%;
-
+    width: 75%;
 }
-
+/* Right column */
 .rightcolumn {
-    float: right;
-    width: 50%;
+    float: left;
+    width: 25%;
     padding-left: 20px;
 }
-
+/* Fake image */
+.fakeimg {
+    background-color: #1991df;
+    width: 100%;
+    padding: 20px;
+}
 /* Add a card effect for articles */
 .card {
     background-color: white;
     padding: 20px;
     margin-top: 20px;
 }
-
 /* Clear floats after the columns */
 .row:after {
     content: "";
     display: table;
     clear: both;
 }
-
 /* Footer */
 .footer {
     padding: 20px;
@@ -80,7 +76,6 @@ body {
     background: #fff;
     margin-top: 20px;
 }
-
 /* Responsive layout - when the screen is less than 800px wide,
 make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
