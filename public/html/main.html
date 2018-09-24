@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Tab Title</title>
+      <!-- Linking the css to this html file -->
+      <link rel="stylesheet" href="css/styles.css">
+    </head>
+    
+    <!-- body of the html -->
+    <body>
+      <!-- test code -->
+      <!-- feel free to delete/change anything in the body -->
+      
+      <!-- Header, labeled Counter -->
+      <h1 class="blue">
+        Counter
+      </h1>
+      
+      <!-- button, clicking +1's counter text -->
+      <!-- runClick() is in the external JS file in src/js -->
+      <button class="blue" onclick="runClick()">
+      Test
+      </button>
+
+      <!-- counter -->
+      <p id="counter">
+        0
+      </p>
+    </body>
+    
+    <!-- Linking javascript to this html file -->
+    <!-- Need to do this at the end because if the JavaScript is added before -->
+    <!-- the HTML elements are created, then it won't be able to compile correctly. -->
+    <script type="text/javascript" src="js/scripts.js"></script>
+</html>
