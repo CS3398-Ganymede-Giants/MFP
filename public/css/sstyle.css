@@ -1,0 +1,105 @@
+/* Gerneal style for all pages */
+
+* {
+    box-sizing: border-box;
+}
+/* background behind everything*/
+body {
+    font-family: OCR A Std, monospace;
+    padding: 10px;
+    background: #34495E;
+}
+
+/* Header styles*/
+.header {
+    padding: 30px;
+    text-align: left;
+    background: white;
+}
+
+.header h1 {
+    font-size: 30px;
+}
+
+/* Style the top navigation bar */
+.topnav {
+    overflow: hidden;
+    background-color: #21B375;
+}
+
+/* Style the topnav links, text color */
+.topnav a {
+    float: left;
+    display: block;
+    color: #fff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover, .dropdown:hover .dropbtn {
+    background-color: #91d9bb;
+    color: black;
+}
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+    float: left;
+    width: 50%;
+
+}
+
+.rightcolumn {
+    float: right;
+    width: 50%;
+    padding-left: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+    background-color: #1991df;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Footer */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+    margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide,
+make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+/* Responsive layout - when the screen is less than 400px wide,
+make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+    .topnav a {
+        float: none;
+        width: 100%;
+    }
+}
