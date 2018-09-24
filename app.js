@@ -23,6 +23,7 @@ app.use(express.static('src'))
 // viewed at http://localhost:8080 on local machines
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/main.html'));
+    res.sendFile(path.join(__dirname + '/public/html/signupPage.html'));
 });
 
 //telling the server to listen on the assigned port
