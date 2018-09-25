@@ -113,7 +113,7 @@ body {
 /* Left column */
 .leftcolumn {
     float: left;
-    width: 100%;
+    width: auto;
 
 }
 
