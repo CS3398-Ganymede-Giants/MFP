@@ -25,6 +25,10 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/main.html'));
 });
 
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/signupPage.html'));
+});
+
 //telling the server to listen on the assigned port
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
