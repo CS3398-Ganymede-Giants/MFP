@@ -33,6 +33,10 @@ app.get('/userinfo.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
 });
 
+app.get('/contactus.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/contactus.html'));
+});
+
 //telling the server to listen on the assigned port
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
