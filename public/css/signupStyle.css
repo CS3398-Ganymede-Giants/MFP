@@ -113,9 +113,16 @@ body {
 /* Left column */
 .leftcolumn {
     float: center;
-    width: 100%;
+    width: 75%;
 
 
+}
+
+/* right column */
+
+.rightcolumn {
+    float: right;
+    width: 25%;
 }
 
 
