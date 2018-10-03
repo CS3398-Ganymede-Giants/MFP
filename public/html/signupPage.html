@@ -45,7 +45,7 @@
   <!-- One "tab" for each step in the form: -->
   <div class="tab">Name:
     <p><input placeholder="First name..." oninput="this.className = ''" name="fname"></p>
-    <p><input placeholder="Last name..." oninput="this.className = ''" name="lname"></p>
+    <p><input placeholder="Last name..." oninput="this.className = ''" name="lname"></p> 
   </div>
   <div class="tab">Contact Info:
     <p><input placeholder="E-mail..." oninput="this.className = ''" name="email"></p>
@@ -83,7 +83,7 @@
   <h3>put summary of links and copyrights</h3>
 </div>
 
-<script>
+<script type="text/javascript">
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the crurrent tab
 
@@ -105,6 +105,14 @@ function showTab(n) {
   //... and run a function that will display the correct step indicator:
   fixStepIndicator(n)
 }
+
+$function() {
+  $('regform').submit(funtion(){
+    $.post('#', function() {
+      window.location = 'https://ganymede18.herokuapp.com/userinfo.html';
+    });
+    return false;
+  });
 
 function nextPrev(n) {
   // This function will figure out which tab to display
