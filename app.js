@@ -37,6 +37,10 @@ app.get('/contactus.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/contactus.html'));
 });
 
+app.get('/trackingPage.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/trackingPage.html'));
+});
+
 //telling the server to listen on the assigned port
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
