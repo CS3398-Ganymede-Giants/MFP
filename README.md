@@ -8,3 +8,6 @@ color scheme,
 signup page,
 login page,
 layout
+
+Just added the tracker page over here doesn't work correctly yet.
+
