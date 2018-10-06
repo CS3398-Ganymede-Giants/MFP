@@ -56,6 +56,7 @@ body {
 
 /* Add a card effect for articles */
 .card {
+    border-radius: 25px;
     background-color: white;
     padding: 20px;
     margin-top: 20px;
@@ -144,7 +145,7 @@ body {
     background-color: #28B9B5;
 }
 
-.budget__expenses {
+.budget__expenses {  
     background-color: #FF5049;
 }
 
