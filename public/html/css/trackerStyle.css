@@ -103,6 +103,7 @@ body {
 
 
 .top {
+    border-radius: 25px;
     height: 40vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(images/plantMoney.jpg);
     background-size: cover;
@@ -141,11 +142,13 @@ body {
 }
 
 .budget__income {
+    border-radius: 25px;
     margin-bottom: 10px;
     background-color: #28B9B5;
 }
 
-.budget__expenses {  
+.budget__expenses {
+    border-radius: 25px; 
     background-color: #FF5049;
 }
 
