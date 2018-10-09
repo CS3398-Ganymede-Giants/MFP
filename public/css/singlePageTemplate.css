@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* Body */
 body {
-	font-family: source-sans-pro;
+	font-family: source-sans-pro , sans-serif;
 	background-color: #324376;
 	margin-top: 0px;
 	margin-right: 0px;
