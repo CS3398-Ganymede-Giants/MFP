@@ -26,9 +26,12 @@ body {
 	border-bottom: 3px solid #324376;
 }
 .image {
-	width: 7%;
-	height: 125%;
+	
+	width:5%;
+    	height:100%;  
 	float: left;
+	
+}
 
 }
 .title {
