@@ -11,7 +11,7 @@ Ivy: Fixing up tracking page with tabulator. Cleaning up pages to look better.
 
 James: Assist with back-end code, connecting with database, maybe help front-end with converting project to ReactJS.
 
-Robert:
+Robert: Created SQL database design in Sprint 1; working on deployment to Heroku PostgreSQL and writing get and set functions in JS/PHP for app to communicate to the database.
 
 Tyler:
 
