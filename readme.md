@@ -15,7 +15,7 @@ Robert: Created SQL database design in Sprint 1; working on deployment to Heroku
 
 Tyler:
 
-Zainab: Add dynamic graphs and functionality to the user info page. Assist in building a tracking page that uses the information given by the user.
+Zainab: Created User Info page in Sprint 1; Add dynamic graphs and functionality to the user info page. Assist in building a tracking page that uses the information given by the user.
 
 
    
