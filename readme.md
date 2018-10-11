@@ -7,7 +7,7 @@ https://ganymede18.herokuapp.com/
 Prototype: https://xd.adobe.com/view/22e000c5-aa4d-45f5-78b7-1ae7ec68a229-54d1/?fullscreen
 
 
-Ivy: Fixing up tracking page with tabulator. Cleaning up pages to look better.
+Ivy: created main page, tracker page, and sin up page with the corresponding .css files. Next sprint:Fixing up tracking page with tabulator. Cleaning up pages to look better.
 
 James: Assist with back-end code, connecting with database, maybe help front-end with converting project to ReactJS.
 
