@@ -18,5 +18,5 @@ Tyler:Created a UI protoype to illustrate design and functionality of the final 
 Zainab: Created User Info page in Sprint 1; Add dynamic graphs and functionality to the user info page. Assist in building a tracking page that uses the information given by the user.
 
 
-# Heroku Setup
+### Heroku Setup
 https://medium.com/@aem_iro/deploying-a-node-js-postgressql-app-to-heroku-hosting-platform-cc611287ae76
