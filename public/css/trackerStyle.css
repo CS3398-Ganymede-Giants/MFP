@@ -135,16 +135,19 @@ body {
 
 .budget__income,
 .budget__expenses {
+
     padding: 12px;
     text-transform: uppercase;
 }
 
 .budget__income {
+    border-radius: 25px;
     margin-bottom: 10px;
     background-color: #28B9B5;
 }
 
 .budget__expenses {
+    border-radius: 25px;
     background-color: #FF5049;
 }
 
@@ -184,6 +187,7 @@ body {
 
 /***** FORM *****/
 .add {
+    border-radius: 25px;
     padding: 14px;
     border-bottom: 1px solid #e7e7e7;
     background-color: #f7f7f7;
@@ -247,7 +251,7 @@ body {
 
 /***** LISTS *****/
 .container {
-    width: 1000px;
+    width: auto;
     margin: 60px auto;
 }
 
@@ -349,7 +353,7 @@ h2 {
 /* Responsive layout - when the screen is less than 800px wide,
 make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
-    .leftcolumn, .rightcolumn {
+    .leftcolumn, .income_list, .expenses__list {
         width: 100%;
         padding: 0;
     }
