@@ -1,9 +1,6 @@
 // BUDGET CONTROLLLER
 var budgetController = (function () {
 
-    // each new item needs description and a value + distinguish by #id income vs. expense
-
-
     // create a function constructor for income and expense types
     var Expense = function (id, description, value) {
 
@@ -14,7 +11,6 @@ var budgetController = (function () {
 
     };
 
-    // add the method to the prototype of expense so each object will inherit the method
     Expense.prototype.calcPercentage = function(totalIncome) {
         // only calculate if Income is greater than zero
         if (totalIncome > 0) {
@@ -22,7 +18,7 @@ var budgetController = (function () {
             this.percentage = Math.round((this.value / totalIncome) * 100);
 
         } else {
-            
+
             this.percentage = -1;
 
         }
@@ -77,10 +73,6 @@ var budgetController = (function () {
     // create public method to allow other modules to add new items to the data structure
     return {
         addItem: function (type, desc, val) {
-            var newItem, ID;
-
-            // assign a unique id to each new expense or income item
-            // ID = last ID + 1
 
             // create new ID
             if (data.allItems[type].length > 0) {
@@ -88,7 +80,6 @@ var budgetController = (function () {
             } else {
                 ID = 0;
             }
-            // console.log('The new ID for this item is: ' + ID);
 
             // create new item based on 'inc' or 'exp' type
             if (type === "exp") {
@@ -109,16 +100,6 @@ var budgetController = (function () {
         deleteItem: function(type, id) {
             // declare the variables
             var ids, index;
-
-
-            // id = 6
-            // ids = [1, 2, 4, 6, 8] :: index would be 3
-            // create an array with all ids and then find the index of the element with the id to be removed
-
-
-            // loop over all elements in either 'inc' or 'exp' array
-            // .map has access to current Element, current Index, and entire array in the callback
-            // .map will RETURN a brand new array
             // create a new array
             ids = data.allItems[type].map(function(currentElement){
 
@@ -164,21 +145,12 @@ var budgetController = (function () {
         calculatePercentages: function() {
 
             // calculate % for each item stored in the expenses array
-            /*
-            a = $20 :: 20/100 = 20%
-            b = $10 :: 10/100 = 10%
-            c = $40 :: 40/100 = 40%
-            income = $100
-            */
 
             data.allItems.exp.forEach(function(currentVar){
 
                 currentVar.calcPercentage(data.totals.inc);
 
             });
-
-
-
         },
 
         getPercentages: function() {
@@ -243,9 +215,6 @@ var UIController = (function () {
     // private function
     var formatNumber = function(num, type) {
         var numSplit, int, dec;
-        // + or - before the number
-        // exactly 2 decimal points
-        // comma separating the thousands
 
         num = Math.abs(num); // find abs value of the number
         num = num.toFixed(2); // make num exactly 2 decimals
@@ -275,10 +244,7 @@ var UIController = (function () {
                     // i is the index
                     // in each iteration, the callback function gets called
                     callbackFn(list[i], i);
-
                 }
-
-
     };
 
     // return an object that contains a method to get input values
@@ -530,12 +496,9 @@ var controller = (function (budgetCntrl, UICntrl) {
 
         // 1. Get the field input data when enter key or button is clicked
         input = UICntrl.getInput();
-        // console.log(input);
 
 
-        // make sure there is actually data
-        // use NaN to make sure that this isn't empty:: isNaN: if true, it has a number, if false, it doesn't have a number
-        // prevent negative numbers and zero by > 0
+
         if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
 
             // 2. Add the item to the budget controller
