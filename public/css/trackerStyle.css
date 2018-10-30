@@ -50,8 +50,6 @@ body {
 .leftcolumn {
     float: center;
     width: 100%;
-
-
 }
 
 /* Add a card effect for articles */
@@ -103,6 +101,7 @@ body {
 
 
 .top {
+      border-radius: 25px;
     height: 40vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(images/plantMoney.jpg);
     background-size: cover;
