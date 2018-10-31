@@ -114,10 +114,10 @@ body {
 
 
 .budget {
-    position: absolute;
+    position: auto;
     width: 350px;
-    top: 50%;
-    left: 50%;
+    top: 25%;
+    left: 25%;
     transform: translate(-50%, -50%);
     color: #fff;
 }
