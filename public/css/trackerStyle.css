@@ -62,6 +62,15 @@ body {
     margin-top: 20px;
 }
 
+.card_two {
+    border-radius: 25px;
+    width: 50%;
+    float: center;
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+}
+
 
 /* Clear floats after the columns */
 .row:after {
@@ -102,16 +111,7 @@ body {
 **********************************************/
 
 
-.top {
-    border-radius: 25px;
-    width: 50%;
-    float: center;
-    margin-top: 20px;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(images/plantMoney.jpg);
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
+
 
 .budget {
     position: absolute;
@@ -261,13 +261,13 @@ body {
 
 .income {
     float: left;
-    width: 475px;
-    margin-right: 50px;
+    width: 400px;
+    margin-right: 40px;
 }
 
 .expenses {
     float: left;
-    width: 475px;
+    width: 400px;
 }
 
 h2 {
