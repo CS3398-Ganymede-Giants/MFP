@@ -113,7 +113,14 @@ body {
 
 
 
-
+.budget {
+    position: auto;
+    width: 350px;
+    top: 25%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
 
 .budget__title {
     font-size: 18px;
