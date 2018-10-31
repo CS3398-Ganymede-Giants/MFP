@@ -55,8 +55,6 @@ body {
 /* Add a card effect for articles */
 .card {
     border-radius: 25px;
-    width: 75%;
-    float: center;
     background-color: white;
     padding: 20px;
     margin-top: 20px;
@@ -103,10 +101,8 @@ body {
 
 
 .top {
-    border-radius: 25px;
-    width: 50%;
-    float: center;
-    margin-top: 20px;
+      border-radius: 25px;
+    height: 40vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(images/plantMoney.jpg);
     background-size: cover;
     background-position: center;
