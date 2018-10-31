@@ -49,13 +49,7 @@ body {
 /* Left column */
 .leftcolumn {
     float: center;
-    width: 50%;
-}
-
-.rightcolumn {
-    float: right;
-    width: 50%;
-    padding-left: 20px;
+    width: 100%;
 }
 
 /* Add a card effect for articles */
