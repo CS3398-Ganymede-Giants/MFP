@@ -68,6 +68,20 @@ body {
     margin-top: 20px;
 }
 
+.card_two {
+    border-radius: 25px;
+    background-color: #FADBD8;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.card_three {
+    border-radius: 25px;
+    background-color: #D1F2EB;
+    padding: 20px;
+    margin-top: 20px;
+}
+
 
 /* Clear floats after the columns */
 .row:after {
@@ -259,13 +273,13 @@ body {
 
 .income {
     float: left;
-    width: 350px;
+    width: 350px auto;
     margin-right: 50px;
 }
 
 .expenses {
     float: left;
-    width: 325px;
+    width: 325px auto;
 }
 
 h2 {
