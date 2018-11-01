@@ -11,8 +11,11 @@ body {
 }
 
 /* Header styles*/
+/* Header styles*/
 .header {
-    padding: 30px;
+    padding: 20px;
+    overflow: hidden;
+    border-radius: 40px;
     text-align: left;
     background: white;
 }
@@ -24,6 +27,7 @@ body {
 /* Style the top navigation bar */
 .topnav {
     overflow: hidden;
+    border-radius: 40px;
     background-color: #21B375;
 }
 
