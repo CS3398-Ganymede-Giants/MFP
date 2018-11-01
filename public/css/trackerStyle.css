@@ -69,6 +69,7 @@ body {
 }
 
 .card_two {
+    width: 50%;
     border-radius: 25px;
     background-color: #FADBD8;
     padding: 20px;
@@ -76,6 +77,7 @@ body {
 }
 
 .card_three {
+    width: 50%;
     border-radius: 25px;
     background-color: #D1F2EB;
     padding: 20px;
