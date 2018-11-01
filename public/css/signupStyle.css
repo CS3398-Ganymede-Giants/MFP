@@ -80,7 +80,7 @@ body {
 /* Header styles*/
 .header {
     padding: 20px;
-    overflow: hidden;
+    overflow: auto;
     border-radius: 40px;
     text-align: left;
     color: white;
@@ -92,8 +92,7 @@ body {
 
 /* Style the top navigation bar */
 .topnav {
-    overflow: hidden;
-    border-radius: 40px;
+    overflow: auto;
     background-color: #21B375;
 }
 
