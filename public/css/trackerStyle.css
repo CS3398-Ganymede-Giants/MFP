@@ -219,12 +219,14 @@ body {
 }
 
 .add__description {
-  width: 300px;
+  width: 300px auto;
   border-radius: 15px;
    }
+   
 .add__value {
   border-radius:20px;
-  width: 100px;}
+  width: 100px auto;
+}
 
 .add__btn {
     font-size: 25px;
