@@ -187,7 +187,7 @@ var budgetController = (function () {
 
     }
 
-})();
+});
 
 
 
