@@ -5,9 +5,9 @@
 }
 /* background behind everything*/
 body {
-    font-family: OCR A Std, monospace;
-    padding: 10px;
     background: #34495E;
+    font-family: 'Open Sans Condensed', sans-serif;
+    padding: 10px;
 }
 
 /* Header styles*/
