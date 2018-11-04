@@ -8,6 +8,6 @@ var bLink = document.getElementById('counter');
 //function that gets called on button text 
 function runClick() {
   // adding 1 to the counter text 
-  bLink.innerHTML = parseInt(bLink.innerHTML, 10) + 1
+  console.log("TEST");
 }
 
