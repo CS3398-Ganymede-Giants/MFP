@@ -13,7 +13,7 @@ James: Assist with back-end code, connecting with database, maybe help front-end
 
 Robert: Created SQL database design in Sprint 1; working on deployment to Heroku PostgreSQL and writing get and set functions in JS/PHP for app to communicate to the database.
 
-Tyler:Created a UI protoype to illustrate design and functionality of the final website and basic logo.
+Tyler:Created a UI protoype to illustrate design and functionality of the final website and basic logo, and front-end design of web app. 
 
 Zainab: Created User Info page in Sprint 1; Add dynamic graphs and functionality to the user info page. Assist in building a tracking page that uses the information given by the user.
 
