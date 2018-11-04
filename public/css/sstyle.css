@@ -5,7 +5,8 @@
 }
 /* background behind everything*/
 body {
-    font-family: OCR A Std, monospace;
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+    font-family: 'Open Sans Condensed', sans-serif;
     padding: 10px;
     background: #34495E;
 }
