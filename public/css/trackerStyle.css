@@ -14,9 +14,11 @@ body {
 
 /* Header styles*/
 .header {
-    padding: 30px;
+    padding: 20px;
+    overflow: auto;
+    border-radius: 40px;
     text-align: left;
-    background: white;
+    color: white;
 }
 
 .header h1 {
@@ -25,7 +27,7 @@ body {
 
 /* Style the top navigation bar */
 .topnav {
-    overflow: hidden;
+    overflow: auto;
     background-color: #21B375;
 }
 
@@ -48,14 +50,36 @@ body {
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
-    float: center;
-    width: 100%;
+    float: left;
+    width: 40%;
+}
+
+.rightcolumn {
+  float: right;
+  width: 60%;
+  padding-left: 20px;
 }
 
 /* Add a card effect for articles */
 .card {
     border-radius: 25px;
     background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.card_two {
+    width: 100%;
+    border-radius: 25px;
+    background-color: #FADBD8;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.card_three {
+    width: 100%;
+    border-radius: 25px;
+    background-color: #D1F2EB;
     padding: 20px;
     margin-top: 20px;
 }
@@ -100,23 +124,6 @@ body {
 **********************************************/
 
 
-.top {
-      border-radius: 25px;
-    height: 40vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(images/plantMoney.jpg);
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.budget {
-    position: absolute;
-    width: 350px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-}
 
 .budget__title {
     font-size: 18px;
@@ -138,10 +145,12 @@ body {
 
     padding: 12px;
     text-transform: uppercase;
+    font-size:20px;
 }
 
 .budget__income {
     border-radius: 25px;
+    width: 100% auto;
     margin-bottom: 10px;
     background-color: #28B9B5;
 }
@@ -149,12 +158,13 @@ body {
 .budget__expenses {
     border-radius: 25px;
     background-color: #FF5049;
+    font-size: 20px;
 }
 
 .budget__income--text,
 .budget__expenses--text {
     float: left;
-    font-size: 13px;
+    font-size: 15px;
     color: #444;
     margin-top: 2px;
 }
@@ -190,7 +200,7 @@ body {
     border-radius: 25px;
     padding: 14px;
     border-bottom: 1px solid #e7e7e7;
-    background-color: #f7f7f7;
+    background-color: rgba(235, 235, 235, 1);
 }
 
 .add__container {
@@ -199,9 +209,10 @@ body {
 }
 
 .add__type {
-    width: 55px;
+    border-radius: 15px;
+    width: 45px;
     border: 1px solid #e7e7e7;
-    height: 44px;
+    height: 45px;
     font-size: 18px;
     color: inherit;
     background-color: #fff;
@@ -223,11 +234,18 @@ body {
     transition: border 0.3s;
 }
 
-.add__description { width: 400px;}
-.add__value { width: 100px;}
+.add__description {
+  width: 300px auto;
+  border-radius: 15px;
+   }
+   
+.add__value {
+  border-radius:20px;
+  width: 100px auto;
+}
 
 .add__btn {
-    font-size: 35px;
+    font-size: 25px;
     background: none;
     border: none;
     color: #28B9B5;
@@ -235,7 +253,7 @@ body {
     display: inline-block;
     vertical-align: middle;
     line-height: 1.1;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .add__btn:active { transform: translateY(2px); }
@@ -252,18 +270,18 @@ body {
 /***** LISTS *****/
 .container {
     width: auto;
-    margin: 60px auto;
+    margin: 50px auto;
 }
 
 .income {
     float: left;
-    width: 475px;
+    width: 350px auto;
     margin-right: 50px;
 }
 
 .expenses {
     float: left;
-    width: 475px;
+    width: 325px auto;
 }
 
 h2 {
@@ -353,7 +371,7 @@ h2 {
 /* Responsive layout - when the screen is less than 800px wide,
 make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
-    .leftcolumn, .income_list, .expenses__list {
+    .leftcolumn, .rightcolumn, .income_list, .expenses__list {
         width: 100%;
         padding: 0;
     }

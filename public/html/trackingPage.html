@@ -10,10 +10,9 @@
 
 </head>
 <body>
-
+  <img src="images/MFP_logo.png" style="float:left;width:135px;height:135px;">
 <div class="header">
-  <div class="fakeimg" style="height:100px; width:100px;">Logo here</div>
-  <h1>MyFinancePal</h1>
+  <h1></h1>
   <p>Take control of how you spend and save!</p>
 </div>
 
@@ -28,10 +27,10 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="clearfix">
   <div class="leftcolumn">
-    <div class="top">
-           <div class="budget">
+    <div class="card">
+
                 <div class="budget__title">
                     Available Budget in <span class="budget__title--month">%Month%</span>:
                 </div>
@@ -50,11 +49,12 @@
                         <div class="budget__expenses--percentage"></div>
                     </div>
                 </div>
-            </div>
-     </div>
 
+     </div>
+   </div>
+<div class="rightcolumn">
 <div class="card">
-        <div class="bottom">
+
             <div class="add">
                 <div class="add__container">
                     <select class="add__type">
@@ -67,24 +67,21 @@
                 </div>
             </div>
             <div class="container clearfix">
-                <div class="income">
+                <div class="card_three income">
                     <h2 class="income__title">Income</h2>
 
                     <div class="income__list"></div>
                 </div>
-                <div class="expenses">
+                <div class="card_two expenses">
                     <h2 class="expenses__title">Expenses</h2>
                     <div class="expenses__list"></div>
                 </div>
             </div>
-         </div>
+
         </div>
     </div>
 </div>
-<div class="footer">
-  <h3>put summary of links and copyrights</h3>
-</div>
-        <script src="js/tracker.js"></script>
+        <script type="text/javascript" src="js/tracker.js"></script>
 
 </body>
 </html>
