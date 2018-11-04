@@ -1,5 +1,45 @@
 // Database connectivity
 
+
+//database code 
+// const { Client } = require('pg');
+
+// const client = new Client({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: true,
+// });
+
+// client.connect();
+
+// client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+//   if (err) throw err;
+//   for (let row of res.rows) {
+//     console.log(JSON.stringify(row));
+//   }
+//   client.end();
+// });
+
+var test = function () {
+    //database code 
+    const { Client } = require('pg');
+
+    const client = new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: true,
+    });
+
+    client.connect();
+
+    client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+      if (err) throw err;
+      for (let row of res.rows) {
+        // console.log(JSON.stringify(row));
+      }
+      console.log("CONNECTION SUCEEDED");
+      client.end();
+    });
+}
+
 var connect = function () {
     const { Client } = require('pg');
   
