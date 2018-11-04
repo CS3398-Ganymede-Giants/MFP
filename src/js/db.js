@@ -20,7 +20,28 @@ var connect = function () {
 }
 
 var login = function (username, passw) {
-  console.log("login function called.");
+  const { Client } = require('pg');
+
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  });
+
+  client.connect();
+
+  client.query('SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2', username, passw)
+    .then(res => {
+      if (res) {
+        client.end();
+        return true;
+      } else {
+        client.end();
+        return false;
+      }
+    })
+    .catch(e => console.error(e.stack));
+
+  client.end();
 }
 
 var searchUser = function (username) {
