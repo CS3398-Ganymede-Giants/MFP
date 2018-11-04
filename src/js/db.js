@@ -20,6 +20,7 @@
 // });
 
 var test = function () {
+    console.log("test() called");
     //database code 
     const { Client } = require('pg');
 
