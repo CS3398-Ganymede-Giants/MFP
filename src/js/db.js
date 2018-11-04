@@ -45,13 +45,54 @@ var login = function (username, passw) {
 }
 
 var searchUser = function (username) {
-  console.log("searchUser function called.");
-}
+  const { Client } = require('pg');
 
-var logout = function (username) {
-  console.log("logout function called.");
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  });
+
+  client.connect();
+
+  client.query('SELECT username FROM user_tbl WHERE username = $1', username)
+    .then(res => {
+      if (res) {
+        client.end();
+        return true;
+      } else {
+        client.end();
+        return false;
+      }
+    })
+    .catch(e => console.error(e.stack));
+
+  client.end();
 }
 
 var createUser = function (username, passw, firstName, lastName) {
-  console.log("createUser function called.");
+  if (searchUser(username)) {
+    const { Client } = require('pg');
+
+    const client = new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: true,
+    });
+
+    client.connect();
+
+    client.query('INSERT INTO user_tbl VALUES ($1, $2, $3, $4) RETURNING user_id', username, passw, firstName, lastName)
+      .then(res => {
+        if (res) {
+          client.end();
+          return true;
+        } else {
+          client.end();
+          return false;
+        }
+      })
+      .catch(e => console.error(e.stack));
+
+    client.end();
+  }
+  return false;
 }
