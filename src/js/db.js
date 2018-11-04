@@ -1,6 +1,6 @@
 // Database connectivity
 
-var connect = function () {
+function connect() {
   const { Client } = require('pg');
 
   const client = new Client({
@@ -19,7 +19,7 @@ var connect = function () {
   });
 }
 
-var login = function (username, passw) {
+function login(username, passw) {
   const { Client } = require('pg');
 
   const client = new Client({
@@ -44,7 +44,7 @@ var login = function (username, passw) {
   client.end();
 }
 
-var searchUser = function (username) {
+function searchUser(username) {
   const { Client } = require('pg');
 
   const client = new Client({
@@ -69,7 +69,7 @@ var searchUser = function (username) {
   client.end();
 }
 
-var createUser = function (username, passw, firstName, lastName) {
+function createUser(username, passw, firstName, lastName) {
   if (searchUser(username)) {
     const { Client } = require('pg');
 
