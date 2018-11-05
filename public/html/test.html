@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 
+
   <html>
     <head>
-       
       <title>MFP Test</title>
       <!-- Linking the css to this html file -->
       <link rel="stylesheet" href="css/styles.css">
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     
     <!-- body of the html -->
@@ -17,12 +18,25 @@
       <h1 class="blue">
         Button for database testing
       </h1>
+
+      <!-- text input for name -->
+      <textarea id="usernameinput"></textarea>  
+
+      <!-- <form action="/action_page.php">
+        Username: <input type="text" name="user" id="usernameinput"><br>
+      </form> -->
       
       <!-- button, clicking +1's counter text -->
       <!-- runClick() is in the external JS file in src/js -->
-      <button class="blue" onclick="test()">
+      <button class="blue" onclick="searchUser()">
       Test
       </button>
+
+       <!-- button, clicking +1's counter text -->
+      <!-- runClick() is in the external JS file in src/js -->
+      <button class="blue" onclick="test2()">
+            Test2
+            </button>
 
       <!-- counter -->
       <p id="counter" class="blue">
@@ -34,6 +48,5 @@
     <!-- Need to do this at the end because if the JavaScript is added before -->
     <!-- the HTML elements are created, then it won't be able to compile correctly. -->
     <script type="text/javascript" src="js/db.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script data-main="src/js/db.js" src="src/js/require.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </html>
