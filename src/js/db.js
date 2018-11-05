@@ -1,6 +1,6 @@
 // Database connectivity
 
-function connect() {
+var connect = function () {
   const { Client } = require('pg');
 
   const client = new Client({
