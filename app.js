@@ -1,6 +1,9 @@
 //using express.js just because it's relatively user friendly
 const express = require('express')
 
+//test databse code
+// const { Client } = require('pg');
+
 //making the express object that will be used to control our server
 const app = express()
 

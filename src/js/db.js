@@ -1,5 +1,5 @@
 // Database connectivity
-
+// const { Client } = require('pg');
 
 //database code 
 // const { Client } = require('pg');
@@ -21,24 +21,24 @@
 
 var test = function () {
     console.log("test() called");
-    //database code 
+    // //database code 
     const { Client } = require('pg');
 
-    const client = new Client({
-      connectionString: process.env.DATABASE_URL,
-      ssl: true,
-    });
+    // const client = new Client({
+    //   connectionString: process.env.DATABASE_URL,
+    //   ssl: true,
+    // });
 
-    client.connect();
+    // client.connect();
 
-    client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-      if (err) throw err;
-      for (let row of res.rows) {
-        // console.log(JSON.stringify(row));
-      }
-      console.log("CONNECTION SUCEEDED");
-      client.end();
-    });
+    // client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+    //   if (err) throw err;
+    //   for (let row of res.rows) {
+    //     // console.log(JSON.stringify(row));
+    //   }
+    //   console.log("CONNECTION SUCEEDED");
+    //   client.end();
+    // });
 }
 
 var connect = function () {
