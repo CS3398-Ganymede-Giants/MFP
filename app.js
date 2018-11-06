@@ -113,6 +113,10 @@ app.get('/trackingPage.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/trackingPage.html'));
 });
 
+app.get('/loginConfirmation.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+});
+
 //EXPRESS HTTP REQUESTS
 
 //for searching user
