@@ -323,7 +323,7 @@ var connect = function () {
     }
 
     //redirect 
-    // window.location.href = "https://ganymede18.herokuapp.com/";
+    window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
 
 
   }
