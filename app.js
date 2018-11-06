@@ -280,7 +280,7 @@ app.get('/userlogin', function(req, res) {
                     //set cookie 
                     res.cookie("loggedIn", true)
 
-                    // res.send({ data: true });
+                    res.send({ data: true });
                     //redirect?
                     // res.redirect('/') //TODO UNCOMMENT
                     // done()
