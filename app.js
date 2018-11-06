@@ -35,6 +35,11 @@ herokuClient.query('SELECT table_schema,table_name FROM information_schema.table
 //making the express object that will be used to control our server
 const app = express()
 
+//for cookies
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session')
+app.use(cookieParser());
+
 //requestjs
 // const Request = require('request');
 // const request = Request()
@@ -58,14 +63,33 @@ app.use(express.static('src'))
 // viewed at http://localhost:8080 on local machines
 app.get('/', function(req, res) {
     // res.sendFile(path.join(__dirname + '/public/html/main.html'));
-    res.sendFile(path.join(__dirname + '/public/html/mainLoggedIn.html'));
+    // res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+
+    //check for logged in cookie
+    // console.log(document.cookie)
+    // console.log(req.cookies['key'])
+    // console.log(req.cookies)
+
+    if (req.cookies['loggedIn'] == true) {
+        res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+    } else {
+        res.sendFile(path.join(__dirname + '/public/html/main.html'));
+    }
+
     // console.log("TEST")
 });
 
 //for testing page
 app.get('/test.html', function(req, res) {
+    //creating cookie 
+    res.cookie("key", "value")
+
+    //deleting cookie 
+    // res.clearCookie('key')
+
     res.sendFile(path.join(__dirname + '/public/html/test.html'));
     // console.log("test.html")
+
 });
 
 app.get('/signupPage.html', function(req, res) {
@@ -252,8 +276,15 @@ app.get('/userlogin', function(req, res) {
                     // console.log("\n\n\n\n\n\n")
                     console.log("result")
                     // console.log(result.rows[0])
-                    res.send({ data: true });
+                    //set cookie 
+                    res.cookie("loggedIn", true)
+
+                    // res.send({ data: true });
+                    //redirect?
+                    res.redirect('/')
                     // done()
+
+                    
                 } else {
                     console.log("User NOT found")
                     res.send({ data: false });
@@ -347,6 +378,24 @@ app.get('/userlogin', function(req, res) {
         // res.send({ status: 'SUCCESS' });
 ///////////////
         */
+  });
+
+
+
+//for searching user
+app.get('/userlogout', function(req, res) {
+
+   
+   //logout
+   //just need to clear cookie and reload main page 
+//    res.cookie()
+    res.cookie("loggedIn", false)
+    //redirect?
+    res.redirect('/')
+    // res.send();
+
+    console.log("LOGOUT CLICKED")
+   
   });
 
 //for searching user

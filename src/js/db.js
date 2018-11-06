@@ -136,8 +136,10 @@ var connect = function () {
     console.log("login function called.");
 
     //variables to use 
-    var username = "james"
-    var passwd = "1234"
+    // var username = "james"
+    var username = document.getElementById("loginusername")
+    // var passwd = "1234"
+    var passwd = document.getElementById("loginpassword")
 
     //getting username to search
     //NEED TO CHANGE ID
@@ -237,10 +239,31 @@ var connect = function () {
    
 
   }
-  
-  var logout = function (username) {
+
+  function logout() {
     console.log("logout function called.");
+    console.log("LOGOUT CLICKED")
+
+    //vars
+    var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
+
+    //http reqest 
+      fetch(buildUrl(getMainWithQuery, {
+    }),);
   }
+  
+  // var logout = function () {
+  //   console.log("logout function called.");
+  //   console.log("LOGOUT CLICKED")
+
+  //   //vars
+  //   var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
+
+  //   //http reqest 
+  //     fetch(buildUrl(getMainWithQuery, {
+  //   }),);
+
+  // }
   
 //   var createUser = function (username, passw, firstName, lastName) {
 //     console.log("createUser function called.");
