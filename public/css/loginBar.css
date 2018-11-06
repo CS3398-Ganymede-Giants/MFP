@@ -44,3 +44,47 @@
     border: 1px solid #ccc;
   }
 }
+
+
+.welcomeBackDiv{
+  display:inline-block;
+  
+  /* float:none; */
+  /* right: 100px; */
+  /* margin-right: 0px; */
+  margin:0;
+  float:none;
+  padding:14px;
+  text-align: right;
+}
+
+.welcomeBackText {
+  display: inline-block;
+
+}
+
+.welcomeBackButton {
+display: inline-block;
+padding: 6px 10px;
+  /* margin-top: 8px; */
+  margin-right: 16px;
+  background-color: #555;
+  color: white;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.menuButton {
+  display: inline-block;
+  
+}
+
+
+.topnav  {
+  /* display: inline; */
+  display: flex;
+  justify-content: space-between;
+} 
+
+
