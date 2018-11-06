@@ -317,13 +317,14 @@ var connect = function () {
 
     //choosing 
     if (didAddSuccessfully == true) {
+      //redirect 
+    window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
       alert("User added")
     } else {
       alert("User not added")
     }
 
-    //redirect 
-    window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
+    
 
 
   }
