@@ -374,7 +374,7 @@ app.get('/createuser', function(req, res) {
     //         // res.send({ status: 'FAILED' });
     //     }
 
-    myClient.query(query, function (err, result) {
+    herokuClient.query(query, function (err, result) {
         if (err) {
             console.log(err)
             res.send({ data: false });
