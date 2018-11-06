@@ -164,7 +164,6 @@ var connect = function () {
     console.log("ASYNC FUNCTION CALLED")
 
     return new Promise(resolve => {
-        console.log(1)
         //calling the fetch
         fetch(buildUrl(getMainWithQuery, {
             username: username,
@@ -175,7 +174,6 @@ var connect = function () {
                 status: response.status
             })
         ).then(res => {
-          console.log(3)
             console.log("User login?")
             console.log(res.data.data)
 
@@ -187,7 +185,6 @@ var connect = function () {
 
         
         }));
-        console.log(4)
     });
   }
   
