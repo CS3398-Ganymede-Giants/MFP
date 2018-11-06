@@ -156,9 +156,13 @@ var connect = function () {
     console.log("IN ASYNC FUNCTION ")
     console.log(loginResult)
 
+    //if wrong alert and go back to main
     if (loginResult == false) {
+      alert("Wrong username/password")
       window.location.href = "https://ganymede18.herokuapp.com/";
     }
+
+    //if right, go to loginConfirmation
 
     return loginResult
   }

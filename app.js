@@ -291,6 +291,7 @@ app.get('/userlogin', function(req, res) {
                     console.log("User data:" )
                     console.log(username)
                     console.log(passw)
+                    res.cookie("loggedIn", false)
                     res.send({ data: false });
                     // res.redirect('/')
                     // done()
