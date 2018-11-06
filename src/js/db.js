@@ -163,12 +163,15 @@ var connect = function () {
     var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogin'
     console.log("ASYNC FUNCTION CALLED")
 
+    console.log("HERE IN THE CODE")
+
     return new Promise(resolve => {
         //calling the fetch
         fetch(buildUrl(getMainWithQuery, {
             username: username,
             passwd:passwd
         }),).then(response => 
+          console.log("HERE IN THE CODE2")
             response.json().then(data => ({
                 data: data,
                 status: response.status
@@ -180,7 +183,7 @@ var connect = function () {
             //storing 
             searchResult = res.data.data;
 
-            console.log("HERE IN THE CODE")
+            console.log("HERE IN THE CODE3")
 
             //fulfilling the promise
             resolve(searchResult)
