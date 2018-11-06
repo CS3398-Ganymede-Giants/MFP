@@ -73,6 +73,7 @@ var budgetController = (function () {
     // create public method to allow other modules to add new items to the data structure
     return {
         addItem: function (type, desc, val) {
+            var newItem, ID;
 
             // create new ID
             if (data.allItems[type].length > 0) {
@@ -187,7 +188,7 @@ var budgetController = (function () {
 
     }
 
-});
+})();
 
 
 
