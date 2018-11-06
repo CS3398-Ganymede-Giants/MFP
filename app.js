@@ -106,6 +106,9 @@ app.get('/user/:id', function(req, res) {
     var pool = new pg.Pool(config)
     var myClient
 
+    //connecting for heroku client 
+    client.connect()
+
     var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
     client.query(ageQuery, function (err, result) {
     if (err) {
