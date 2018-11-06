@@ -427,10 +427,11 @@ app.get('/createuser', function(req, res) {
     var passw = req.query['passwd'];
     var firstName = req.query['firstName'];
     var lastName = req.query['lastName'];
+    var userId = req.query['userId']
 
     const query = {
         text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4, $5) RETURNING user_id',
-        values: [username, 3, passw, firstName, lastName],
+        values: [username, userId, passw, firstName, lastName],
     }
     // myClient.query(ageQuery, function (err, result) {
     //     if (err) {

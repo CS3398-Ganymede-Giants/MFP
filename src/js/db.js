@@ -299,6 +299,8 @@ var connect = function () {
     var firstName = document.getElementById("createuserfirstname")
     // var lastName = "L22"
     var lastName = document.getElementById("createuserlastname")
+    //user_id
+    var userId = Math.floor(Math.random()*1000)
 
     //getting element from ID from DOM
     // var userNameToSearch = document.getElementById("usernameinput").value;
@@ -308,7 +310,7 @@ var connect = function () {
     // //storing result of search 
     // var searchResult = await searchUserAsync(userNameToSearch)
 
-    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName)
+    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, userId)
 
     console.log("IN ASYNC FUNCTION ")
     console.log(didAddSuccessfully)
@@ -326,7 +328,7 @@ var connect = function () {
 
   }
 
-  function createUserAsync(username, passw, firstName, lastName) {
+  function createUserAsync(username, passw, firstName, lastName, userId) {
     //base url to GET
     // var getMainWithQuery = 'http://localhost:8080/createuser'
     var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
@@ -337,7 +339,8 @@ var connect = function () {
             username: username,
             passwd: passw, 
             firstName:firstName,
-            lastName:lastName
+            lastName:lastName,
+            userId:userId
         }),).then(response => 
             response.json().then(data => ({
                 data: data,
