@@ -32,10 +32,7 @@ var test2 = function() {
     //     console.log(JSON.stringify(myJson));
     //     });
 
-    const Get = 'http://localhost:8080/get.json'
     const GetMain = 'http://localhost:8080/user/:id/failed'
-
-    const Post = 'http://localhost:8080/post.json'
 
     const Data = {name:"name1", id:123}
 
@@ -160,7 +157,8 @@ var connect = function () {
 
   function loginAsync(username, passwd) {
     //base url to GET
-    var getMainWithQuery = 'http://localhost:8080/userlogin'
+    // var getMainWithQuery = 'http://localhost:8080/userlogin'
+    var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogin'
     console.log("ASYNC FUNCTION CALLED")
 
     return new Promise(resolve => {
@@ -274,7 +272,8 @@ var connect = function () {
 
   function createUserAsync(username, passw, firstName, lastName) {
     //base url to GET
-    var getMainWithQuery = 'http://localhost:8080/createuser'
+    // var getMainWithQuery = 'http://localhost:8080/createuser'
+    var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
 
     return new Promise(resolve => {
         //calling the fetch
