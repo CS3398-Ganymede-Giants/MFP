@@ -406,7 +406,7 @@ app.get('/userlogout', function(req, res) {
     res.cookie("loggedIn", false)
     //redirect?
     res.redirect('https://ganymede18.herokuapp.com/')
-    // res.send();
+    res.send();
 
     console.log("LOGOUT CLICKED")
    
