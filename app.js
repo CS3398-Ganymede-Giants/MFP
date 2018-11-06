@@ -71,6 +71,9 @@ app.get('/', function(req, res) {
     // console.log(req.cookies['key'])
     // console.log(req.cookies)
 
+    console.log("req.cookies")
+    console.log(req.cookies['loggedIn'])
+
     if (req.cookies['loggedIn'] == true) {
         res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
     } else {
