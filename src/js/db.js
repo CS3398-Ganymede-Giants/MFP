@@ -126,6 +126,14 @@ var connect = function () {
 //     console.log("login function called.");
 //   }
 
+  function loginTest() {
+      var test = login()
+      console.log("ASYNC TEST IS ")
+    //   console.log(test.then(alert))
+      var finalReturn = test.then(value=>{console.log(value)}) //outputs true to console
+    //   console.log(finalReturn)
+  }
+
   async function login () {
 
     console.log("login function called.");
@@ -147,6 +155,7 @@ var connect = function () {
 
     console.log("IN ASYNC FUNCTION ")
     console.log(loginResult)
+    return loginResult
   }
 
   function loginAsync(username, passwd) {
