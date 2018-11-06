@@ -137,9 +137,9 @@ var connect = function () {
 
     //variables to use 
     // var username = "james"
-    var username = document.getElementById("loginusername").value
+    var username = document.getElementById("loginusername").value;
     // var passwd = "1234"
-    var passwd = document.getElementById("loginpassword").value
+    var passwd = document.getElementById("loginpassword").value;
 
     //getting username to search
     //NEED TO CHANGE ID
