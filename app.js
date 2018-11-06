@@ -82,7 +82,8 @@ app.get('/', function(req, res) {
 //for testing page
 app.get('/test.html', function(req, res) {
     //creating cookie 
-    res.cookie("key", "value")
+    // res.cookie("key", "value")
+    res.cookie('loggedIn', false)
 
     //deleting cookie 
     // res.clearCookie('key')
