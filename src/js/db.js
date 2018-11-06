@@ -170,7 +170,6 @@ var connect = function () {
             username: username,
             passwd:passwd
         }),).then(response => 
-          console.log(2)
             response.json().then(data => ({
                 data: data,
                 status: response.status
