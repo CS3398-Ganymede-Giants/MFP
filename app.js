@@ -12,22 +12,25 @@ var format = require('pg-format')
 const PGUSER = 'jameslaroux'
 const PGDATABASE = 'testdb'
 
+//heroku postgres code
+//connecting when the app initializes
 const { Client } = require('pg');
 
-const client = new Client({
+const herokuClient = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
 
-client.connect();
+herokuClient.connect();
 
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+herokuClient.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
   }
-  client.end();
+  herokuClient.end();
 });
+//end heroku code
 
 //making the express object that will be used to control our server
 const app = express()
@@ -94,23 +97,13 @@ app.get('/user/:id', function(req, res) {
     //NEED TO GET FROM REQUEST
     var userId = req.query['username'];
    
-    //config for connecting to databse
-    var config = {
-        user: PGUSER, // name of the user account
-        database: PGDATABASE, // name of the database
-        max: 10, // max number of clients in the pool
-        idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
-    }
-    
-    //more config
-    var pool = new pg.Pool(config)
-    var myClient
+   
 
     //connecting for heroku client 
-    client.connect()
+    herokuClient.connect()
 
     var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
-    client.query(ageQuery, function (err, result) {
+    herokuClient.query(ageQuery, function (err, result) {
     if (err) {
         console.log(err)
         // res.send({ status: 'FAILED' });
@@ -139,6 +132,19 @@ app.get('/user/:id', function(req, res) {
 
 //////////////////////
 /*
+
+     //config for connecting to databse
+    var config = {
+        user: PGUSER, // name of the user account
+        database: PGDATABASE, // name of the database
+        max: 10, // max number of clients in the pool
+        idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+    }
+    
+    //more config
+    var pool = new pg.Pool(config)
+    var myClient = client; 
+
     //searching for user in database
     pool.connect(function (err, client, done) {
         if (err) console.log(err)
