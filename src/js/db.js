@@ -286,7 +286,7 @@ var connect = function () {
 //   }
 
   async function createUser() {
-    console.log("searchUser function called.");
+    console.log("createUser function called.");
 
     
     
@@ -323,7 +323,7 @@ var connect = function () {
     }
 
     //redirect 
-    window.location.href = "https://ganymede18.herokuapp.com/";
+    // window.location.href = "https://ganymede18.herokuapp.com/";
 
 
   }
