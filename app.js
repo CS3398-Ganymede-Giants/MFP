@@ -291,6 +291,7 @@ app.get('/userlogin', function(req, res) {
                     // console.log(result.rows[0])
                     //set cookie 
                     res.cookie("loggedIn", true)
+                    res.cookie("usersName", username)
 
                     res.send({ data: true });
                     //redirect?
