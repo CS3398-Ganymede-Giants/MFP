@@ -2,6 +2,7 @@
 
 .topnav .login-container {
   float: right;
+  display: inline-block;
 }
 
 .topnav input[type=text] {
@@ -88,3 +89,7 @@ padding: 6px 10px;
 } 
 
 
+
+.formLogin{
+  display: inline-block;
+}
