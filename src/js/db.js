@@ -164,21 +164,16 @@ var connect = function () {
     console.log("ASYNC FUNCTION CALLED")
 
     return new Promise(resolve => {
+        console.log("In promise")
         //calling the fetch
         fetch(buildUrl(getMainWithQuery, {
             username: username,
             passwd:passwd
-        }),).then(function(response){
-            console.log("In first nested then")
+        }),).then(response => 
             response.json().then(data => ({
-                data: data,
-                status: response.status
+                data: data
             })
-            
-            )
-          }
-
-        ).then(function(res){
+        ).then(res => {
             console.log("User login?")
             console.log(res.data.data)
 
@@ -189,9 +184,8 @@ var connect = function () {
             resolve(searchResult)
 
         
-        })
-      });
-    // });
+        }));
+    });
   }
   
   async function searchUser () {
