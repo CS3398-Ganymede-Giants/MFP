@@ -139,10 +139,10 @@ app.get('/user/:id', function(req, res) {
         // res.send({ status: 'SUCCESS' });
   });
 
-  app.get('/user/:id/failed', function(req, res) {
-    // res.send('user ' + req.params.id);
-    res.send({ status: 'FAILED' });
-  });
+//   app.get('/user/:id/failed', function(req, res) {
+//     // res.send('user ' + req.params.id);
+//     res.send({ status: 'FAILED' });
+//   });
 
 
 //for searching user
