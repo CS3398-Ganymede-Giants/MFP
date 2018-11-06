@@ -150,14 +150,14 @@ var connect = function () {
     //storing result of search 
     // var searchResult = await searchUserAsync(userNameToSearch)
 
-    var loginResult = await loginAsync(username, passwd) 
+    var loginResult = true;//await loginAsync(username, passwd) 
 
     console.log("IN ASYNC FUNCTION ")
     console.log(loginResult)
 
-    if (loginResult == false) {
-      window.location.href = "https://ganymede18.herokuapp.com/";
-    }
+    // if (loginResult == false) {
+    //   window.location.href = "https://ganymede18.herokuapp.com/";
+    // }
 
     return loginResult
   }
