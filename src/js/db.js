@@ -150,7 +150,8 @@ var connect = function () {
     //storing result of search 
     // var searchResult = await searchUserAsync(userNameToSearch)
 
-    var loginResult = true;//await loginAsync(username, passwd) 
+    //not anything below here in the stack
+    var loginResult = await loginAsync(username, passwd) 
 
     console.log("IN ASYNC FUNCTION ")
     console.log(loginResult)
