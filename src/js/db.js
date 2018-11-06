@@ -168,12 +168,17 @@ var connect = function () {
         fetch(buildUrl(getMainWithQuery, {
             username: username,
             passwd:passwd
-        }),).then(response => 
+        }),).then(function(response){
+            console.log("In first nested then")
             response.json().then(data => ({
                 data: data,
                 status: response.status
             })
-        ).then(res => {
+            
+            )
+          }
+
+        ).then(function(res){
             console.log("User login?")
             console.log(res.data.data)
 
@@ -184,8 +189,9 @@ var connect = function () {
             resolve(searchResult)
 
         
-        }));
-    });
+        })
+      });
+    // });
   }
   
   async function searchUser () {
