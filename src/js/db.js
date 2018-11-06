@@ -294,11 +294,11 @@ var connect = function () {
     // var username = "j212"
     var username = document.getElementById("createuserusername").value;
     // var passw = "p212"
-    var passw = document.getElementById("createuserpassword")
+    var passw = document.getElementById("createuserpassword").value;
     // var firstName = "James22"
-    var firstName = document.getElementById("createuserfirstname")
+    var firstName = document.getElementById("createuserfirstname").value;
     // var lastName = "L22"
-    var lastName = document.getElementById("createuserlastname")
+    var lastName = document.getElementById("createuserlastname").value;
     //user_id
     var userId = Math.floor(Math.random()*1000)
 
