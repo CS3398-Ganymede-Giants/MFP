@@ -287,6 +287,9 @@ app.get('/userlogin', function(req, res) {
                     
                 } else {
                     console.log("User NOT found")
+                    console.log("User data:" )
+                    console.log(username)
+                    console.log(passw)
                     res.send({ data: false });
                     // done()
                 }
