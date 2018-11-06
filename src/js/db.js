@@ -170,7 +170,7 @@ var connect = function () {
         fetch(buildUrl(getMainWithQuery, {
             username: username,
             passwd:passwd
-        }),).then(response => 
+        }),).then(response => {
           console.log("HERE IN THE CODE2")
             response.json().then(data => ({
                 data: data,
