@@ -281,7 +281,7 @@ app.get('/userlogin', function(req, res) {
 
                     // res.send({ data: true });
                     //redirect?
-                    res.redirect('/')
+                    // res.redirect('/') //TODO UNCOMMENT
                     // done()
 
                     
