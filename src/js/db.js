@@ -154,6 +154,11 @@ var connect = function () {
 
     console.log("IN ASYNC FUNCTION ")
     console.log(loginResult)
+
+    if (loginResult == false) {
+      window.location.href = "https://ganymede18.herokuapp.com/";
+    }
+
     return loginResult
   }
 
