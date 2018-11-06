@@ -7,6 +7,10 @@ const express = require('express')
 //testing postgres code 
 var pg = require('pg')
 var format = require('pg-format')
+//postgres credentials
+//test postgres code
+const PGUSER = 'jameslaroux'
+const PGDATABASE = 'testdb'
 
 //making the express object that will be used to control our server
 const app = express()
@@ -65,9 +69,7 @@ app.get('/trackingPage.html', function(req, res) {
 app.get('/user/:id', function(req, res) {
 
 
-    //test postgres code
-    var PGUSER = 'jameslaroux'
-    var PGDATABASE = 'testdb'
+    
     //user to search 
      //this outputs 
     // { username: 'asdf'}
@@ -90,27 +92,42 @@ app.get('/user/:id', function(req, res) {
     //searching for user in database
     pool.connect(function (err, client, done) {
         if (err) console.log(err)
+        console.log("\n\n\n\n\n\n\n\n\n\n")
+
 
         //query data
         myClient = client
-        var ageQuery = format('SELECT * from users WHERE userId = %L', userId)
+        console.log(client)
+        var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
         myClient.query(ageQuery, function (err, result) {
         if (err) {
             console.log(err)
-            res.send({ status: 'FAILED' });
+            // res.send({ status: 'FAILED' });
         }
         // console.log(result.rows[0])
 
         //see if user is found 
-        if (result.rows[0] != undefined) {
-            console.log("User found!")
-            res.send({ data: true });
+        // console.log("RESULT")
+        console.log(result)
+        //if there's not 0 entries
+        if(result != undefined) {
+            if (result.rows[0] != undefined) {
+                console.log("User found!")
+                res.send({ data: true });
+                // done()
+            } else {
+                console.log("User NOT found")
+                res.send({ data: false });
+                // done()
+            }
         } else {
-            console.log("User NOT found")
-            res.send({ data: false });
+            console.log("NO ENTRIES FOUND")
+                res.send({ data: false });
+                // done()
         }
+        
 
-        done()
+        
 
         })
     })
@@ -128,21 +145,126 @@ app.get('/user/:id', function(req, res) {
   });
 
 
+//for searching user
+app.get('/userlogin', function(req, res) {
 
+    //console.log("node login")
+    
+    //user to search 
+     //this outputs 
+    // { username: 'asdf'}
+    // //console.log(req.query)
+    //NEED TO GET FROM REQUEST
+    var username = req.query['username'];
+    var passw = req.query['passwd']
+   
+    //config for connecting to databse
+    var config = {
+        user: PGUSER, // name of the user account
+        database: PGDATABASE, // name of the database
+        max: 10, // max number of clients in the pool
+        idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+    }
+    
+    //more config
+    var pool = new pg.Pool(config)
+    var myClient
+
+    //searching for user in database
+    pool.connect(function (err, client, done) {
+        // if (err) console.log(err)
+        // console.log("\n\n\n\n\n\n\n\n\n\n")
+
+
+        //query data
+        myClient = client
+        // console.log(client)
+        // var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
+        // myClient.query(ageQuery, function (err, result) {
+        // if (err) {
+        //     console.log(err)
+        //     // res.send({ status: 'FAILED' });
+        // }
+        // // console.log(result.rows[0])
+
+        const query = {
+            text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
+            values: [username, passw],
+        }
+        
+
+        myClient.query(query, function (err, result) {
+            if (err) {
+                console.log(err)
+                // res.send({ data: false });
+            } else {
+                //see if user is found 
+                console.log("RESULT")
+                // console.log("\n\n\n\n\n")
+                // console.log(result)
+                //if there's not 0 entries
+                if(result != undefined) {
+                    if (result.rows[0] != undefined) {
+                        console.log("User found!")
+                        // console.log("\n\n\n\n\n\n")
+                        console.log("result")
+                        // console.log(result.rows[0])
+                        res.send({ data: true });
+                        // done()
+                    } else {
+                        console.log("User NOT found")
+                        res.send({ data: false });
+                        // done()
+                    }
+                } else {
+                    console.log("NO ENTRIES FOUND")
+                        res.send({ data: false });
+                        // done()
+                }
+            }
+        
+        })
+                // console.log(result)
+                // res.send({ data: true });
+            
+        })
+
+    //     client.query('SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2', username, passw)
+    //   .then(res => {
+    //     if (res) {
+    //       client.end();
+    //       return true;
+    //     } else {
+    //       client.end();
+    //       return false;
+    //     }
+    //   })
+    //   .catch(e => console.error(e.stack));
+
+        
+    
+        // res.send('user ' + req.params.id);
+        // res.send({ status: 'SUCCESS' });
+  });
 
 //for searching user
 app.get('/createuser', function(req, res) {
 
 
     //test postgres code
-    var PGUSER = 'jameslaroux'
-    var PGDATABASE = 'testdb'
+
     //user to search 
      //this outputs 
     // { username: 'asdf'}
     // console.log(req.query)
     //NEED TO GET FROM REQUEST
-    var userId = req.query['username'];
+    var username = req.query['username'];
+    var passw = req.query['passwd'];
+    var firstName = req.query['firstName'];
+    var lastName = req.query['lastName'];
+
+
+
    
     //config for connecting to databse
     var config = {
@@ -165,22 +287,34 @@ app.get('/createuser', function(req, res) {
         //format for inserting user 
         //'INSERT INTO users(name, email) VALUES($1, $2)',
         // username, email, first/last name, password
-        var ageQuery = format('SELECT * from users WHERE userId = %L', userId)
-        myClient.query(ageQuery, function (err, result) {
-        if (err) {
-            console.log(err)
-            res.send({ status: 'FAILED' });
-        }
-        // console.log(result.rows[0])
+        // var ageQuery = format('SELECT * from users WHERE userId = %L', userId)
+        // myClient.query(ageQuery, function (err, result) {
+        // if (err) {
+        //     console.log(err)
+        //     res.send({ status: 'FAILED' });
+        // }
 
-        //see if user is found 
-        if (result.rows[0] != undefined) {
-            console.log("User found!")
-            res.send({ data: true });
-        } else {
-            console.log("User NOT found")
-            res.send({ data: false });
+        // const queryText = format('INSERT INTO user_tbl VALUES ($1, $2, $3, $4) RETURNING user_id', username, passw, firstName, lastName)
+        
+        const query = {
+            text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4, $5) RETURNING user_id',
+            values: [username, 3, passw, firstName, lastName],
         }
+        // myClient.query(ageQuery, function (err, result) {
+        //     if (err) {
+        //         console.log(err)
+        //         // res.send({ status: 'FAILED' });
+        //     }
+
+        myClient.query(query, function (err, result) {
+            if (err) {
+                console.log(err)
+                res.send({ data: false });
+            } else {
+                res.send({ data: true });
+            }
+        })
+       
 
         done()
 
@@ -192,7 +326,7 @@ app.get('/createuser', function(req, res) {
 
         // res.send('user ' + req.params.id);
         // res.send({ status: 'SUCCESS' });
-  });
+
 
   app.get('/user/:id/failed', function(req, res) {
     // res.send('user ' + req.params.id);
@@ -235,7 +369,7 @@ app.use(function (req, res, next) {
 app.use(function (req, res, next) {
     console.log('Time:', Date.now())
     next()
-  })
+})
 
 
 //database code 
@@ -323,3 +457,4 @@ app.use(function (req, res, next) {
 //   body = Buffer.concat(body).toString();
 //   // at this point, `body` has the entire request body stored in it as a string
 // });
+//

@@ -47,16 +47,7 @@ var test2 = function() {
         method:"POST"
     };
 
-    // fetch(GetMain) // Call the fetch function passing the url of the API as a parameter
-    //     .then(function(res) {
-    //         // Your code for handling the data you get from the API
-    //         console.log("Fetch succeeded")
-    //         console.log(res.json());
-    //     })
-    //     .catch(function() {
-    //         // This is where you run code if the server returns any errors
-    //         console.log("Fetch did not succeed")
-    //     });
+   
     fetch(GetMain)
         .then(data=>{return data})
         .then(data=>{console.log(data.json())})
@@ -70,14 +61,7 @@ var test = function () {
 
     console.log("test() called");
 
-    // fetch('http://localhost:8080//user/:id')
-    //     .then(function(response) {
-    //         console.log(response);
-    //     return response.json();
-    //     })
-    //     .then(function(myJson) {
-    //     console.log(JSON.stringify(myJson));
-    //     });
+   
 
     var userNameToSearch = document.getElementById("usernameinput").value;
     console.log(userNameToSearch)
@@ -100,24 +84,7 @@ var test = function () {
         method:"GET"
     };
 
-    // fetch(GetMain) // Call the fetch function passing the url of the API as a parameter
-    //     .then(function(res) {
-    //         // Your code for handling the data you get from the API
-    //         console.log("Fetch succeeded")
-    //         console.log(res.json());
-    //     })
-    //     .catch(function() {
-    //         // This is where you run code if the server returns any errors
-    //         console.log("Fetch did not succeed")
-    //     });
-
-    // fetch(GetMain)
-    //     .then(data=>{return data})
-    //     .then(data=>{console.log(data.json())})
-    //     .then(res=>{console.log(res)})
-
-    //processing url?
-
+    
 
 
     fetch(buildUrl(getMainWithQuery, {
@@ -131,83 +98,8 @@ var test = function () {
             console.log(JSON.stringify(myJson));
         });
 
-    // fetch(GetMain)
-    //     .then(function(response) {
-    //       console.log(response)
-    //       console.log(response.json())
-    //       return response.json();
-    //     })
-    //     .then(function(myJson) {
-    //       console.log(JSON.stringify(myJson));
-    //       return response.json()
-    //     });
-
-    // fetch(Url, otherPram)
-    // .then(data=>{return data.json()})
-    // .then(res=>{console.log(res)})
-    // .catch(error=>console.log(error))
-
-//     axios.get('/user?ID=12345')
-//   .then(function (response) {
-//     console.log(response);
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
     
-    // //database code 
-    // const { Client } = require('pg');
 
-
-    // require(['pg'], function (pg) {
-    //     //foo is now loaded.
-
-    //     // const {Client} = 
-    //     // console.log("test() called again after loading");
-
-    //     // const client = new Client({
-    //     // connectionString: process.env.DATABASE_URL,
-    //     // ssl: true,
-    //     // });
-    // });
-
-    // define(function (require) {
-    //     const { Client } = require('pg');
-
-    //     // const client = new Client({
-    // //   connectionString: process.env.DATABASE_URL,
-    // //   ssl: true,
-    // // });
-
-    // // client.connect();
-
-    // // client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-    // //   if (err) throw err;
-    // //   for (let row of res.rows) {
-    // //     // console.log(JSON.stringify(row));
-    // //   }
-    // //   console.log("CONNECTION SUCEEDED");
-    // //   client.end();
-    // // });
-
-    //     console.log("In define")
-    // });
-
-    // const client = new Client({
-    //   connectionString: process.env.DATABASE_URL,
-    //   ssl: true,
-    // });
-
-    // client.connect();
-
-    // client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-    //   if (err) throw err;
-    //   for (let row of res.rows) {
-    //     // console.log(JSON.stringify(row));
-    //   }
-    //   console.log("CONNECTION SUCEEDED");
-    //   client.end();
-    // });
 }
 
 
@@ -230,8 +122,61 @@ var connect = function () {
     });
   }
   
-  var login = function (username, passw) {
+//   var login = function (username, passw) {
+//     console.log("login function called.");
+//   }
+
+  async function login () {
+
     console.log("login function called.");
+
+    //variables to use 
+    var username = "james"
+    var passwd = "1234"
+
+    //getting username to search
+    //NEED TO CHANGE ID
+    // var userNameToSearch = document.getElementById("usernameinput").value;
+    //logging usernametosearch
+    // console.log(userNameToSearch)
+
+    //storing result of search 
+    // var searchResult = await searchUserAsync(userNameToSearch)
+
+    var loginResult = await loginAsync(username, passwd) 
+
+    console.log("IN ASYNC FUNCTION ")
+    console.log(loginResult)
+  }
+
+  function loginAsync(username, passwd) {
+    //base url to GET
+    var getMainWithQuery = 'http://localhost:8080/userlogin'
+    console.log("ASYNC FUNCTION CALLED")
+
+    return new Promise(resolve => {
+        //calling the fetch
+        fetch(buildUrl(getMainWithQuery, {
+            username: username,
+            passwd:passwd
+        }),).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            console.log("User login?")
+            console.log(res.data.data)
+
+            //storing 
+            searchResult = res.data.data;
+
+            //fulfilling the promise
+            resolve(searchResult)
+
+        
+        }));
+    });
   }
   
   async function searchUser () {
@@ -297,10 +242,10 @@ var connect = function () {
 
     
     //variables are 
-    var username = ""
-    var passw = ""
-    var firstName = ""
-    var lastName = ""
+    var username = "j212"
+    var passw = "p212"
+    var firstName = "James22"
+    var lastName = "L22"
 
     //getting element from ID from DOM
     // var userNameToSearch = document.getElementById("usernameinput").value;
@@ -317,7 +262,34 @@ var connect = function () {
   }
 
   function createUserAsync(username, passw, firstName, lastName) {
+    //base url to GET
+    var getMainWithQuery = 'http://localhost:8080/createuser'
 
+    return new Promise(resolve => {
+        //calling the fetch
+        fetch(buildUrl(getMainWithQuery, {
+            username: username,
+            passwd: passw, 
+            firstName:firstName,
+            lastName:lastName
+        }),).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            console.log("User added?")
+            console.log(res.data.data)
+
+            //storing 
+            searchResult = res.data.data;
+
+            //fulfilling the promise
+            resolve(searchResult)
+
+        
+        }));
+    });
   }
   
 
@@ -334,7 +306,8 @@ var connect = function () {
         qs = qs.substring(0, qs.length - 1); //chop off last "&"
         url = url + "?" + qs;
     }
-
+    console.log("URL IS ")
+    console.log(url)
     return url;
 }
 
@@ -528,7 +501,7 @@ var test = function () {
 
 
 
-
+/*
 // Database connectivity
 
 var connect = function () {
@@ -628,3 +601,5 @@ var connect = function () {
     return false;
   }
   
+
+  */
