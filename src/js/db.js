@@ -159,8 +159,10 @@ var connect = function () {
     //if wrong alert and go back to main
     if (loginResult == false) {
       alert("Wrong username/password")
-      window.location.href = "https://ganymede18.herokuapp.com/";
+      
     }
+    //test moving this
+    window.location.href = "https://ganymede18.herokuapp.com/";
 
     //if right, go to loginConfirmation
 
