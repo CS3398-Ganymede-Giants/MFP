@@ -209,7 +209,8 @@ var connect = function () {
   function searchUserAsync (userNameToSearch) {
 
     //base url to GET
-    var getMainWithQuery = 'http://localhost:8080/user/:id'
+    // var getMainWithQuery = 'http://localhost:8080/user/:id'
+    var getMainWithQuery = 'https://ganymede18.herokuapp.com/user/:id'
 
     return new Promise(resolve => {
         //calling the fetch
