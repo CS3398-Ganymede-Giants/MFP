@@ -121,15 +121,6 @@ body {
 
 }
 
-
-
-/* Fake image */
-.fakeimg {
-    background-color: #1991df;
-    width: 100%;
-    padding: 20px;
-}
-
 /* Clear floats after the columns */
 .row:after {
     content: "";
