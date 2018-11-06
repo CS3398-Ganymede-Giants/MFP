@@ -211,6 +211,7 @@ var connect = function () {
     //base url to GET
     // var getMainWithQuery = 'http://localhost:8080/user/:id'
     var getMainWithQuery = 'https://ganymede18.herokuapp.com/user/:id'
+    console.log(getMainWithQuery)
 
     return new Promise(resolve => {
         //calling the fetch
