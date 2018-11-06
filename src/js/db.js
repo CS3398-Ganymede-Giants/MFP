@@ -180,6 +180,8 @@ var connect = function () {
             //storing 
             searchResult = res.data.data;
 
+            console.log("HERE IN THE CODE")
+
             //fulfilling the promise
             resolve(searchResult)
 
