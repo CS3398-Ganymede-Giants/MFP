@@ -93,3 +93,11 @@ padding: 6px 10px;
 .formLogin{
   display: inline-block;
 }
+
+.loginInputBox {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+  width:120px;
+}
