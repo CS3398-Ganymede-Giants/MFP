@@ -106,6 +106,36 @@ app.get('/user/:id', function(req, res) {
     var pool = new pg.Pool(config)
     var myClient
 
+    var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
+    client.query(ageQuery, function (err, result) {
+    if (err) {
+        console.log(err)
+        // res.send({ status: 'FAILED' });
+    }
+    // console.log(result.rows[0])
+
+    //see if user is found 
+    // console.log("RESULT")
+    console.log(result)
+    //if there's not 0 entries
+    if(result != undefined) {
+        if (result.rows[0] != undefined) {
+            console.log("User found!")
+            res.send({ data: true });
+            // done()
+        } else {
+            console.log("User NOT found")
+            res.send({ data: false });
+            // done()
+        }
+    } else {
+        console.log("NO ENTRIES FOUND")
+            res.send({ data: false });
+            // done()
+    }
+
+//////////////////////
+/*
     //searching for user in database
     pool.connect(function (err, client, done) {
         if (err) console.log(err)
@@ -147,7 +177,10 @@ app.get('/user/:id', function(req, res) {
         
 
         })
+        */ 
+/////////////////////////
     })
+
 
 
 
