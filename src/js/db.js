@@ -263,7 +263,9 @@ var connect = function () {
 
     //http reqest 
       fetch(buildUrl(getMainWithQuery, {
-    }),);
+    }),).then(function() {
+      window.location.href = "https://ganymede18.herokuapp.com/";
+    });
   }
   
   // var logout = function () {
