@@ -217,18 +217,58 @@ app.get('/userlogin', function(req, res) {
     var username = req.query['username'];
     var passw = req.query['passwd']
    
-    //config for connecting to databse
-    var config = {
-        user: PGUSER, // name of the user account
-        database: PGDATABASE, // name of the database
-        max: 10, // max number of clients in the pool
-        idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+    // //config for connecting to databse
+    // var config = {
+    //     user: PGUSER, // name of the user account
+    //     database: PGDATABASE, // name of the database
+    //     max: 10, // max number of clients in the pool
+    //     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+    // }
+    
+    // //more config
+    // var pool = new pg.Pool(config)
+    // var myClient
+
+    const query = {
+        text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
+        values: [username, passw],
     }
     
-    //more config
-    var pool = new pg.Pool(config)
-    var myClient
 
+    herokuClient.query(query, function (err, result) {
+        if (err) {
+            console.log(err)
+            // res.send({ data: false });
+        } else {
+            //see if user is found 
+            console.log("RESULT")
+            // console.log("\n\n\n\n\n")
+            // console.log(result)
+            //if there's not 0 entries
+            if(result != undefined) {
+                if (result.rows[0] != undefined) {
+                    console.log("User found!")
+                    // console.log("\n\n\n\n\n\n")
+                    console.log("result")
+                    // console.log(result.rows[0])
+                    res.send({ data: true });
+                    // done()
+                } else {
+                    console.log("User NOT found")
+                    res.send({ data: false });
+                    // done()
+                }
+            } else {
+                console.log("NO ENTRIES FOUND")
+                    res.send({ data: false });
+                    // done()
+            }
+        }
+    
+    })
+
+    /*
+/////////////////
     //searching for user in database
     pool.connect(function (err, client, done) {
         // if (err) console.log(err)
@@ -304,6 +344,8 @@ app.get('/userlogin', function(req, res) {
     
         // res.send('user ' + req.params.id);
         // res.send({ status: 'SUCCESS' });
+///////////////
+        */
   });
 
 //for searching user
