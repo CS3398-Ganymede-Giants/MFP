@@ -57,7 +57,8 @@ app.use(express.static('src'))
 //CSS and JS in /public/ and /src/
 // viewed at http://localhost:8080 on local machines
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/main.html'));
+    // res.sendFile(path.join(__dirname + '/public/html/main.html'));
+    res.sendFile(path.join(__dirname + '/public/html/mainLoggedIn.html'));
     // console.log("TEST")
 });
 
@@ -581,3 +582,33 @@ app.use(function (req, res, next) {
 //   // at this point, `body` has the entire request body stored in it as a string
 // });
 //
+
+
+// var express = require('express');
+// var app = express();
+// var path = require('path');
+
+// var cookieParser = require('cookie-parser');
+// app.use(cookieParser());
+
+// app.get('/', function(req, res) {
+//     // res.sendFile(path.join(__dirname + '/public/html/main.html')); //TODO CHANGE BACK 
+//     res.sendFile(path.join(__dirname + '/public/html/mainLoggedIn.html')); 
+//     // console.log("TEST")
+// });
+
+// // app.get('/', function(req, res){
+// //     //cookies 
+// //     res.cookie("key", "value")
+// //     res.cookie("key2", "Value2")
+// //     res.send('cookie set'); //Sets name = express
+// // });
+
+// // app.get('/test', function(req, res){
+// //     // res.cookie('name', 'expressTEST').send('cookie set'); //Sets name = express
+// //     res.clearCookie('key')
+// //     res.clearCookie('key2')
+// //     res.send('cleared cookie')
+// //  });
+
+// app.listen(3000);
