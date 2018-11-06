@@ -62,6 +62,7 @@ app.use(express.static('src'))
 //CSS and JS in /public/ and /src/
 // viewed at http://localhost:8080 on local machines
 app.get('/', function(req, res) {
+    console.log("\n\napp.get('/'\n\n")
     // res.sendFile(path.join(__dirname + '/public/html/main.html'));
     // res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
 
