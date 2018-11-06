@@ -128,7 +128,7 @@ var connect = function () {
       console.log("ASYNC TEST IS ")
     //   console.log(test.then(alert))
       var finalReturn = test.then(value=>{console.log(value)}) //outputs true to console
-    //   console.log(finalReturn)
+      console.log(finalReturn)
   }
 
   async function login () {
@@ -136,8 +136,10 @@ var connect = function () {
     console.log("login function called.");
 
     //variables to use 
-    var username = "james"
-    var passwd = "1234"
+    // var username = "james"
+    var username = document.getElementById("loginusername").value;
+    // var passwd = "1234"
+    var passwd = document.getElementById("loginpassword").value;
 
     //getting username to search
     //NEED TO CHANGE ID
@@ -148,10 +150,24 @@ var connect = function () {
     //storing result of search 
     // var searchResult = await searchUserAsync(userNameToSearch)
 
+    //not anything below here in the stack
     var loginResult = await loginAsync(username, passwd) 
 
     console.log("IN ASYNC FUNCTION ")
     console.log(loginResult)
+
+    //if wrong alert and go back to main
+    if (loginResult == false) {
+      alert("Wrong username/password")
+      //test moving this
+      window.location.href = "https://ganymede18.herokuapp.com/";
+    } else {
+      window.location.href = "https://ganymede18.herokuapp.com/loginConfirmation.html";
+    }
+    
+
+    //if right, go to loginConfirmation
+
     return loginResult
   }
 
@@ -162,14 +178,14 @@ var connect = function () {
     console.log("ASYNC FUNCTION CALLED")
 
     return new Promise(resolve => {
+        console.log("In promise")
         //calling the fetch
         fetch(buildUrl(getMainWithQuery, {
             username: username,
             passwd:passwd
         }),).then(response => 
             response.json().then(data => ({
-                data: data,
-                status: response.status
+                data: data
             })
         ).then(res => {
             console.log("User login?")
@@ -237,10 +253,33 @@ var connect = function () {
    
 
   }
-  
-  var logout = function (username) {
+
+  function logout() {
     console.log("logout function called.");
+    console.log("LOGOUT CLICKED")
+
+    //vars
+    var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
+
+    //http reqest 
+      fetch(buildUrl(getMainWithQuery, {
+    }),).then(function() {
+      window.location.href = "https://ganymede18.herokuapp.com/";
+    });
   }
+  
+  // var logout = function () {
+  //   console.log("logout function called.");
+  //   console.log("LOGOUT CLICKED")
+
+  //   //vars
+  //   var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
+
+  //   //http reqest 
+  //     fetch(buildUrl(getMainWithQuery, {
+  //   }),);
+
+  // }
   
 //   var createUser = function (username, passw, firstName, lastName) {
 //     console.log("createUser function called.");
@@ -250,11 +289,18 @@ var connect = function () {
     console.log("searchUser function called.");
 
     
+    
     //variables are 
-    var username = "j212"
-    var passw = "p212"
-    var firstName = "James22"
-    var lastName = "L22"
+    // var username = "j212"
+    var username = document.getElementById("createuserusername").value;
+    // var passw = "p212"
+    var passw = document.getElementById("createuserpassword").value;
+    // var firstName = "James22"
+    var firstName = document.getElementById("createuserfirstname").value;
+    // var lastName = "L22"
+    var lastName = document.getElementById("createuserlastname").value;
+    //user_id
+    var userId = Math.floor(Math.random()*1000)
 
     //getting element from ID from DOM
     // var userNameToSearch = document.getElementById("usernameinput").value;
@@ -264,13 +310,25 @@ var connect = function () {
     // //storing result of search 
     // var searchResult = await searchUserAsync(userNameToSearch)
 
-    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName)
+    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, userId)
 
     console.log("IN ASYNC FUNCTION ")
     console.log(didAddSuccessfully)
+
+    //choosing 
+    if (didAddSuccessfully == true) {
+      alert("User added")
+    } else {
+      alert("User not added")
+    }
+
+    //redirect 
+    window.location.href = "https://ganymede18.herokuapp.com/";
+
+
   }
 
-  function createUserAsync(username, passw, firstName, lastName) {
+  function createUserAsync(username, passw, firstName, lastName, userId) {
     //base url to GET
     // var getMainWithQuery = 'http://localhost:8080/createuser'
     var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
@@ -281,7 +339,8 @@ var connect = function () {
             username: username,
             passwd: passw, 
             firstName:firstName,
-            lastName:lastName
+            lastName:lastName,
+            userId:userId
         }),).then(response => 
             response.json().then(data => ({
                 data: data,

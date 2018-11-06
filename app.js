@@ -35,6 +35,11 @@ herokuClient.query('SELECT table_schema,table_name FROM information_schema.table
 //making the express object that will be used to control our server
 const app = express()
 
+//for cookies
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session')
+app.use(cookieParser());
+
 //requestjs
 // const Request = require('request');
 // const request = Request()
@@ -57,14 +62,39 @@ app.use(express.static('src'))
 //CSS and JS in /public/ and /src/
 // viewed at http://localhost:8080 on local machines
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/main.html'));
+    console.log("\n\napp.get('/'\n\n")
+    // res.sendFile(path.join(__dirname + '/public/html/main.html'));
+    // res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+
+    //check for logged in cookie
+    // console.log(document.cookie)
+    // console.log(req.cookies['key'])
+    // console.log(req.cookies)
+
+    console.log("req.cookies")
+    console.log(req.cookies['loggedIn'])
+
+    if (req.cookies['loggedIn'] == true) {
+        res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+    } else {
+        res.sendFile(path.join(__dirname + '/public/html/main.html'));
+    }
+
     // console.log("TEST")
 });
 
 //for testing page
 app.get('/test.html', function(req, res) {
+    //creating cookie 
+    // res.cookie("key", "value")
+    res.cookie('loggedIn', false)
+
+    //deleting cookie 
+    // res.clearCookie('key')
+
     res.sendFile(path.join(__dirname + '/public/html/test.html'));
     // console.log("test.html")
+
 });
 
 app.get('/signupPage.html', function(req, res) {
@@ -81,6 +111,10 @@ app.get('/contactus.html', function(req, res) {
 
 app.get('/trackingPage.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/trackingPage.html'));
+});
+
+app.get('/loginConfirmation.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
 });
 
 //EXPRESS HTTP REQUESTS
@@ -251,11 +285,23 @@ app.get('/userlogin', function(req, res) {
                     // console.log("\n\n\n\n\n\n")
                     console.log("result")
                     // console.log(result.rows[0])
+                    //set cookie 
+                    res.cookie("loggedIn", true)
+
                     res.send({ data: true });
+                    //redirect?
+                    // res.redirect('/') //TODO UNCOMMENT
                     // done()
+
+                    
                 } else {
                     console.log("User NOT found")
+                    console.log("User data:" )
+                    console.log(username)
+                    console.log(passw)
+                    res.cookie("loggedIn", false)
                     res.send({ data: false });
+                    // res.redirect('/')
                     // done()
                 }
             } else {
@@ -348,6 +394,24 @@ app.get('/userlogin', function(req, res) {
         */
   });
 
+
+
+//for searching user
+app.get('/userlogout', function(req, res) {
+
+   
+   //logout
+   //just need to clear cookie and reload main page 
+//    res.cookie()
+    res.cookie("loggedIn", false)
+    //redirect?
+    res.redirect('https://ganymede18.herokuapp.com/')
+    res.send();
+
+    console.log("LOGOUT CLICKED")
+   
+  });
+
 //for searching user
 app.get('/createuser', function(req, res) {
 
@@ -363,10 +427,11 @@ app.get('/createuser', function(req, res) {
     var passw = req.query['passwd'];
     var firstName = req.query['firstName'];
     var lastName = req.query['lastName'];
+    var userId = req.query['userId']
 
     const query = {
         text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4, $5) RETURNING user_id',
-        values: [username, 3, passw, firstName, lastName],
+        values: [username, userId, passw, firstName, lastName],
     }
     // myClient.query(ageQuery, function (err, result) {
     //     if (err) {
@@ -379,6 +444,7 @@ app.get('/createuser', function(req, res) {
             console.log(err)
             res.send({ data: false });
         } else {
+            console.log("\n\nno error in adding\n\n")
             res.send({ data: true });
         }
     })
@@ -581,3 +647,33 @@ app.use(function (req, res, next) {
 //   // at this point, `body` has the entire request body stored in it as a string
 // });
 //
+
+
+// var express = require('express');
+// var app = express();
+// var path = require('path');
+
+// var cookieParser = require('cookie-parser');
+// app.use(cookieParser());
+
+// app.get('/', function(req, res) {
+//     // res.sendFile(path.join(__dirname + '/public/html/main.html')); //TODO CHANGE BACK 
+//     res.sendFile(path.join(__dirname + '/public/html/mainLoggedIn.html')); 
+//     // console.log("TEST")
+// });
+
+// // app.get('/', function(req, res){
+// //     //cookies 
+// //     res.cookie("key", "value")
+// //     res.cookie("key2", "Value2")
+// //     res.send('cookie set'); //Sets name = express
+// // });
+
+// // app.get('/test', function(req, res){
+// //     // res.cookie('name', 'expressTEST').send('cookie set'); //Sets name = express
+// //     res.clearCookie('key')
+// //     res.clearCookie('key2')
+// //     res.send('cleared cookie')
+// //  });
+
+// app.listen(3000);
