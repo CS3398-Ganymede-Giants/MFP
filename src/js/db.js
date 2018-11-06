@@ -128,7 +128,7 @@ var connect = function () {
       console.log("ASYNC TEST IS ")
     //   console.log(test.then(alert))
       var finalReturn = test.then(value=>{console.log(value)}) //outputs true to console
-    //   console.log(finalReturn)
+      console.log(finalReturn)
   }
 
   async function login () {
