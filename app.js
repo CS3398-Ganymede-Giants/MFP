@@ -364,21 +364,41 @@ app.get('/createuser', function(req, res) {
     var firstName = req.query['firstName'];
     var lastName = req.query['lastName'];
 
+    const query = {
+        text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4, $5) RETURNING user_id',
+        values: [username, 3, passw, firstName, lastName],
+    }
+    // myClient.query(ageQuery, function (err, result) {
+    //     if (err) {
+    //         console.log(err)
+    //         // res.send({ status: 'FAILED' });
+    //     }
+
+    myClient.query(query, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.send({ data: false });
+        } else {
+            res.send({ data: true });
+        }
+    })
+
 
 
    
-    //config for connecting to databse
-    var config = {
-        user: PGUSER, // name of the user account
-        database: PGDATABASE, // name of the database
-        max: 10, // max number of clients in the pool
-        idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
-    }
+    // //config for connecting to databse
+    // var config = {
+    //     user: PGUSER, // name of the user account
+    //     database: PGDATABASE, // name of the database
+    //     max: 10, // max number of clients in the pool
+    //     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+    // }
     
-    //more config
-    var pool = new pg.Pool(config)
-    var myClient
-
+    // //more config
+    // var pool = new pg.Pool(config)
+    // var myClient
+///////////////////////////
+/*
     //searching for user in database
     pool.connect(function (err, client, done) {
         if (err) console.log(err)
@@ -421,7 +441,8 @@ app.get('/createuser', function(req, res) {
 
         })
     })
-
+/////////////////
+*/
 
 
 
