@@ -450,6 +450,7 @@ app.get('/createuser', function(req, res) {
             res.send({ data: false });
         } else {
             console.log("\n\nno error in adding\n\n")
+            res.cookie("usersName", username)
             res.send({ data: true });
         }
     })
