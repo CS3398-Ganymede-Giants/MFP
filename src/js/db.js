@@ -289,11 +289,16 @@ var connect = function () {
     console.log("searchUser function called.");
 
     
+    
     //variables are 
-    var username = "j212"
-    var passw = "p212"
-    var firstName = "James22"
-    var lastName = "L22"
+    // var username = "j212"
+    var username = document.getElementById("createuserusername").value;
+    // var passw = "p212"
+    var passw = document.getElementById("createuserpassword")
+    // var firstName = "James22"
+    var firstName = document.getElementById("createuserfirstname")
+    // var lastName = "L22"
+    var lastName = document.getElementById("createuserlastname")
 
     //getting element from ID from DOM
     // var userNameToSearch = document.getElementById("usernameinput").value;
@@ -307,6 +312,18 @@ var connect = function () {
 
     console.log("IN ASYNC FUNCTION ")
     console.log(didAddSuccessfully)
+
+    //choosing 
+    if (didAddSuccessfully == true) {
+      alert("User added")
+    } else {
+      alert("User not added")
+    }
+
+    //redirect 
+    window.location.href = "https://ganymede18.herokuapp.com/";
+
+
   }
 
   function createUserAsync(username, passw, firstName, lastName) {
