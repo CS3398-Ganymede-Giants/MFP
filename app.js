@@ -443,6 +443,7 @@ app.get('/createuser', function(req, res) {
             console.log(err)
             res.send({ data: false });
         } else {
+            console.log("\n\nno error in adding\n\n")
             res.send({ data: true });
         }
     })
