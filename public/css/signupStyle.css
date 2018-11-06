@@ -1,11 +1,12 @@
 #regForm {
   background-color: #ffffff;
-  margin: 100px auto;
+  margin: 40px auto;
   font-family: 'Open Sans Condensed', sans-serif;
-  padding: 40px;
-  padding-right: 125px;
+  padding: 20px;
+  padding-right: 100px;
+  padding-left: 150px;
   width: 70%;
-  min-width: 300px;
+  min-width: 200px auto;
 }
 
 
