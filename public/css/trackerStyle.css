@@ -300,7 +300,7 @@ h2 {
 }
 
 .item:first-child { border-top: 1px solid #000000; }
-.item:nth-child(even) { background-color: #000000; }
+.item:nth-child(even) { background-color: #f7f7f7; }
 
 .item__description {
     float: left;
