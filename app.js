@@ -268,7 +268,8 @@ app.get('/userlogin', function(req, res) {
     // var myClient
 
     const query = {
-        text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
+        // text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
+        text: 'PREPARE userlogin (varchar, varchar) AS SELECT user_id FROM user_tbl WHERE username = \$1 AND passw = \$2; EXECUTE userlogin($1, $2)',
         values: [username, passw],
     }
 
