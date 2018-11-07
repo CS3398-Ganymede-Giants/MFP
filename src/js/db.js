@@ -2,7 +2,7 @@
 // const { Client } = require('pg');
 // import axios from 'axios'
 
-//database code 
+//database code
 // const { Client } = require('pg');
 
 // const client = new Client({
@@ -44,7 +44,7 @@ var test2 = function() {
         method:"POST"
     };
 
-   
+
     fetch(GetMain)
         .then(data=>{return data})
         .then(data=>{console.log(data.json())})
@@ -54,11 +54,11 @@ var test2 = function() {
 var test = function () {
 
     // import axios from 'axios'
-    
+
 
     console.log("test() called");
 
-   
+
 
     var userNameToSearch = document.getElementById("usernameinput").value;
     console.log(userNameToSearch)
@@ -81,7 +81,7 @@ var test = function () {
         method:"GET"
     };
 
-    
+
 
 
     fetch(buildUrl(getMainWithQuery, {
@@ -95,21 +95,21 @@ var test = function () {
             console.log(JSON.stringify(myJson));
         });
 
-    
+
 
 }
 
 
 var connect = function () {
     const { Client } = require('pg');
-  
+
     const client = new Client({
       connectionString: process.env.DATABASE_URL,
       ssl: true,
     });
-  
+
     client.connect();
-  
+
     client.query('SELECT table_schema, table_name FROM information_schema.tables;', (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
@@ -118,7 +118,7 @@ var connect = function () {
       client.end();
     });
   }
-  
+
 //   var login = function (username, passw) {
 //     console.log("login function called.");
 //   }
@@ -135,7 +135,7 @@ var connect = function () {
 
     console.log("login function called.");
 
-    //variables to use 
+    //variables to use
     // var username = "james"
     var username = document.getElementById("loginusername").value;
     // var passwd = "1234"
@@ -147,11 +147,11 @@ var connect = function () {
     //logging usernametosearch
     // console.log(userNameToSearch)
 
-    //storing result of search 
+    //storing result of search
     // var searchResult = await searchUserAsync(userNameToSearch)
 
     //not anything below here in the stack
-    var loginResult = await loginAsync(username, passwd) 
+    var loginResult = await loginAsync(username, passwd)
 
     console.log("IN ASYNC FUNCTION ")
     console.log(loginResult)
@@ -164,7 +164,7 @@ var connect = function () {
     } else {
       window.location.href = "https://ganymede18.herokuapp.com/loginConfirmation.html";
     }
-    
+
 
     //if right, go to loginConfirmation
 
@@ -183,7 +183,7 @@ var connect = function () {
         fetch(buildUrl(getMainWithQuery, {
             username: username,
             passwd:passwd
-        }),).then(response => 
+        }),).then(response =>
             response.json().then(data => ({
                 data: data
             })
@@ -191,17 +191,17 @@ var connect = function () {
             console.log("User login?")
             console.log(res.data.data)
 
-            //storing 
+            //storing
             searchResult = res.data.data;
 
             //fulfilling the promise
             resolve(searchResult)
 
-        
+
         }));
     });
   }
-  
+
   async function searchUser () {
     console.log("searchUser function called.");
 
@@ -211,13 +211,13 @@ var connect = function () {
     //logging usernametosearch
     console.log(userNameToSearch)
 
-    //storing result of search 
+    //storing result of search
     var searchResult = await searchUserAsync(userNameToSearch)
 
     console.log("IN OTHER FUNCTION ")
     console.log(searchResult)
-    
-    
+
+
   }
 
   function searchUserAsync (userNameToSearch) {
@@ -231,7 +231,7 @@ var connect = function () {
         //calling the fetch
         fetch(buildUrl(getMainWithQuery, {
             username: userNameToSearch
-        }),).then(response => 
+        }),).then(response =>
             response.json().then(data => ({
                 data: data,
                 status: response.status
@@ -240,17 +240,17 @@ var connect = function () {
             console.log("User found?")
             console.log(res.data.data)
 
-            //storing 
+            //storing
             searchResult = res.data.data;
 
             //fulfilling the promise
             resolve(searchResult)
 
-        
+
         }));
     });
 
-   
+
 
   }
 
@@ -261,13 +261,13 @@ var connect = function () {
     //vars
     var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
 
-    //http reqest 
+    //http reqest
       fetch(buildUrl(getMainWithQuery, {
     }),).then(function() {
       window.location.href = "https://ganymede18.herokuapp.com/";
     });
   }
-  
+
   // var logout = function () {
   //   console.log("logout function called.");
   //   console.log("LOGOUT CLICKED")
@@ -275,12 +275,12 @@ var connect = function () {
   //   //vars
   //   var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
 
-  //   //http reqest 
+  //   //http reqest
   //     fetch(buildUrl(getMainWithQuery, {
   //   }),);
 
   // }
-  
+
 //   var createUser = function (username, passw, firstName, lastName) {
 //     console.log("createUser function called.");
 //   }
@@ -288,9 +288,9 @@ var connect = function () {
   async function createUser() {
     console.log("createUser function called.");
 
-    
-    
-    //variables are 
+
+
+    //variables are
     // var username = "j212"
     var username = document.getElementById("createuserusername").value;
     // var passw = "p212"
@@ -300,24 +300,24 @@ var connect = function () {
     // var lastName = "L22"
     var lastName = document.getElementById("createuserlastname").value;
     //user_id
-    var userId = Math.floor(Math.random()*1000)
+    //var userId = Math.floor(Math.random()*1000)
 
     //getting element from ID from DOM
     // var userNameToSearch = document.getElementById("usernameinput").value;
     // //logging usernametosearch
     // console.log(userNameToSearch)
 
-    // //storing result of search 
+    // //storing result of search
     // var searchResult = await searchUserAsync(userNameToSearch)
 
-    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, userId)
+    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName)
 
     console.log("IN ASYNC FUNCTION ")
     console.log(didAddSuccessfully)
 
-    //choosing 
+    //choosing
     if (didAddSuccessfully == true) {
-      //redirect 
+      //redirect
     // window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
     window.location.href = "https://ganymede18.herokuapp.com/trackingpage.html";
       alert("User added")
@@ -325,12 +325,12 @@ var connect = function () {
       alert("User not added")
     }
 
-    
+
 
 
   }
 
-  function createUserAsync(username, passw, firstName, lastName, userId) {
+  function createUserAsync(username, passw, firstName, lastName) {
     //base url to GET
     // var getMainWithQuery = 'http://localhost:8080/createuser'
     var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
@@ -339,11 +339,10 @@ var connect = function () {
         //calling the fetch
         fetch(buildUrl(getMainWithQuery, {
             username: username,
-            passwd: passw, 
+            passwd: passw,
             firstName:firstName,
-            lastName:lastName,
-            userId:userId
-        }),).then(response => 
+            lastName:lastName
+        }),).then(response =>
             response.json().then(data => ({
                 data: data,
                 status: response.status
@@ -352,17 +351,17 @@ var connect = function () {
             console.log("User added?")
             console.log(res.data.data)
 
-            //storing 
+            //storing
             searchResult = res.data.data;
 
             //fulfilling the promise
             resolve(searchResult)
 
-        
+
         }));
     });
   }
-  
+
 
   function buildUrl(url, parameters) {
     let qs = "";
@@ -404,7 +403,7 @@ var connect = function () {
 var test = function () {
 
     // import axios from 'axios'
-    
+
 
     console.log("test() called");
 
@@ -492,15 +491,15 @@ var test = function () {
 //   .catch(function (error) {
 //     console.log(error);
 //   });
-    
-    // //database code 
+
+    // //database code
     // const { Client } = require('pg');
 
 
     // require(['pg'], function (pg) {
     //     //foo is now loaded.
 
-    //     // const {Client} = 
+    //     // const {Client} =
     //     // console.log("test() called again after loading");
 
     //     // const client = new Client({
@@ -577,14 +576,14 @@ var test = function () {
 
 var connect = function () {
     const { Client } = require('pg');
-  
+
     const client = new Client({
       connectionString: process.env.DATABASE_URL,
       ssl: true,
     });
-  
+
     client.connect();
-  
+
     client.query('SELECT table_schema, table_name FROM information_schema.tables;', (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
@@ -593,17 +592,17 @@ var connect = function () {
       client.end();
     });
   }
-  
+
   function login(username, passw) {
     const { Client } = require('pg');
-  
+
     const client = new Client({
       connectionString: process.env.DATABASE_URL,
       ssl: true,
     });
-  
+
     client.connect();
-  
+
     client.query('SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2', username, passw)
       .then(res => {
         if (res) {
@@ -615,20 +614,20 @@ var connect = function () {
         }
       })
       .catch(e => console.error(e.stack));
-  
+
     client.end();
   }
-  
+
   function searchUser(username) {
     const { Client } = require('pg');
-  
+
     const client = new Client({
       connectionString: process.env.DATABASE_URL,
       ssl: true,
     });
-  
+
     client.connect();
-  
+
     client.query('SELECT username FROM user_tbl WHERE username = $1', username)
       .then(res => {
         if (res) {
@@ -640,21 +639,21 @@ var connect = function () {
         }
       })
       .catch(e => console.error(e.stack));
-  
+
     client.end();
   }
-  
+
   function createUser(username, passw, firstName, lastName) {
     if (searchUser(username)) {
       const { Client } = require('pg');
-  
+
       const client = new Client({
         connectionString: process.env.DATABASE_URL,
         ssl: true,
       });
-  
+
       client.connect();
-  
+
       client.query('INSERT INTO user_tbl VALUES ($1, $2, $3, $4) RETURNING user_id', username, passw, firstName, lastName)
         .then(res => {
           if (res) {
@@ -666,11 +665,11 @@ var connect = function () {
           }
         })
         .catch(e => console.error(e.stack));
-  
+
       client.end();
     }
     return false;
   }
-  
+
 
   */
