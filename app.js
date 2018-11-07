@@ -4,7 +4,7 @@ const express = require('express')
 
 //test databse code
 // const { Client } = require('pg');
-//testing postgres code 
+//testing postgres code
 var pg = require('pg')
 var format = require('pg-format')
 //postgres credentials
@@ -44,13 +44,13 @@ app.use(cookieParser());
 // const Request = require('request');
 // const request = Request()
 
-//so we can handle files more easily 
+//so we can handle files more easily
 var path = require('path');
 
 // // set the port of our application
 // // process.env.PORT lets the port be set by Heroku
 // // this is necessary because at deploy time, Heroku decides what port the application runs on.
-var port = process.env.PORT || 8080; 
+var port = process.env.PORT || 8080;
 
 //telling express to serve everything in the public directory so we can use it on the page
 //public contains html and css folders/code
@@ -58,7 +58,7 @@ app.use(express.static('public'))
 //same thing for src directory, to serve javascript
 app.use(express.static('src'))
 
-//basic response for the homepage, basic url '/'', sending the main.html file, which loads the 
+//basic response for the homepage, basic url '/'', sending the main.html file, which loads the
 //CSS and JS in /public/ and /src/
 // viewed at http://localhost:8080 on local machines
 app.get('/', function(req, res) {
@@ -85,11 +85,11 @@ app.get('/', function(req, res) {
 
 //for testing page
 app.get('/test.html', function(req, res) {
-    //creating cookie 
+    //creating cookie
     // res.cookie("key", "value")
     res.cookie('loggedIn', false)
 
-    //deleting cookie 
+    //deleting cookie
     // res.clearCookie('key')
 
     res.sendFile(path.join(__dirname + '/public/html/test.html'));
@@ -127,17 +127,17 @@ app.get('/userinfo.html', function(req, res) {
 app.get('/user/:id', function(req, res) {
 
 
-    
-    //user to search 
-     //this outputs 
+
+    //user to search
+     //this outputs
     // { username: 'asdf'}
     // console.log(req.query)
     //NEED TO GET FROM REQUEST
     var userId = req.query['username'];
-   
-   
 
-    //connecting for heroku client 
+
+
+    //connecting for heroku client
     herokuClient.connect()
 
     var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
@@ -148,7 +148,7 @@ app.get('/user/:id', function(req, res) {
     }
     // console.log(result.rows[0])
 
-    //see if user is found 
+    //see if user is found
     // console.log("RESULT")
     console.log(result)
     //if there's not 0 entries
@@ -178,10 +178,10 @@ app.get('/user/:id', function(req, res) {
         max: 10, // max number of clients in the pool
         idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
     }
-    
+
     //more config
     var pool = new pg.Pool(config)
-    var myClient = client; 
+    var myClient = client;
 
     //searching for user in database
     pool.connect(function (err, client, done) {
@@ -200,7 +200,7 @@ app.get('/user/:id', function(req, res) {
         }
         // console.log(result.rows[0])
 
-        //see if user is found 
+        //see if user is found
         // console.log("RESULT")
         console.log(result)
         //if there's not 0 entries
@@ -219,12 +219,12 @@ app.get('/user/:id', function(req, res) {
                 res.send({ data: false });
                 // done()
         }
-        
 
-        
+
+
 
         })
-        */ 
+        */
 /////////////////////////
     })
 
@@ -246,15 +246,15 @@ app.get('/user/:id', function(req, res) {
 app.get('/userlogin', function(req, res) {
 
     //console.log("node login")
-    
-    //user to search 
-     //this outputs 
+
+    //user to search
+     //this outputs
     // { username: 'asdf'}
     // //console.log(req.query)
     //NEED TO GET FROM REQUEST
     var username = req.query['username'];
     var passw = req.query['passwd']
-   
+
     // //config for connecting to databse
     // var config = {
     //     user: PGUSER, // name of the user account
@@ -262,7 +262,7 @@ app.get('/userlogin', function(req, res) {
     //     max: 10, // max number of clients in the pool
     //     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
     // }
-    
+
     // //more config
     // var pool = new pg.Pool(config)
     // var myClient
@@ -271,14 +271,14 @@ app.get('/userlogin', function(req, res) {
         text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
         values: [username, passw],
     }
-    
+
 
     herokuClient.query(query, function (err, result) {
         if (err) {
             console.log(err)
             // res.send({ data: false });
         } else {
-            //see if user is found 
+            //see if user is found
             console.log("RESULT")
             // console.log("\n\n\n\n\n")
             // console.log(result)
@@ -289,7 +289,7 @@ app.get('/userlogin', function(req, res) {
                     // console.log("\n\n\n\n\n\n")
                     console.log("result")
                     // console.log(result.rows[0])
-                    //set cookie 
+                    //set cookie
                     res.cookie("loggedIn", true)
                     res.cookie("usersName", username)
 
@@ -298,7 +298,7 @@ app.get('/userlogin', function(req, res) {
                     // res.redirect('/') //TODO UNCOMMENT
                     // done()
 
-                    
+
                 } else {
                     console.log("User NOT found")
                     console.log("User data:" )
@@ -315,7 +315,7 @@ app.get('/userlogin', function(req, res) {
                     // done()
             }
         }
-    
+
     })
 
     /*
@@ -341,14 +341,14 @@ app.get('/userlogin', function(req, res) {
             text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
             values: [username, passw],
         }
-        
+
 
         myClient.query(query, function (err, result) {
             if (err) {
                 console.log(err)
                 // res.send({ data: false });
             } else {
-                //see if user is found 
+                //see if user is found
                 console.log("RESULT")
                 // console.log("\n\n\n\n\n")
                 // console.log(result)
@@ -372,11 +372,11 @@ app.get('/userlogin', function(req, res) {
                         // done()
                 }
             }
-        
+
         })
                 // console.log(result)
                 // res.send({ data: true });
-            
+
         })
 
     //     client.query('SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2', username, passw)
@@ -391,8 +391,8 @@ app.get('/userlogin', function(req, res) {
     //   })
     //   .catch(e => console.error(e.stack));
 
-        
-    
+
+
         // res.send('user ' + req.params.id);
         // res.send({ status: 'SUCCESS' });
 ///////////////
@@ -404,9 +404,9 @@ app.get('/userlogin', function(req, res) {
 //for searching user
 app.get('/userlogout', function(req, res) {
 
-   
+
    //logout
-   //just need to clear cookie and reload main page 
+   //just need to clear cookie and reload main page
 //    res.cookie()
     res.cookie("loggedIn", false)
     //redirect?
@@ -414,7 +414,7 @@ app.get('/userlogout', function(req, res) {
     res.send();
 
     console.log("LOGOUT CLICKED")
-   
+
   });
 
 //for searching user
@@ -423,8 +423,8 @@ app.get('/createuser', function(req, res) {
 
     //test postgres code
 
-    //user to search 
-     //this outputs 
+    //user to search
+     //this outputs
     // { username: 'asdf'}
     // console.log(req.query)
     //NEED TO GET FROM REQUEST
@@ -432,11 +432,11 @@ app.get('/createuser', function(req, res) {
     var passw = req.query['passwd'];
     var firstName = req.query['firstName'];
     var lastName = req.query['lastName'];
-    var userId = req.query['userId']
+    //var userId = req.query['userId']
 
     const query = {
-        text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4, $5) RETURNING user_id',
-        values: [username, userId, passw, firstName, lastName],
+        text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4) RETURNING user_id',
+        values: [username, passw, firstName, lastName],
     }
     // myClient.query(ageQuery, function (err, result) {
     //     if (err) {
@@ -457,7 +457,7 @@ app.get('/createuser', function(req, res) {
 
 
 
-   
+
     // //config for connecting to databse
     // var config = {
     //     user: PGUSER, // name of the user account
@@ -465,7 +465,7 @@ app.get('/createuser', function(req, res) {
     //     max: 10, // max number of clients in the pool
     //     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
     // }
-    
+
     // //more config
     // var pool = new pg.Pool(config)
     // var myClient
@@ -477,7 +477,7 @@ app.get('/createuser', function(req, res) {
 
         //query data
         myClient = client
-        //format for inserting user 
+        //format for inserting user
         //'INSERT INTO users(name, email) VALUES($1, $2)',
         // username, email, first/last name, password
         // var ageQuery = format('SELECT * from users WHERE userId = %L', userId)
@@ -488,7 +488,7 @@ app.get('/createuser', function(req, res) {
         // }
 
         // const queryText = format('INSERT INTO user_tbl VALUES ($1, $2, $3, $4) RETURNING user_id', username, passw, firstName, lastName)
-        
+
         const query = {
             text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4, $5) RETURNING user_id',
             values: [username, 3, passw, firstName, lastName],
@@ -507,7 +507,7 @@ app.get('/createuser', function(req, res) {
                 res.send({ data: true });
             }
         })
-       
+
 
         done()
 
@@ -534,7 +534,7 @@ app.get('/createuser', function(req, res) {
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
 
-// a 404 page just cause 
+// a 404 page just cause
 app.use(function (req, res, next) {
   res.status(404).send("Sorry, page doesn't exist!")
 })
@@ -553,10 +553,10 @@ app.use(function (req, res, next) {
 // });
 
 // app.get('/', function (req, res) {
-//     //test json object 
+//     //test json object
 //     var testJson = { "nine": 9, "ten": 10, "eleven": 11 }
 //     res.send(testJson)
-    
+
 //   })
 
 
@@ -567,7 +567,7 @@ app.use(function (req, res, next) {
 })
 
 
-//database code 
+//database code
 // const { Client } = require('pg');
 
 // const client = new Client({
@@ -589,7 +589,7 @@ app.use(function (req, res, next) {
 
 
 
-// //testing postgres code 
+// //testing postgres code
 // var pg = require('pg')
 // var format = require('pg-format')
 // var PGUSER = 'jameslaroux'
@@ -603,7 +603,7 @@ app.use(function (req, res, next) {
 //     max: 10, // max number of clients in the pool
 //     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
 //   }
-  
+
 //   var pool = new pg.Pool(config)
 //   var myClient
 
@@ -630,7 +630,7 @@ app.use(function (req, res, next) {
 
 
 
-//   //axios code 
+//   //axios code
 // //   import axios from 'axios'
 // const axios = require('axios');
 
@@ -663,13 +663,13 @@ app.use(function (req, res, next) {
 // app.use(cookieParser());
 
 // app.get('/', function(req, res) {
-//     // res.sendFile(path.join(__dirname + '/public/html/main.html')); //TODO CHANGE BACK 
-//     res.sendFile(path.join(__dirname + '/public/html/mainLoggedIn.html')); 
+//     // res.sendFile(path.join(__dirname + '/public/html/main.html')); //TODO CHANGE BACK
+//     res.sendFile(path.join(__dirname + '/public/html/mainLoggedIn.html'));
 //     // console.log("TEST")
 // });
 
 // // app.get('/', function(req, res){
-// //     //cookies 
+// //     //cookies
 // //     res.cookie("key", "value")
 // //     res.cookie("key2", "Value2")
 // //     res.send('cookie set'); //Sets name = express
