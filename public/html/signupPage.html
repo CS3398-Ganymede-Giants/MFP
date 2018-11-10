@@ -27,9 +27,9 @@
     </div>
   </div>
   <div class="login-container">
-  <form action="#">
-    <input type="text" placeholder="Username" name="username">
-    <input type="text" placeholder="Password" name="psw">
+  <form  class="formLogin">
+    <input type="text" placeholder="Username" name="username" id="loginusername" class="loginInputBox">
+    <input type="password" placeholder="Password" name="psw" id="loginpassword" class="loginInputBox">
     <button type="submit">Login</button>
   </form>
 </div>
@@ -37,17 +37,12 @@
 
 <div class="row">
   <div class="leftcolumn">
-      <!-- <form id="regForm" action="https://ganymede18.herokuapp.com/userinfo.html" method="post" style="border:5px solid #ccc"> -->
       <form id="regForm"  method="post" style="border:5px solid #ccc">
   <h1 align="center">Register:</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab">Name:
     <p><input type="text" placeholder="First name..." oninput="this.className = ''" name="fname" id="createuserfirstname" required ></p>
     <p><input type="text" placeholder="Last name..." oninput="this.className = ''" name="lname" id="createuserlastname" required ></p>
-  </div>
-  <div class="tab">
-    <p>Email: <input type="email" placeholder="E-mail..." oninput="this.className = ''" name="email" required></p>
-    <p>Phone: <input type="tel" placeholder="Phone..." oninput="this.className = ''" name="phone" required></p>
   </div>
   <div class="tab">
     <p>Username: <input type="username" placeholder="Username..." oninput="this.className = ''" name="uname" id="createuserusername"required></p>
@@ -61,7 +56,6 @@
   </div>
   <!-- Circles which indicates the steps of the form: -->
   <div style="text-align:center;margin-top:40px;">
-    <span class="step"></span>
     <span class="step"></span>
     <span class="step"></span>
   </div>
