@@ -268,7 +268,7 @@ app.get('/userlogin', function(req, res) {
     // var myClient
 
     const query = {
-        text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = crypt($2, passw)',
+        text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
         // text: 'PREPARE userlogin (varchar, varchar) AS SELECT user_id FROM user_tbl WHERE username = \$1 AND passw = \$2; EXECUTE userlogin($1, $2)',
         values: [username, passw],
     }
@@ -436,7 +436,7 @@ app.get('/createuser', function(req, res) {
     //var userId = req.query['userId']
 
     const query = {
-        text: 'INSERT INTO user_tbl (username, passw, firstname, lastname) VALUES ($1, crypt($2, gen_salt('bf')), $3, $4) RETURNING user_id',
+        text: 'INSERT INTO user_tbl (username, passw, firstname, lastname) VALUES ($1, $2, $3, $4) RETURNING user_id',
         values: [username, passw, firstName, lastName],
     }
     // myClient.query(ageQuery, function (err, result) {
