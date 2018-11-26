@@ -2,80 +2,52 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-  <link type="text/css" rel="stylesheet" href="css/sstyle.css">
+  <link type="text/css" rel="stylesheet" href="css/styleloggedin.css">
   <link rel="stylesheet" href="css/dropdown.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/loginBar.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
   <!-- linking db.js code -->
 <script type="text/javascript" src="js/db.js"></script>
 
 
 </head>
 <body>
-
-  <img src="images/MFP_logo.png" style="float:left;width:135px;height:135px;">
-  <div class="header">
-    <h1></h1>
-    <p>Take control of how you spend and save!</p>
-  </div>
-
 <div class="topnav" class="topBar">
-  <div class="dropdown">
-    <div class="menuButton">
-        <button class="dropbtn">Menu
-            <i class="fa fa-caret-down"></i>
-          </button>
-    </div>
-    <div class="dropdown-content">
-      <a href="https://ganymede18.herokuapp.com/">Home</a>
-      <a href = "https://ganymede18.herokuapp.com/trackingPage.html">Tracker</a>
-      <a href="https://ganymede18.herokuapp.com/contactus.html">Contact Us</a>
-    </div>
-  </div>
     <div class="welcomeBackDiv">
       <div class="welcomeBackText" id="welcomeBackUserText"> Welcome Back!</div>
       <button type="submit" onclick="logout()" class="welcomeBackButton" >Logout</button>
     </div>
-  
 </div>
 
 
 <div class="row">
   <div class="leftcolumn">
     <div class="card">
-      <h1 align="center"><u>Having trouble tracking your money?</u></h1>
-      <h3 align="center"><b>MyFinancePal is here!</b></h3>
-      <img  src="images/moneyCoins.png" align="left" width="140" height="116" />
-      <p style="margin-top:10px;"></p>
-      <p>We are here to help ease your pain from eating ramen every night. Signing up to this website will give you a
-         better understanding where all your money is going. It'll show you if you're spending a little too much for fun
-         and gives you a smarter way to spend your money. While following the suggested spending as guidlines you may now
-         afford to eat a fully balance meal everyday!</p>
-    </div>
-    <div class="card">
-      <h2>Features</h2>
-      <h5>Here's a little information of what to expect</h5>
-      <div class="fakeimg" style="height:200px;">Image</div>
-      <p>Feature 1:</p>
-      <p>Feature 2:</p>
-      <p>Feature 3:</p>
-      <p>(comment maybe add icons in place of 'Feature')</p>
+      <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html"> <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Home</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href = "https://ganymede18.herokuapp.com/trackingPage.html"><img src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Tracker</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="#"><img src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Account Settings</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contactus.html"><img src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Contact Us</a></h2>
     </div>
   </div>
   <div class="rightcolumn">
     <div class="card">
-      <img src="images/chaseBank.png" width="200px" height="100px" />
-      <p>"To all those looking for a bank that's easier to find"</p>
-      <p> Choose Chase! <a href="https://www.chase.com/">Click Here</a> for more information</p>
-    </div>
-    <div class="card">
-      <h3>Developers pictures</h3>
-      <div class="fakeimg"><p></p>Robert</div>
-      <div class="fakeimg"><p>Tyler</p></div>
-      <div class="fakeimg"><p>Zainab</p></div>
-      <div class="fakeimg"><p>James</p></div>
-      <div class="fakeimg"><p>Ivy Leigh</p></div>
+      <h1 align="center"><u>Having trouble tracking your money?</u></h1>
+      <h3 align="center"><b>MyFinancePal is here!</b></h3>
+      <img  src="images/moneyCoins.png" align="left" width="140" height="100" />
+      <p style="margin-top:10px;margin-bottom:50px;">We are here to help ease your pain from eating ramen every night. Signing up to this website will give you a
+         better understanding where all your money is going. It'll show you if you're spending a little too much for fun
+         and gives you a smarter way to spend your money. While following the suggested spending as guidlines you may now
+         afford to eat a fully balance meal everyday!</p>
+      <h1>-----------------------------------------------------------------------------------------------------------</h1>
+      <h2>Features</h2>
+      <h5>Here's a little information of what to expect</h5>
+      <p>Feature 1:Tracking Page! Enter in all your expenses and income to see which expense are taking up more of your income than others.</p>
+      <p>Feature 2:Set an amount you want to save!</p>
+      <p>Feature 3:</p>
+      <p>(comment maybe add icons in place of 'Feature')</p>
+
     </div>
   </div>
 </div>
