@@ -2,6 +2,7 @@ CREATE TABLE user_tbl (
 	username varchar(40) NOT NULL UNIQUE,
 	user_id serial NOT NULL,
 	passw text NOT NULL,
+  email_address varchar(255) NOT NULL UNIQUE,
 	firstname varchar(40) NULL,
 	lastname varchar(40) NULL,
 	CONSTRAINT user_tbl_pk PRIMARY KEY (user_id)
