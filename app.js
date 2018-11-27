@@ -7,6 +7,9 @@
 
 //using express.js just because it's relatively user friendly
 const express = require('express')
+//post json parser
+var bodyParser = require('body-parser')
+
 
 
 //test databse code
@@ -50,6 +53,10 @@ const app = express()
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session')
 app.use(cookieParser());
+
+//for json parser 
+app.use(bodyParser.json());
+
 
 //requestjs
 // const Request = require('request');
@@ -298,6 +305,7 @@ app.get('/userlogout', function(req, res) {
 app.get('/createuser', function(req, res) {
 
 
+
     //test postgres code
 
     //user to search
@@ -310,7 +318,54 @@ app.get('/createuser', function(req, res) {
     var firstName = req.query['firstName'];
     var lastName = req.query['lastName'];
     //var userId = req.query['userId']
+    var email = req.query['email']
 
+    const query = {
+        text: 'INSERT INTO user_tbl (username, passw, firstname, lastname, email_address) VALUES ($1, crypt($2, gen_salt("bf")), $3, $4, $5) RETURNING user_id',
+        values: [username, passw, firstName, lastName, email]
+    }
+    // myClient.query(ageQuery, function (err, result) {
+    //     if (err) {
+    //         console.log(err)
+    //         // res.send({ status: 'FAILED' });
+    //     }
+
+    herokuClient.query(query, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.send({ data: false });
+        } else {
+            console.log("\n\nno error in adding\n\n")
+            console.log("RESULT IS ")
+            console.log(result)
+            res.cookie("usersName", username)
+            res.send({ data: true });
+        }
+    })
+
+
+
+
+})
+
+
+//saving user submitted data
+app.post('/posts', function(req, res) {
+
+    //getting data 
+    console.log("Responding to POST")
+    console.log(req.body)
+    // {test: 'testval'}
+
+    //need to grab the data from the requet 
+    // select value 'inc' is +, 'exp' is -
+
+    var select = req.body.select
+    var description = req.body.description 
+    var value = req.body.value
+    //values store correctly
+
+    //need to store in database
     const query = {
         text: 'INSERT INTO user_tbl (username, passw, firstname, lastname) VALUES ($1, crypt($2, gen_salt("bf")), $3, $4) RETURNING user_id',
         values: [username, passw, firstName, lastName],
@@ -334,14 +389,9 @@ app.get('/createuser', function(req, res) {
 
 
 
+    return res.send()
 
-    })
-
-
-
-
-        // res.send('user ' + req.params.id);
-        // res.send({ status: 'SUCCESS' });
+})
 
 
   app.get('/user/:id/failed', function(req, res) {
@@ -396,6 +446,9 @@ app.use(function (req, res, next) {
 
 
 //EMAIL
+//woring 
+
+/*
 
 var nodemailer = require('nodemailer');
 
@@ -421,3 +474,5 @@ transporter.sendMail(mailOptions, function(error, info){
     console.log('Email sent: ' + info.response);
   }
 });
+
+*/

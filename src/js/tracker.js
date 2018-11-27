@@ -68,6 +68,16 @@ var budgetController = (function () {
             }
             // add new exp or inc to the end of the allItems.exp or allItems.inc array
             data.allItems[type].push(newItem);
+
+
+            /////////
+            //saving to database code 
+            saveNewItem(newItem, type)
+
+
+
+            /////////
+
             // return the new item
             return newItem;
         },
@@ -409,3 +419,51 @@ var controller = (function (budgetCntrl, UICntrl) {
 })(budgetController, UIController);
 // begin the app or nothing will ever run because the event listeners are in a private function
 controller.init();
+
+
+
+
+//adding code down here to not mess with other code for now 
+function saveNewItem(newItem, type) {
+    //need to make post request 
+    //url 
+    var url = 'http://localhost:8080/posts'
+    // var url = 'https://ganymede18.herokuapp.com/posts'
+
+
+
+    //values to send 
+    // var select =  document.getElementById("addExpenseSelect").value;
+    // var desc = document.getElementById("addExpenseDescription").value;
+    // var val = document.getElementById("addExpenseValue");
+    // //type is sent for now 
+    
+    //need: expense_id, expense_type_id, user_id, description, cost_amount
+    //newItem has expense_id, description, cost_amount
+    //sent var type is expense_type_id
+    //need to get user_id
+
+    //json body 
+    var postBody = {
+        select: select,
+        description: desc, 
+        value: val
+    }
+
+     // Default options are marked with *
+     return fetch(url, {
+        method: "POST", 
+        // mode: "cors", // no-cors, cors, *same-origin
+        // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        // credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        // redirect: "follow", // manual, *follow, error
+        // referrer: "no-referrer", // no-referrer, *client
+        body: JSON.stringify(postBody), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json()); // parses response to JSON
+
+}

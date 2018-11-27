@@ -183,7 +183,9 @@ var connect = function () {
         fetch(buildUrl(getMainWithQuery, {
             username: username,
             passwd:passwd
-        }),).then(response =>
+        }), {
+          mode: "same-origin"
+        }).then(response =>
             response.json().then(data => ({
                 data: data
             })
@@ -299,6 +301,7 @@ var connect = function () {
     var firstName = document.getElementById("createuserfirstname").value;
     // var lastName = "L22"
     var lastName = document.getElementById("createuserlastname").value;
+    var email = document.getElementById("createuseremail").value;
     //user_id
     //var userId = Math.floor(Math.random()*1000)
 
@@ -310,7 +313,7 @@ var connect = function () {
     // //storing result of search
     // var searchResult = await searchUserAsync(userNameToSearch)
 
-    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName)
+    var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, email)
 
     console.log("IN ASYNC FUNCTION ")
     console.log(didAddSuccessfully)
@@ -330,10 +333,10 @@ var connect = function () {
 
   }
 
-  function createUserAsync(username, passw, firstName, lastName) {
+  function createUserAsync(username, passw, firstName, lastName, email) {
     //base url to GET
-    // var getMainWithQuery = 'http://localhost:8080/createuser'
-    var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
+    var getMainWithQuery = 'http://localhost:8080/createuser'
+    // var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
 
     return new Promise(resolve => {
         //calling the fetch
@@ -341,7 +344,8 @@ var connect = function () {
             username: username,
             passwd: passw,
             firstName:firstName,
-            lastName:lastName
+            lastName:lastName, 
+            email: email
         }),).then(response =>
             response.json().then(data => ({
                 data: data,
