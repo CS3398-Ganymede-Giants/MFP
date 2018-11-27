@@ -319,7 +319,7 @@ var connect = function () {
     if (didAddSuccessfully == true) {
       //redirect
     // window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
-    window.location.href = "https://ganymede18.herokuapp.com/trackingpage.html";
+    window.location.href = "https://ganymede18.herokuapp.com/loginConfirmation.html";
       alert("User added")
     } else {
       alert("User not added")
