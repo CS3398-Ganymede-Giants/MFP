@@ -29,6 +29,7 @@
     "locus": "^2.0.1",
     "method-override": "^3.0.0",
     "morgan": "^1.9.1",
+    "nodemailer": "^4.7.0",
     "path": "^0.12.7",
     "pg": "^7.6.0",
     "pg-format": "^1.0.4",

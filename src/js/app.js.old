@@ -146,7 +146,7 @@ app.get('/user/:id', function(req, res) {
     //NEED TO GET FROM REQUEST
     var userId = req.query['username'];
 
-
+    
 
     //connecting for heroku client
     herokuClient.connect()
@@ -179,7 +179,64 @@ app.get('/user/:id', function(req, res) {
             // done()
     }
 
+//////////////////////
+/*
 
+     //config for connecting to databse
+    var config = {
+        user: PGUSER, // name of the user account
+        database: PGDATABASE, // name of the database
+        max: 10, // max number of clients in the pool
+        idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+    }
+
+    //more config
+    var pool = new pg.Pool(config)
+    var myClient = client;
+
+    //searching for user in database
+    pool.connect(function (err, client, done) {
+        if (err) console.log(err)
+        console.log("\n\n\n\n\n\n\n\n\n\n")
+
+
+        //query data
+        myClient = client
+        console.log(client)
+        var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
+        myClient.query(ageQuery, function (err, result) {
+        if (err) {
+            console.log(err)
+            // res.send({ status: 'FAILED' });
+        }
+        // console.log(result.rows[0])
+
+        //see if user is found
+        // console.log("RESULT")
+        console.log(result)
+        //if there's not 0 entries
+        if(result != undefined) {
+            if (result.rows[0] != undefined) {
+                console.log("User found!")
+                res.send({ data: true });
+                // done()
+            } else {
+                console.log("User NOT found")
+                res.send({ data: false });
+                // done()
+            }
+        } else {
+            console.log("NO ENTRIES FOUND")
+                res.send({ data: false });
+                // done()
+        }
+
+
+
+
+        })
+        */
+/////////////////////////
     })
 
 
@@ -273,7 +330,85 @@ app.get('/userlogin', function(req, res) {
 
     })
 
-   
+    /*
+/////////////////
+    //searching for user in database
+    pool.connect(function (err, client, done) {
+        // if (err) console.log(err)
+        // console.log("\n\n\n\n\n\n\n\n\n\n")
+
+
+        //query data
+        myClient = client
+        // console.log(client)
+        // var ageQuery = format('SELECT * from user_tbl WHERE username = %L', userId)
+        // myClient.query(ageQuery, function (err, result) {
+        // if (err) {
+        //     console.log(err)
+        //     // res.send({ status: 'FAILED' });
+        // }
+        // // console.log(result.rows[0])
+
+        const query = {
+            text: 'SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2',
+            values: [username, passw],
+        }
+
+
+        myClient.query(query, function (err, result) {
+            if (err) {
+                console.log(err)
+                // res.send({ data: false });
+            } else {
+                //see if user is found
+                console.log("RESULT")
+                // console.log("\n\n\n\n\n")
+                // console.log(result)
+                //if there's not 0 entries
+                if(result != undefined) {
+                    if (result.rows[0] != undefined) {
+                        console.log("User found!")
+                        // console.log("\n\n\n\n\n\n")
+                        console.log("result")
+                        // console.log(result.rows[0])
+                        res.send({ data: true });
+                        // done()
+                    } else {
+                        console.log("User NOT found")
+                        res.send({ data: false });
+                        // done()
+                    }
+                } else {
+                    console.log("NO ENTRIES FOUND")
+                        res.send({ data: false });
+                        // done()
+                }
+            }
+
+        })
+                // console.log(result)
+                // res.send({ data: true });
+
+        })
+
+    //     client.query('SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2', username, passw)
+    //   .then(res => {
+    //     if (res) {
+    //       client.end();
+    //       return true;
+    //     } else {
+    //       client.end();
+    //       return false;
+    //     }
+    //   })
+    //   .catch(e => console.error(e.stack));
+
+
+
+        // res.send('user ' + req.params.id);
+        // res.send({ status: 'SUCCESS' });
+///////////////
+        */
   });
 
 
@@ -335,6 +470,62 @@ app.get('/createuser', function(req, res) {
 
 
 
+    // //config for connecting to databse
+    // var config = {
+    //     user: PGUSER, // name of the user account
+    //     database: PGDATABASE, // name of the database
+    //     max: 10, // max number of clients in the pool
+    //     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+    // }
+
+    // //more config
+    // var pool = new pg.Pool(config)
+    // var myClient
+///////////////////////////
+/*
+    //searching for user in database
+    pool.connect(function (err, client, done) {
+        if (err) console.log(err)
+
+        //query data
+        myClient = client
+        //format for inserting user
+        //'INSERT INTO users(name, email) VALUES($1, $2)',
+        // username, email, first/last name, password
+        // var ageQuery = format('SELECT * from users WHERE userId = %L', userId)
+        // myClient.query(ageQuery, function (err, result) {
+        // if (err) {
+        //     console.log(err)
+        //     res.send({ status: 'FAILED' });
+        // }
+
+        // const queryText = format('INSERT INTO user_tbl VALUES ($1, $2, $3, $4) RETURNING user_id', username, passw, firstName, lastName)
+
+        const query = {
+            text: 'INSERT INTO user_tbl VALUES ($1, $2, $3, $4, $5) RETURNING user_id',
+            values: [username, 3, passw, firstName, lastName],
+        }
+        // myClient.query(ageQuery, function (err, result) {
+        //     if (err) {
+        //         console.log(err)
+        //         // res.send({ status: 'FAILED' });
+        //     }
+
+        myClient.query(query, function (err, result) {
+            if (err) {
+                console.log(err)
+                res.send({ data: false });
+            } else {
+                res.send({ data: true });
+            }
+        })
+
+
+        done()
+
+        })
+/////////////////
+*/
     })
 
 
@@ -387,6 +578,123 @@ app.use(function (req, res, next) {
     next()
 })
 
+
+//database code
+// const { Client } = require('pg');
+
+// const client = new Client({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: true,
+// });
+
+// client.connect();
+
+// client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+//   if (err) throw err;
+//   for (let row of res.rows) {
+//     console.log(JSON.stringify(row));
+//   }
+//   client.end();
+// });
+
+
+
+
+
+// //testing postgres code
+// var pg = require('pg')
+// var format = require('pg-format')
+// var PGUSER = 'jameslaroux'
+// var PGDATABASE = 'testdb'
+// var age = 732
+
+
+// var config = {
+//     user: PGUSER, // name of the user account
+//     database: PGDATABASE, // name of the database
+//     max: 10, // max number of clients in the pool
+//     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+//   }
+
+//   var pool = new pg.Pool(config)
+//   var myClient
+
+
+//   pool.connect(function (err, client, done) {
+//     if (err) console.log(err)
+//     app.listen(3000, function () {
+//       console.log('listening on 3000')
+//     })
+//     myClient = client
+//     var ageQuery = format('SELECT * from numbers WHERE age = %L', age)
+//     myClient.query(ageQuery, function (err, result) {
+//       if (err) {
+//         console.log(err)
+//       }
+//       console.log(result.rows[0])
+//     })
+//   })
+
+
+
+
+
+
+
+
+//   //axios code
+// //   import axios from 'axios'
+// const axios = require('axios');
+
+// // axios.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+// //   .then(response => {
+// //     console.log(response.data.url);
+// //     console.log(response.data.explanation);
+// //   })
+// //   .catch(error => {
+// //     console.log(error);
+// //   });
+
+
+
+// let body = [];
+// request.on('data', (chunk) => {
+//   body.push(chunk);
+// }).on('end', () => {
+//   body = Buffer.concat(body).toString();
+//   // at this point, `body` has the entire request body stored in it as a string
+// });
+//
+
+
+// var express = require('express');
+// var app = express();
+// var path = require('path');
+
+// var cookieParser = require('cookie-parser');
+// app.use(cookieParser());
+
+// app.get('/', function(req, res) {
+//     // res.sendFile(path.join(__dirname + '/public/html/main.html')); //TODO CHANGE BACK
+//     res.sendFile(path.join(__dirname + '/public/html/mainLoggedIn.html'));
+//     // console.log("TEST")
+// });
+
+// // app.get('/', function(req, res){
+// //     //cookies
+// //     res.cookie("key", "value")
+// //     res.cookie("key2", "Value2")
+// //     res.send('cookie set'); //Sets name = express
+// // });
+
+// // app.get('/test', function(req, res){
+// //     // res.cookie('name', 'expressTEST').send('cookie set'); //Sets name = express
+// //     res.clearCookie('key')
+// //     res.clearCookie('key2')
+// //     res.send('cleared cookie')
+// //  });
+
+// app.listen(3000);
 
 
 
