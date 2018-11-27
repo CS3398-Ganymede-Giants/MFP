@@ -121,6 +121,10 @@ app.get('/userinfo.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
 });
 
+app.get('/contact.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/contact.html'));
+});
+
 //EXPRESS HTTP REQUESTS
 
 //for searching user

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+  <link type="text/css" rel="stylesheet" href="css/styleloggedin.css">
+  <link rel="stylesheet" href="css/dropdown.css">
+  <link rel="stylesheet" href="css/forcontactpage.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/loginBar.css">
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+</head>
+<body>
+
+  <img src="images/MFP_logo.png" style="float:left;width:135px;height:135px;">
+  <div class="header">
+    <h1></h1>
+    <p>Take control of how you spend and save!</p>
+  </div>
+
+  <div class="topnav" class="topBar">
+      <div class="welcomeBackDiv">
+        <div class="welcomeBackText" id="welcomeBackUserText"> Welcome!</div>
+        <button type="submit" onclick="logout()" class="welcomeBackButton" >Logout</button>
+      </div>
+  </div>
+
+<div class="row">
+  <div class="leftcolumn">
+    <div class="card">
+      <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html"> <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Home</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href = "https://ganymede18.herokuapp.com/trackingPage.html"><img src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Tracker</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="#"><img src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Account Settings</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contactus.html"><img src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Contact Us</a></h2>
+    </div>
+  </div>
+
+  <div class="rightcolumn">
+    <div class="card">
+     <div class="containter">
+      <h2>Contact Us</h2>
+      <form action="mailto:ilpowell13@gmail.com" method="post" enctype="multipart/form-data" name="EmailTestForm">
+         <p><label for="fname">Name</label></p>
+         <p><input type="text" name="visitorName" placeholder="Your name.."></p>
+         <label for="subject">Subject</label>
+         <p><textarea id="subject" name="subject" placeholder="Your question and/or concerns..." style="height:200px"></textarea></p>
+         <input type="submit" value="Send">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <h3>&copy;MyFinancePal was develped by Ivy, Robert, Zaniab, James and Tyler (Group Ganymede).</h3>
+</div>
+
+
+
+</body>
+</html>

@@ -7,55 +7,53 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
   <link type="text/css" rel="stylesheet" href="css/trackerStyle.css">
   <link type="text/css" rel="stylesheet" href="css/dropdown.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
 
 </head>
 <body>
-  <img src="images/MFP_logo.png" style="float:left;width:135px;height:135px;">
-<div class="header">
-  <h1></h1>
-  <p>Take control of how you spend and save!</p>
+<div class="topnav" class="topBar">
+    <div class="welcomeBackDiv">
+      <div class="welcomeBackText" id="welcomeBackUserText"> Welcome!</div>
+      <button type="submit" onclick="logout()" class="welcomeBackButton" >Logout</button>
+    </div>
 </div>
 
-<div class="topnav">
-  <div class="dropdown">
-    <button class="dropbtn">Menu
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="https://ganymede18.herokuapp.com/loginConfirmation.html">Home</a>
-      <a href="https://ganymede18.herokuapp.com/contactus.html">Contact Us</a>
-    </div>
-  </div>
-</div>
+
 <div class="clearfix">
   <div class="leftcolumn">
     <div class="card">
-
-                <div class="budget__title">
-                    Available Budget in <span class="budget__title--month">%Month%</span>:
-                </div>
-                <div class="budget__value"></div>
-                <div class="budget__income clearfix">
-                    <div class="budget__income--text">Income</div>
-                    <div class="right">
-                        <div class="budget__income--value"></div>
-                        <div class="budget__income--percentage">&nbsp;</div>
-                    </div>
-                </div>
-                <div class="budget__expenses clearfix">
-                    <div class="budget__expenses--text">Expenses</div>
-                    <div class="right clearfix">
-                        <div class="budget__expenses--value"></div>
-                        <div class="budget__expenses--percentage"></div>
-                    </div>
-                </div>
-
-     </div>
+      <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html"> <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Home</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href = "https://ganymede18.herokuapp.com/trackingPage.html"><img src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Tracker</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="#"><img src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Account Settings</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contactus.html"><img src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Contact Us</a></h2>
+    </div>
    </div>
-<div class="rightcolumn">
-<div class="card">
 
+
+<div class="rightcolumn">
+  <div class="card">
+
+              <div class="budget__title">
+                  Available Budget in <span class="budget__title--month">%Month%</span>:
+              </div>
+              <div class="budget__value"></div>
+              <div class="budget__income clearfix">
+                  <div class="budget__income--text">Income</div>
+                  <div class="right">
+                      <div class="budget__income--value"></div>
+                      <div class="budget__income--percentage">&nbsp;</div>
+                  </div>
+              </div>
+              <div class="budget__expenses clearfix">
+                  <div class="budget__expenses--text">Expenses</div>
+                  <div class="right clearfix">
+                      <div class="budget__expenses--value"></div>
+                      <div class="budget__expenses--percentage"></div>
+                  </div>
+              </div>
+   </div>
+<div class="card">
             <div class="add">
                 <div class="add__container">
                     <select class="add__type">
