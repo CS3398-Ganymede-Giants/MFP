@@ -328,7 +328,7 @@ var connect = function () {
     if (didAddSuccessfully == true) {
       //redirect
     // window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
-    window.location.href = baseUrl + "/trackingpage.html";
+    window.location.href = baseUrl + "/loginConfirmation.html";
       alert("User added")
     } else {
       alert("User not added")
@@ -372,7 +372,6 @@ var connect = function () {
     });
   }
 
-
   function buildUrl(url, parameters) {
     let qs = "";
     for (const key in parameters) {
@@ -390,6 +389,76 @@ var connect = function () {
     console.log(url)
     return url;
 }
+
+
+
+/*
+  async function createItem() {
+    console.log("createItem function called.");
+
+
+
+    //variables are
+    // var itemType = "+"
+    var itemType = document.getElementById("createitemtype").value;
+    // var itemDescription = "income"
+    var itemDescription = document.getElementById("createitemdescription").value;
+    // var itemValue = "1200"
+    var itemValue = document.getElementById("createitemvalue").value;
+
+
+    var didAddItemSuccessfully = await createItemAsync(itemType, itemDescription, itemValue)
+
+    console.log("IN ASYNC FUNCTION ")
+    console.log(didAddItemSuccessfully)
+
+    //choosing
+    if (didAddItemSuccessfully == true) {
+    window.location.href = "https://ganymede18.herokuapp.com/trackingPage.html";
+      alert("Item added")
+    } else {
+      alert("Item not added")
+    }
+
+
+
+
+  }
+
+  */
+
+/*
+  function createItemAsync(itemType, itemDescription, itemValue) {
+    //base url to GET
+
+    var getMainWithQuery = 'https://ganymede18.herokuapp.com/createItem'
+
+    return new Promise(resolve => {
+        //calling the fetch
+        fetch(buildUrl(getMainWithQuery, {
+            itemType:expense_type_id,
+            itemDescription:description,
+            itemValue:cost_amount
+        }),).then(response =>
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            console.log("Item added?")
+            console.log(res.data.data)
+
+            //storing
+            searchResult = res.data.data;
+
+            //fulfilling the promise
+            resolve(searchResult)
+
+
+        }));
+    });
+  }
+  */
 
 
 

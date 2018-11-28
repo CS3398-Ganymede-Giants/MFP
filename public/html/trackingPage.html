@@ -7,82 +7,112 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
   <link type="text/css" rel="stylesheet" href="css/trackerStyle.css">
   <link type="text/css" rel="stylesheet" href="css/dropdown.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet"> 
+  <link rel="stylesheet" href="css/loginBar.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
 
 </head>
 <body>
-  <img src="images/MFP_logo.png" style="float:left;width:135px;height:135px;">
-<div class="header">
-  <h1></h1>
-  <p>Take control of how you spend and save!</p>
+<div class="topnav" class="topBar">
+    <div class="welcomeBackDiv">
+      <div class="welcomeBackText" id="welcomeBackUserText"> Welcome!</div>
+      <button type="submit" onclick="logout()" class="welcomeBackButton" >Logout</button>
+    </div>
 </div>
 
-<div class="topnav">
-  <div class="dropdown">
-    <button class="dropbtn">Menu
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="https://ganymede18.herokuapp.com/loginConfirmation.html">Home</a>
-      <a href="https://ganymede18.herokuapp.com/contactus.html">Contact Us</a>
-    </div>
-  </div>
-</div>
 <div class="clearfix">
   <div class="leftcolumn">
     <div class="card">
-
-                <div class="budget__title">
-                    Available Budget in <span class="budget__title--month">%Month%</span>:
-                </div>
-                <div class="budget__value"></div>
-                <div class="budget__income clearfix">
-                    <div class="budget__income--text">Income</div>
-                    <div class="right">
-                        <div class="budget__income--value"></div>
-                        <div class="budget__income--percentage">&nbsp;</div>
-                    </div>
-                </div>
-                <div class="budget__expenses clearfix">
-                    <div class="budget__expenses--text">Expenses</div>
-                    <div class="right clearfix">
-                        <div class="budget__expenses--value"></div>
-                        <div class="budget__expenses--percentage"></div>
-                    </div>
-                </div>
-
-     </div>
+      <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html"> <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Home</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href = "https://ganymede18.herokuapp.com/trackingPage.html"><img src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Tracker</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="#"><img src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Account Settings</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contact.html"><img src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Contact Us</a></h2>
+    </div>
    </div>
-<div class="rightcolumn">
-<div class="card">
 
+
+<div class="rightcolumn">
+  <div class="card">
+
+              <div class="budget__title">
+                  Available Budget in <span class="budget__title--month">%Month%</span>:
+              </div>
+              <div class="budget__value"></div>
+              <div class="budget__income clearfix">
+                  <div class="budget__income--text">Income</div>
+                  <div class="right">
+                      <div class="budget__income--value">%</div>
+                      <div class="budget__income--percentage">&nbsp;</div>
+                  </div>
+              </div>
+              <div class="budget__expenses clearfix">
+                  <div class="budget__expenses--text">Expenses</div>
+                  <div class="right clearfix">
+                      <div class="budget__expenses--value"></div>
+                      <div class="budget__expenses--percentage"></div>
+                  </div>
+              </div>
+   </div>
+<div class="card">
             <div class="add">
                 <div class="add__container">
-                    <select class="add__type" id="addExpenseSelect">
+                    <!-- <select class="add__type" id="addExpenseSelect">
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
                     <input type="text" class="add__description" placeholder="Add description" id="addExpenseDescription">
-                    <input type="number" class="add__value" placeholder="Value" id="addExpenseValue">
+                    <input type="number" class="add__value" placeholder="Value" id="addExpenseValue"> -->
+                    
+                    <select class="add__type" onselect="this.className" id="createitemtype">
+                        <option value="inc" selected>+</option>
+                        <option value="exp">-</option>
+                    </select>
+                    <input type="text" class="add__description" oninput="this.className" placeholder="Add description" id="createitemdescription">
+                    <input type="number" class="add__value" oninput="this.className" placeholder="Value" id="createitemvalue">
                     <button class="add__btn">enter</button>
                 </div>
             </div>
             <div class="container clearfix">
                 <div class="card_three income">
-                    <h2 class="income__title">Income</h2>
+                    <h3 class="income__title">Income</h3>
 
-                    <div class="income__list"></div>
+                    <div class="income__list">%.value%</div>
                 </div>
                 <div class="card_two expenses">
-                    <h2 class="expenses__title">Expenses</h2>
-                    <div class="expenses__list"></div>
+                    <h3 class="expenses__title">Expenses</h3>
+                    <div class="expenses__list">%.value%</div>
+                </div>
+            </div>
+            <div class="add">
+                <div class="add__container">
+                    <select class="add__type" onselect="this.className" id="createitemtype">
+                        <option value="inc" selected>+</option>
+                        <option value="exp">-</option>
+                    </select>
+                    <input type="text" class="add__description" oninput="this.className" placeholder="Add description" id="createitemdescription">
+                    <input type="number" class="add__value" oninput="this.className" placeholder="Value" id="createitemvalue">
+                    <button class="add__btn">enter</button>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
-        <script type="text/javascript" src="js/tracker.js"></script>
 
+<div class="footer">
+  <h3>&copy;MyFinancePal was develped by Ivy, Robert, Zaniab, James and Tyler (Group Ganymede).</h3>
+</div>
+
+<script type="text/javascript" src="js/tracker.js"></script>
+<script type="text/javascript">
+
+          function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+          document.getElementById("welcomeBackUserText").innerHTML = "Welcome, " + getCookie("usersName") + "!"
+</script>
 </body>
 </html>

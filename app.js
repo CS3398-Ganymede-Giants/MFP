@@ -142,6 +142,10 @@ app.get('/userinfo.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
 });
 
+app.get('/contact.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/contact.html'));
+});
+
 //EXPRESS HTTP REQUESTS
 
 //for searching user
@@ -509,4 +513,48 @@ transporter.sendMail(mailOptions, function(error, info){
   }
 });
 
+// // app.get('/', function(req, res){
+// //     //cookies
+// //     res.cookie("key", "value")
+// //     res.cookie("key2", "Value2")
+// //     res.send('cookie set'); //Sets name = express
+// // });
+
+// // app.get('/test', function(req, res){
+// //     // res.cookie('name', 'expressTEST').send('cookie set'); //Sets name = express
+// //     res.clearCookie('key')
+// //     res.clearCookie('key2')
+// //     res.send('cleared cookie')
+// //  });
+
+// app.listen(3000);
+
+/*
+
+app.get('/createuser', function(req, res) {
+
+    var expense_type_id = req.query['itemType'];
+    var description = req.query['itemDescription'];
+    var cost_amount = req.query['itemValue'];
+
+    const query = {
+        text: "INSERT INTO user_tbl (expense_type_id, description, cost_amount) VALUES ($1, $2, $3) RETURNING expense_id",
+        values: [expense_type_id, description, cost_amount],
+    }
+
+
+    herokuClient.query(query, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.send({ data: false });
+        } else {
+            console.log("\n\nno error in adding\n\n")
+            res.cookie("usersName", username)
+            res.send({ data: true });
+        }
+    })
+
+
+
+    })
 */
