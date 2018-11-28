@@ -10,6 +10,9 @@ const express = require('express')
 //post json parser
 var bodyParser = require('body-parser')
 
+//baseurl
+var baseUrl = "http://localhost:8080"
+
 
 
 //test databse code
@@ -254,6 +257,8 @@ app.get('/userlogin', function(req, res) {
                     //set cookie
                     res.cookie("loggedIn", true)
                     res.cookie("usersName", username)
+                    //saving user_id 
+                    res.cookie("user_id", result.rows[0].user_id)
 
                     res.send({ data: true });
                     //redirect?
@@ -293,8 +298,9 @@ app.get('/userlogout', function(req, res) {
    //just need to clear cookie and reload main page
 //    res.cookie()
     res.cookie("loggedIn", false)
+    res.cookie("user_id", -1)
     //redirect?
-    res.redirect('https://ganymede18.herokuapp.com/')
+    res.redirect(baseUrl)
     res.send();
 
     console.log("LOGOUT CLICKED")
@@ -320,8 +326,14 @@ app.get('/createuser', function(req, res) {
     //var userId = req.query['userId']
     var email = req.query['email']
 
+    // console.log(username)
+    // console.log(passw)
+    // console.log(firstName)
+    // console.log(lastName)
+    // console.log(email)
+
     const query = {
-        text: 'INSERT INTO user_tbl (username, passw, firstname, lastname, email_address) VALUES ($1, crypt($2, gen_salt("bf")), $3, $4, $5) RETURNING user_id',
+        text: "INSERT INTO user_tbl (username, passw, firstname, lastname, email_address) VALUES ($1, crypt($2, gen_salt('bf')), $3, $4, $5) RETURNING user_id",
         values: [username, passw, firstName, lastName, email]
     }
     // myClient.query(ageQuery, function (err, result) {
@@ -336,9 +348,10 @@ app.get('/createuser', function(req, res) {
             res.send({ data: false });
         } else {
             console.log("\n\nno error in adding\n\n")
-            console.log("RESULT IS ")
-            console.log(result)
+            // console.log("user id is ")
+            // console.log(result.rows[0].user_id)
             res.cookie("usersName", username)
+            res.cookie("user_id", result.rows[0].user_id)
             res.send({ data: true });
         }
     })
@@ -350,7 +363,7 @@ app.get('/createuser', function(req, res) {
 
 
 //saving user submitted data
-app.post('/posts', function(req, res) {
+app.post('/saveexpense', function(req, res) {
 
     //getting data 
     console.log("Responding to POST")
@@ -358,17 +371,37 @@ app.post('/posts', function(req, res) {
     // {test: 'testval'}
 
     //need to grab the data from the requet 
-    // select value 'inc' is +, 'exp' is -
+    
 
-    var select = req.body.select
-    var description = req.body.description 
-    var value = req.body.value
+    //json body 
+    // var postBody = {
+    //     expense_id: newItem.id,
+    //     expense_type_id: type,
+    //     user_id: user_id_val,
+    //     description: newItem.description,
+    //     cost_amount: newItem.value
+    // }
+
+    var e_id = req.body.expense_id
+    var e_T_id = req.body.expense_type_id 
+    var uId = req.body.user_id 
+    var d = req.body.description 
+    var cA = req.body.cost_amount
     //values store correctly
+
+    // select value 'inc' is +, 'exp' is -
+    var intValue = 0
+
+    if (e_T_id == 'exp') {
+        intValue = -1
+    } else {
+        intValue = 1
+    }
 
     //need to store in database
     const query = {
-        text: 'INSERT INTO user_tbl (username, passw, firstname, lastname) VALUES ($1, crypt($2, gen_salt("bf")), $3, $4) RETURNING user_id',
-        values: [username, passw, firstName, lastName],
+        text: 'INSERT INTO individual_expense_tbl (expense_id, expense_type_id, user_id, description, cost_amount) VALUES ($1, $2, $3, $4, $5)',
+        values: [e_id, intValue, uId, d, cA],
     }
     // myClient.query(ageQuery, function (err, result) {
     //     if (err) {
@@ -376,6 +409,7 @@ app.post('/posts', function(req, res) {
     //         // res.send({ status: 'FAILED' });
     //     }
 
+    //adding to table
     herokuClient.query(query, function (err, result) {
         if (err) {
             console.log(err)
@@ -383,13 +417,13 @@ app.post('/posts', function(req, res) {
         } else {
             console.log("\n\nno error in adding\n\n")
             res.cookie("usersName", username)
-            res.send({ data: true });
+            return res.send({ data: true });
         }
     })
 
 
 
-    return res.send()
+    // return res.send()
 
 })
 

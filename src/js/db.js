@@ -20,6 +20,9 @@
 //   client.end();
 // });
 
+//variables
+var baseUrl = "http://localhost:8080"
+
 var test2 = function() {
     console.log("test() called");
 
@@ -160,9 +163,9 @@ var connect = function () {
     if (loginResult == false) {
       alert("Wrong username/password")
       //test moving this
-      window.location.href = "https://ganymede18.herokuapp.com/";
+      window.location.href = baseUrl;
     } else {
-      window.location.href = "https://ganymede18.herokuapp.com/loginConfirmation.html";
+      window.location.href = baseUrl + "/loginConfirmation.html";
     }
 
 
@@ -173,8 +176,9 @@ var connect = function () {
 
   function loginAsync(username, passwd) {
     //base url to GET
-    // var getMainWithQuery = 'http://localhost:8080/userlogin'
-    var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogin'
+    // var getMainWithQuery = 'http://localhost:8080/userlogin' 
+    // var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogin'
+    var getMainWithQuery = baseUrl + '/userlogin'
     console.log("ASYNC FUNCTION CALLED")
 
     return new Promise(resolve => {
@@ -226,7 +230,7 @@ var connect = function () {
 
     //base url to GET
     // var getMainWithQuery = 'http://localhost:8080/user/:id'
-    var getMainWithQuery = 'https://ganymede18.herokuapp.com/user/:id'
+    var getMainWithQuery = baseUrl + '/user/:id'
     console.log(getMainWithQuery)
 
     return new Promise(resolve => {
@@ -261,12 +265,14 @@ var connect = function () {
     console.log("LOGOUT CLICKED")
 
     //vars
-    var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
+    var getMainWithQuery = baseUrl + '/userlogout'
 
     //http reqest
       fetch(buildUrl(getMainWithQuery, {
-    }),).then(function() {
-      window.location.href = "https://ganymede18.herokuapp.com/";
+    }),{
+      mode: "same-origin"
+    }).then(function() {
+      window.location.href = baseUrl;
     });
   }
 
@@ -322,7 +328,7 @@ var connect = function () {
     if (didAddSuccessfully == true) {
       //redirect
     // window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
-    window.location.href = "https://ganymede18.herokuapp.com/trackingpage.html";
+    window.location.href = baseUrl + "/trackingpage.html";
       alert("User added")
     } else {
       alert("User not added")
@@ -335,7 +341,7 @@ var connect = function () {
 
   function createUserAsync(username, passw, firstName, lastName, email) {
     //base url to GET
-    var getMainWithQuery = 'http://localhost:8080/createuser'
+    var getMainWithQuery = baseUrl + '/createuser'
     // var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
 
     return new Promise(resolve => {

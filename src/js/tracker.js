@@ -424,10 +424,16 @@ controller.init();
 
 
 //adding code down here to not mess with other code for now 
+
+//vars 
+var baseUrl = "http://localhost:8080"
+
+//saving function
 function saveNewItem(newItem, type) {
     //need to make post request 
     //url 
-    var url = 'http://localhost:8080/posts'
+    // var url = 'http://localhost:8080/posts'
+    var url = baseUrl + '/saveexpense'
     // var url = 'https://ganymede18.herokuapp.com/posts'
 
 
@@ -442,12 +448,19 @@ function saveNewItem(newItem, type) {
     //newItem has expense_id, description, cost_amount
     //sent var type is expense_type_id
     //need to get user_id
+    //in cookies 
+    var user_id_val = getCookie("user_id")
+
+    
+
 
     //json body 
     var postBody = {
-        select: select,
-        description: desc, 
-        value: val
+        expense_id: newItem.id,
+        expense_type_id: type,
+        user_id: user_id_val,
+        description: newItem.description,
+        cost_amount: newItem.value
     }
 
      // Default options are marked with *
@@ -467,3 +480,11 @@ function saveNewItem(newItem, type) {
     .then(response => response.json()); // parses response to JSON
 
 }
+
+
+
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
