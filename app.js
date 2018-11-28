@@ -688,3 +688,33 @@ app.use(function (req, res, next) {
 // //  });
 
 // app.listen(3000);
+
+/*
+
+app.get('/createuser', function(req, res) {
+
+    var expense_type_id = req.query['itemType'];
+    var description = req.query['itemDescription'];
+    var cost_amount = req.query['itemValue'];
+
+    const query = {
+        text: "INSERT INTO user_tbl (expense_type_id, description, cost_amount) VALUES ($1, $2, $3) RETURNING expense_id",
+        values: [expense_type_id, description, cost_amount],
+    }
+
+
+    herokuClient.query(query, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.send({ data: false });
+        } else {
+            console.log("\n\nno error in adding\n\n")
+            res.cookie("usersName", username)
+            res.send({ data: true });
+        }
+    })
+
+
+
+    })
+*/
