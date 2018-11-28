@@ -70,12 +70,9 @@ var budgetController = (function () {
             data.allItems[type].push(newItem);
 
 
-            /////////
+            ///////// james's code
             //saving to database code 
             saveNewItem(newItem, type)
-
-
-
             /////////
 
             // return the new item

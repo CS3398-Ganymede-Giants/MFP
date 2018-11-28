@@ -56,20 +56,20 @@
 <div class="card">
             <div class="add">
                 <div class="add__container">
-                    <!-- <select class="add__type" id="addExpenseSelect">
-                        <option value="inc" selected>+</option>
-                        <option value="exp">-</option>
-                    </select>
-                    <input type="text" class="add__description" placeholder="Add description" id="addExpenseDescription">
-                    <input type="number" class="add__value" placeholder="Value" id="addExpenseValue"> -->
-                    
                     <select class="add__type" onselect="this.className" id="createitemtype">
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
+                    <!-- <select class="add__type" onselect="this.className" id="createitemtypeoption">
+                        <option value="" selected>Auto (loan, gas, repairs, etc.)</option>
+                        <option value="" >Home (rent, mortgage, insurance, repairs, etc.)</option>
+                        <option value="" >Food</option>
+                        <option value="" >Entertainment</option>
+                        <option value="" >Miscellaneous</option>
+                    </select>> -->
                     <input type="text" class="add__description" oninput="this.className" placeholder="Add description" id="createitemdescription">
                     <input type="number" class="add__value" oninput="this.className" placeholder="Value" id="createitemvalue">
-                    <button class="add__btn">enter</button>
+                    <button class="add__btn" >enter</button>
                 </div>
             </div>
             <div class="container clearfix">
