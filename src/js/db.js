@@ -392,6 +392,91 @@ var connect = function () {
 }
 
 
+//LOADING ITEMS 
+function loadItemsTest() {
+  var response = loadItemsAsync()
+}
+
+
+async function loadItemsAsync() {
+
+  console.log("load async")
+  //javascript await 
+  var response = await loadItems();
+  return response;
+}
+
+
+//Loading function
+function loadItems() {
+  //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
+console.log("in load items")
+
+  //teseting response 
+  var testJson = {test:"data"}
+  return testJson
+
+  // //vars 
+  // var baseUrl = "http://localhost:8080"
+  // //user id from cookies 
+  // var user_id_val = getCookie("user_id")
+
+  // //need to make a GET and return json 
+  // //url from base 
+  // var url = baseUrl + '/user/:id/data'
+  // console.log("url is ")
+  // console.log(url)
+
+  // //request body
+  // var postBody = {
+  //     user_id: user_id_val
+  // }
+
+  // //fetch 
+  // // Default options are marked with *
+  // fetch(url, {
+  //     method: "POST", 
+  //     mode: "same-origin",
+  //     // mode: "cors", // no-cors, cors, *same-origin
+  //     // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+  //     // credentials: "same-origin", // include, *same-origin, omit
+  //     headers: {
+  //         "Content-Type": "application/json",
+  //         // "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     // redirect: "follow", // manual, *follow, error
+  //     // referrer: "no-referrer", // no-referrer, *client
+  //     body: postBody, // body data type must match "Content-Type" header
+  // })
+  // .then(response => function() {
+
+  //     console.log("RESPONSE")
+  //     console.log(response.json())
+  //     return response.json()
+  // }); // parses response to JSON
+
+
+//delete 
+/*UICntrl.displayBudget({
+  budget: 0,
+  totalInc: 0,
+  totalExp: 0,
+  percentage: -1
+});*/
+
+}
+
+
+
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+
+
+
 
 /*
   async function createItem() {

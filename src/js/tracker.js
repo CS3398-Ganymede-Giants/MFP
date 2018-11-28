@@ -403,13 +403,22 @@ var controller = (function (budgetCntrl, UICntrl) {
         init: function () {
             //console.log('Application has begun.');
             UICntrl.displayMonth();
-            // set initial budget to zero upon application start
+
+            // // set initial budget to zero upon application start
+            // nope
+
+            // load saved data in if any
+            //get saved data 
+            var saved_data = loadItemsAsync();
+
             UICntrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
                 totalExp: 0,
                 percentage: -1
             });
+
+            //event listeners
             setUpEventListeners();
         }
     }
@@ -478,6 +487,59 @@ function saveNewItem(newItem, type) {
 
 }
 
+async function loadItemsAsync() {
+
+    //javascript await 
+    var response = await loadItems();
+    //sending back
+    return response;
+}
+
+
+//Loading function
+function loadItems() {
+    //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
+
+    //vars 
+    var baseUrl = "http://localhost:8080"
+    //user id from cookies 
+    var user_id_val = getCookie("user_id")
+
+    //need to make a GET and return json 
+    //url from base 
+    var url = baseUrl + '/loaddata/' + user_id_val
+
+    
+    //return promise 
+    return new Promise(resolve => {
+        //fetch 
+        // Default options are marked with *
+        fetch(url, {
+            method: "GET", 
+            mode: "same-origin",
+            // mode: "cors", // no-cors, cors, *same-origin
+            // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            // credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "application/x-www-form-urlencoded",
+            },
+            // redirect: "follow", // manual, *follow, error
+            // referrer: "no-referrer", // no-referrer, *client
+            // body: postBody, // body data type must match "Content-Type" header
+        })
+        .then(response => {
+
+            console.log("RESPONSE")
+            console.log(response.json())
+            resolve(response.data)
+        }); // parses response to JSON
+    })
+
+
+
+}
+
 
 
 function getCookie(name) {
@@ -485,3 +547,22 @@ function getCookie(name) {
     var parts = value.split("; " + name + "=");
     if (parts.length == 2) return parts.pop().split(";").shift();
   }
+
+
+  function buildUrl(url, parameters) {
+    let qs = "";
+    for (const key in parameters) {
+        if (parameters.hasOwnProperty(key)) {
+            const value = parameters[key];
+            qs +=
+                encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
+        }
+    }
+    if (qs.length > 0) {
+        qs = qs.substring(0, qs.length - 1); //chop off last "&"
+        url = url + "?" + qs;
+    }
+    console.log("URL IS ")
+    console.log(url)
+    return url;
+}

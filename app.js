@@ -43,7 +43,7 @@ herokuClient.connect();
 herokuClient.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
-    console.log(JSON.stringify(row));
+    // console.log(JSON.stringify(row));
   }
 //   herokuClient.end();
 });
@@ -131,8 +131,61 @@ app.get('/contactus.html', function(req, res) {
 });
 
 app.get('/trackingPage.html', function(req, res) {
+
     res.sendFile(path.join(__dirname + '/public/html/trackingPage.html'));
 });
+
+//getting data 
+app.get('/loaddata/:id', function(req, res) {
+    console.log("\n\nin user id data\n\n")
+    // console.log(req.params.id)
+     //need to load the data again 
+     //connecting for heroku client
+    //  herokuClient.connect()
+
+     //getting user id
+     var userId = req.cookies['user_id']
+
+     var dataQuery = format('SELECT * from individual_expense_tbl WHERE user_id = %L', userId)
+     herokuClient.query(dataQuery, function (err, result) {
+     if (err) {
+         console.log(err)
+         // res.send({ status: 'FAILED' });
+     } else {
+    //see if user is found
+        // console.log("RESULT")
+        console.log(result)
+        //if there's not 0 entries
+        if(result != undefined) {
+            if (result.rows[0] != undefined) {
+                console.log("Data found!")
+                res.setHeader('Content-Type', 'application/json');
+                var jsonResponse = JSON.stringify(result.rows)
+                //  res.send(jsonResponse);
+                res.json(jsonResponse)
+                res.end()
+                // done()
+            } else {
+                console.log("Data NOT found")
+                res.setHeader('Content-Type', 'application/json');
+                res.json({ data: "notfound" });
+                // done()
+            }
+        } else {
+            console.log("NO DATA FOUND")
+            res.setHeader('Content-Type', 'application/json');
+            res.json({ data: "NOdatafound" });
+                // done()
+        }
+     }
+
+ 
+    
+ 
+        // res.json({"data": "NODatafound"})
+ 
+     })
+})
 
 app.get('/loginConfirmation.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
@@ -420,7 +473,7 @@ app.post('/saveexpense', function(req, res) {
             res.send({ data: false });
         } else {
             console.log("\n\nno error in adding\n\n")
-            res.cookie("usersName", username)
+            // res.cookie("usersName", username)
             return res.send({ data: true });
         }
     })
