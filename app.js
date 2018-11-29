@@ -137,7 +137,7 @@ app.get('/trackingPage.html', function(req, res) {
 
 //getting data 
 app.get('/loaddata/all/:id/:tbl', function(req, res) {
-    
+    console.log("LOADING DATA")
     // console.log(req.params.id)
     // console.log("\n\n\n\n\n\n\n")
      //need to load the data again 
@@ -150,12 +150,21 @@ app.get('/loaddata/all/:id/:tbl', function(req, res) {
      var tbl = req.params.tbl
 
      //need to run different commands 
-
+     //vars for commands 
+     var queryString;
+     var values;
+     var query;
+    if(tbl == 'individual_expense_tbl') {
+        queryString = format("select * from individual_expense_tbl where user_id = %L;", userId)
+    }
+    if(tbl == 'individual_income_tbl') {
+        queryString = format("select * from individual_income_tbl where account_id in (select account_id from account_tbl where user_id = %L);", userId)
+    }
      //sql command with cars 
-     var newSql = "SELECT * from " + tbl + " WHERE user_id = %L"
+    //  var newSql = "SELECT * from " + tbl + " WHERE user_id = %L"
 
-     var dataQuery = format(newSql, userId)
-     herokuClient.query(dataQuery, function (err, result) {
+    //  var dataQuery = format(newSql, userId)
+     herokuClient.query(queryString, function (err, result) {
      if (err) {
          console.log(err)
          // res.send({ status: 'FAILED' });
@@ -177,13 +186,14 @@ app.get('/loaddata/all/:id/:tbl', function(req, res) {
             } else {
                 console.log("Data NOT found")
                 res.setHeader('Content-Type', 'application/json');
-                res.json({ data: "notfound" });
+                var emptyArr
+                res.json(JSON.stringify([]));
                 // done()
             }
         } else {
             console.log("NO DATA FOUND")
             res.setHeader('Content-Type', 'application/json');
-            res.json({ data: "NOdatafound" });
+            res.json(JSON.stringify([]));
                 // done()
         }
     }
@@ -618,11 +628,11 @@ app.post('/saveexpense', function(req, res) {
     if (db == 'individual_income_tbl') {
         
         //storing columns to add 
-        var columns = ['income_id', 'account_id', 'description', 'income_amount']
+        var columns = ['income_id', 'account_id', 'description', 'income_amount', 'user_id']
         //values array to send 
-        var valArr = [body.income_id, body.account_id, body.description, body.income_amount]
+        var valArr = [body.income_id, body.account_id, body.description, body.income_amount, body.user_id]
         //query string 
-        queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount) VALUES ($1, $2, $3, $4)'
+        queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount, user_id) VALUES ($1, $2, $3, $4, 4%)'
         //making full query 
         query = {
             text: queryString,
