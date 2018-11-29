@@ -60,13 +60,17 @@
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
-                    <!-- <select class="add__type" onselect="this.className" id="createitemtypeoption">
-                        <option value="" selected>Auto (loan, gas, repairs, etc.)</option>
-                        <option value="" >Home (rent, mortgage, insurance, repairs, etc.)</option>
-                        <option value="" >Food</option>
-                        <option value="" >Entertainment</option>
-                        <option value="" >Miscellaneous</option>
-                    </select>> -->
+                    <select class="add__description" select="this.className">
+                        <option value="checking" selected>Checkings</option>
+                        <option value="savings">Savings</option>
+                        <option value="savings">Credit</option>
+                    </select>
+                    <select class="add__description" onselect="this.className">
+                        <option value="auto" selected>Auto</option>
+                        <option value="home">Home</option>
+                        <option value="food">Food</option>
+                        <option value="entertainment">Entertainment</option>
+                    </select>
                     <input type="text" class="add__description" oninput="this.className" placeholder="Add description" id="createitemdescription">
                     <input type="number" class="add__value" oninput="this.className" placeholder="Value" id="createitemvalue">
                     <button class="add__btn" onclick="this.className">enter</button>
@@ -76,25 +80,13 @@
                 <div class="card_three income">
                     <h3 class="income__title">Income</h3>
 
-                    <div class="income__list">%.value%</div>
+                    <div class="income__list"></div>
                 </div>
                 <div class="card_two expenses">
                     <h3 class="expenses__title">Expenses</h3>
-                    <div class="expenses__list">%.value%</div>
+                    <div class="expenses__list"></div>
                 </div>
             </div>
-            <div class="add">
-                <div class="add__container">
-                    <select class="add__type" onselect="this.className" id="createitemtype">
-                        <option value="inc" selected>+</option>
-                        <option value="exp">-</option>
-                    </select>
-                    <input type="text" class="add__description" oninput="this.className" placeholder="Add description" id="createitemdescription">
-                    <input type="number" class="add__value" oninput="this.className" placeholder="Value" id="createitemvalue">
-                    <button class="add__btn">enter</button>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>

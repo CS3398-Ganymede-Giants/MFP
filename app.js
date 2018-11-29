@@ -261,87 +261,6 @@ app.get('/loadbudget/:id', function(req, res) {
 
 
 
-// //loading from expense and income table
-// app.get('/loadbudget/:id/:db', function(req, res) {
-
-//     // console.log(req.params.id)
-//      //need to load the data again 
-//      //connecting for heroku client
-//     //  herokuClient.connect()
-
-//      //getting user id
-//      var userId = req.params.userId
-//      //getting db 
-//      var db = req.params.db
-//      //getting 
-
-//      //for each table 
-//      var queryString = ''
-
-//      //which table 
-//      //income
-//      if (db == 'individual_income_tbl') {
-//          //set query string 
-//         queryString = 'SELECT * FROM ' + db + ' WHERE user_id = %L'
-//      }
-//      //expense 
-//      if (db == 'individual_expense_tbl') {
-//          //set query string 
-//         queryString = 'SELECT * FROM ' + db + ' WHERE user_id = %L'
-
-//      }
-//      // budget 
-//      if (db == 'account_tbl') {
-//         queryString = 'SELECT SUM(balance) FROM account_tbl WHERE user_id = %L'
-//      }
-
-
-//      var dataQuery = format(queryString, userId)
-//      herokuClient.query(dataQuery, function (err, result) {
-//      if (err) {
-//          console.log("error in stuff")
-//          console.log(err)
-//          // res.send({ status: 'FAILED' });
-//      } else {
-//     //see if user is found
-//         console.log("RESULT")
-//         console.log(typeof result)
-//         console.log(result)
-//         //if there's not 0 entries
-//         if(result != undefined) {
-
-//             if (result.rows[0] != undefined) {
-//                 console.log("Data found!")
-//                 res.setHeader('Content-Type', 'application/json');
-//                 var jsonResponse = JSON.stringify(result.rows)
-//                 //  res.send(jsonResponse);
-//                 res.json(jsonResponse)
-//                 res.end()
-//                 // done()
-//             } else {
-//                 console.log("Data NOT found")
-//                 res.setHeader('Content-Type', 'application/json');
-//                 res.json({ data: "notfound" });
-//                 // done()
-//             }
-//             // res.setHeader('Content-Type', 'application/json');
-//             // res.json(result.rows)
-//             // res.end()
-//         } else {
-//             console.log("NO DATA FOUND")
-//             res.setHeader('Content-Type', 'application/json');
-//             res.json({ data: "NOdatafound" });
-//             res.end()
-//                 // done()
-//         }
-//         // res.end()
-//     }
-
- 
-//     })
-// })
-
-
 app.get('/loginConfirmation.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
 });
@@ -404,12 +323,6 @@ app.get('/user/:id', function(req, res) {
 
     })
 
-
-
-
-
-        // res.send('user ' + req.params.id);
-        // res.send({ status: 'SUCCESS' });
   });
 
 //   app.get('/user/:id/failed', function(req, res) {
@@ -430,14 +343,6 @@ app.get('/userlogin', function(req, res) {
     //NEED TO GET FROM REQUEST
     var username = req.query['username'];
     var passw = req.query['passwd']
-
-    // //config for connecting to databse
-    // var config = {
-    //     user: PGUSER, // name of the user account
-    //     database: PGDATABASE, // name of the database
-    //     max: 10, // max number of clients in the pool
-    //     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
-    // }
 
     // //more config
     // var pool = new pg.Pool(config)
@@ -588,17 +493,7 @@ app.post('/saveexpense', function(req, res) {
     // {test: 'testval'}
 
     //need to grab the data from the requet 
-    
-
-    //json body 
-    // var postBody = {
-    //     expense_id: newItem.id,
-    //     expense_type_id: type,
-    //     user_id: user_id_val,
-    //     description: newItem.description,
-    //     cost_amount: newItem.value
-    // }
-
+   
     //vars 
     //db string
     var db = req.body.db 
@@ -660,13 +555,6 @@ app.post('/saveexpense', function(req, res) {
 
     } 
 
- 
-    // myClient.query(ageQuery, function (err, result) {
-    //     if (err) {
-    //         console.log(err)
-    //         // res.send({ status: 'FAILED' });
-    //     }
-
     //adding to table
     herokuClient.query(query, function (err, result) {
         if (err) {
@@ -702,25 +590,6 @@ app.use(function (req, res, next) {
   res.status(404).send("Sorry, page doesn't exist!")
 })
 
-//test express code
-// app.get('/get.json', function(req, res){
-//     console.log("DONE")
-//     // res.send('user ' + req.params.id);
-//     res.send('testresponse')
-// });
-
-// app.get('/post.json', function(req, res){
-//     console.log("DONE")
-//     // res.send('user ' + req.params.id);
-//     res.send('testresponse')
-// });
-
-// app.get('/', function (req, res) {
-//     //test json object
-//     var testJson = { "nine": 9, "ten": 10, "eleven": 11 }
-//     res.send(testJson)
-
-//   })
 
 
 
