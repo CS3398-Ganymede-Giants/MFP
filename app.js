@@ -136,17 +136,26 @@ app.get('/trackingPage.html', function(req, res) {
 });
 
 //getting data 
-app.get('/loaddata/:id', function(req, res) {
-    console.log("\n\nin user id data\n\n")
+app.get('/loaddata/all/:id/:tbl', function(req, res) {
+    
     // console.log(req.params.id)
      //need to load the data again 
      //connecting for heroku client
     //  herokuClient.connect()
 
      //getting user id
-     var userId = req.cookies['user_id']
+     var userId = req.params.id
+     //getting type 
+     var tbl = req.params.tbl
 
-     var dataQuery = format('SELECT * from individual_expense_tbl WHERE user_id = %L', userId)
+     console.log("\n\nin user id data\n\n")
+     console.log(userId)
+     console.log(tbl)
+
+     //sql command with cars 
+     var newSql = "SELECT * from " + tbl + " WHERE user_id = %L"
+
+     var dataQuery = format(newSql, userId)
      herokuClient.query(dataQuery, function (err, result) {
      if (err) {
          console.log(err)
@@ -177,14 +186,67 @@ app.get('/loaddata/:id', function(req, res) {
             res.json({ data: "NOdatafound" });
                 // done()
         }
-     }
+    }
 
  
-    
+    })
+})
+
+//getting data 
+app.get('/loadbudget/:id', function(req, res) {
+    console.log("\n\nin budget data\n\n")
+    // console.log(req.params.id)
+     //need to load the data again 
+     //connecting for heroku client
+    //  herokuClient.connect()
+
+     //getting user id
+     var userId = req.cookies['user_id']
+     console.log("user id is " + userId)
+
+     var dataQuery = format('SELECT SUM(balance) FROM account_tbl WHERE user_id = %L', userId)
+     herokuClient.query(dataQuery, function (err, result) {
+     if (err) {
+         console.log("error in stuff")
+         console.log(err)
+         // res.send({ status: 'FAILED' });
+     } else {
+    //see if user is found
+        console.log("RESULT")
+        console.log(typeof result)
+        console.log(result)
+        //if there's not 0 entries
+        if(result != undefined) {
+
+            if (result.rows[0] != undefined) {
+                console.log("Data found!")
+                res.setHeader('Content-Type', 'application/json');
+                var jsonResponse = JSON.stringify(result.rows)
+                //  res.send(jsonResponse);
+                res.json(jsonResponse)
+                res.end()
+                // done()
+            } else {
+                console.log("Data NOT found")
+                res.setHeader('Content-Type', 'application/json');
+                res.json({ data: "notfound" });
+                // done()
+            }
+            // res.setHeader('Content-Type', 'application/json');
+            // res.json(result.rows)
+            // res.end()
+        } else {
+            console.log("NO DATA FOUND")
+            res.setHeader('Content-Type', 'application/json');
+            res.json({ data: "NOdatafound" });
+            res.end()
+                // done()
+        }
+        // res.end()
+    }
+
  
-        // res.json({"data": "NODatafound"})
- 
-     })
+    })
 })
 
 app.get('/loginConfirmation.html', function(req, res) {

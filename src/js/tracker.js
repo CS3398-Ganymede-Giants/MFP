@@ -409,7 +409,8 @@ var controller = (function (budgetCntrl, UICntrl) {
 
             // load saved data in if any
             //get saved data 
-            var saved_data = loadItemsAsync();
+            var allData = loadAllData()
+
 
             UICntrl.displayBudget({
                 budget: 0,
@@ -433,6 +434,7 @@ controller.init();
 
 //vars 
 var baseUrl = "http://localhost:8080"
+
 
 //saving function
 function saveNewItem(newItem, type) {
@@ -487,17 +489,65 @@ function saveNewItem(newItem, type) {
 
 }
 
-async function loadItemsAsync() {
+async function loadBudgetAsync() {
+    //javascript await 
+    var response = await loadBudget();
+    //sending back
+    // console.log("in first one")
+    // console.log(response)
+    return response;
+}
+
+function loadBudget() {
+    //vars 
+    var baseUrl = "http://localhost:8080"
+    //user id from cookies 
+    var user_id_val = getCookie("user_id")
+
+    //need to make a GET and return json 
+    //url from base 
+    var url = baseUrl + '/loadbudget/' + user_id_val + '/'
+
+    
+    //return promise 
+    return new Promise(resolve => {
+        //fetch 
+        // Default options are marked with *
+        fetch(url, {
+            method: "GET", 
+            mode: "same-origin",
+            // mode: "cors", // no-cors, cors, *same-origin
+            // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            // credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "application/x-www-form-urlencoded",
+            },
+            // redirect: "follow", // manual, *follow, error
+            // referrer: "no-referrer", // no-referrer, *client
+            // body: postBody, // body data type must match "Content-Type" header
+        })
+        .then(response => {
+
+            // console.log("RESPONSE")
+            // console.log(response.data)
+            resolve(response.json())
+        }); // parses response to JSON
+    })
+
+}
+
+async function loadItemsAsync(tbl) {
 
     //javascript await 
-    var response = await loadItems();
+    var response = await loadItems(tbl);
     //sending back
     return response;
 }
 
 
 //Loading function
-function loadItems() {
+function loadItems(tbl) {
     //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
 
     //vars 
@@ -507,7 +557,9 @@ function loadItems() {
 
     //need to make a GET and return json 
     //url from base 
-    var url = baseUrl + '/loaddata/' + user_id_val
+    var url = baseUrl + '/loaddata/all/' + user_id_val + '/' + tbl
+    console.log("URL IS ")
+    console.log(url)
 
     
     //return promise 
@@ -531,7 +583,7 @@ function loadItems() {
         .then(response => {
 
             console.log("RESPONSE")
-            console.log(response.json())
+            console.log(response.data)
             resolve(response.data)
         }); // parses response to JSON
     })
@@ -565,4 +617,25 @@ function getCookie(name) {
     console.log("URL IS ")
     console.log(url)
     return url;
+}
+
+
+//need to get all data
+//damnit need to consolidate this code 
+async function loadAllData() {
+    //probably get cookie from browser here 
+    //getting account_tbl data 
+    var budget = await loadBudgetAsync()
+    //getting individual_expense_data 
+    var expense = await loadItemsAsync('individual_expense_tbl')
+    //getting individual_income_data
+    var income = await loadItemsAsync('individual_income_tbl')
+
+    //object to return 
+    var allData = {"budget": budget, "expense": expense, "income": income}
+
+    console.log("bottom of loadalldata")
+    console.log(allData)
+    return allData
+    
 }
