@@ -139,6 +139,7 @@ app.get('/trackingPage.html', function(req, res) {
 app.get('/loaddata/all/:id/:tbl', function(req, res) {
     
     // console.log(req.params.id)
+    // console.log("\n\n\n\n\n\n\n")
      //need to load the data again 
      //connecting for heroku client
     //  herokuClient.connect()
@@ -148,9 +149,7 @@ app.get('/loaddata/all/:id/:tbl', function(req, res) {
      //getting type 
      var tbl = req.params.tbl
 
-     console.log("\n\nin user id data\n\n")
-     console.log(userId)
-     console.log(tbl)
+     //need to run different commands 
 
      //sql command with cars 
      var newSql = "SELECT * from " + tbl + " WHERE user_id = %L"
@@ -163,11 +162,12 @@ app.get('/loaddata/all/:id/:tbl', function(req, res) {
      } else {
     //see if user is found
         // console.log("RESULT")
-        console.log(result)
+        // console.log(result)
         //if there's not 0 entries
         if(result != undefined) {
             if (result.rows[0] != undefined) {
-                console.log("Data found!")
+                console.log("Data found! first")
+                console.log(JSON.stringify(result.rows))
                 res.setHeader('Content-Type', 'application/json');
                 var jsonResponse = JSON.stringify(result.rows)
                 //  res.send(jsonResponse);
@@ -248,6 +248,89 @@ app.get('/loadbudget/:id', function(req, res) {
  
     })
 })
+
+
+
+// //loading from expense and income table
+// app.get('/loadbudget/:id/:db', function(req, res) {
+
+//     // console.log(req.params.id)
+//      //need to load the data again 
+//      //connecting for heroku client
+//     //  herokuClient.connect()
+
+//      //getting user id
+//      var userId = req.params.userId
+//      //getting db 
+//      var db = req.params.db
+//      //getting 
+
+//      //for each table 
+//      var queryString = ''
+
+//      //which table 
+//      //income
+//      if (db == 'individual_income_tbl') {
+//          //set query string 
+//         queryString = 'SELECT * FROM ' + db + ' WHERE user_id = %L'
+//      }
+//      //expense 
+//      if (db == 'individual_expense_tbl') {
+//          //set query string 
+//         queryString = 'SELECT * FROM ' + db + ' WHERE user_id = %L'
+
+//      }
+//      // budget 
+//      if (db == 'account_tbl') {
+//         queryString = 'SELECT SUM(balance) FROM account_tbl WHERE user_id = %L'
+//      }
+
+
+//      var dataQuery = format(queryString, userId)
+//      herokuClient.query(dataQuery, function (err, result) {
+//      if (err) {
+//          console.log("error in stuff")
+//          console.log(err)
+//          // res.send({ status: 'FAILED' });
+//      } else {
+//     //see if user is found
+//         console.log("RESULT")
+//         console.log(typeof result)
+//         console.log(result)
+//         //if there's not 0 entries
+//         if(result != undefined) {
+
+//             if (result.rows[0] != undefined) {
+//                 console.log("Data found!")
+//                 res.setHeader('Content-Type', 'application/json');
+//                 var jsonResponse = JSON.stringify(result.rows)
+//                 //  res.send(jsonResponse);
+//                 res.json(jsonResponse)
+//                 res.end()
+//                 // done()
+//             } else {
+//                 console.log("Data NOT found")
+//                 res.setHeader('Content-Type', 'application/json');
+//                 res.json({ data: "notfound" });
+//                 // done()
+//             }
+//             // res.setHeader('Content-Type', 'application/json');
+//             // res.json(result.rows)
+//             // res.end()
+//         } else {
+//             console.log("NO DATA FOUND")
+//             res.setHeader('Content-Type', 'application/json');
+//             res.json({ data: "NOdatafound" });
+//             res.end()
+//                 // done()
+//         }
+//         // res.end()
+//     }
+
+ 
+//     })
+// })
+
 
 app.get('/loginConfirmation.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
@@ -471,6 +554,11 @@ app.get('/createuser', function(req, res) {
             // console.log(result.rows[0].user_id)
             res.cookie("usersName", username)
             res.cookie("user_id", result.rows[0].user_id)
+
+            //going to prepopulate the account_tbl with checking,savings,credit
+            //hmm pausing on that
+
+
             res.send({ data: true });
         }
     })
@@ -501,27 +589,68 @@ app.post('/saveexpense', function(req, res) {
     //     cost_amount: newItem.value
     // }
 
-    var e_id = req.body.expense_id
-    var e_T_id = req.body.expense_type_id 
-    var uId = req.body.user_id 
-    var d = req.body.description 
-    var cA = req.body.cost_amount
+    //vars 
+    //db string
+    var db = req.body.db 
+    //storing full body 
+    var body = req.body
     //values store correctly
 
     // select value 'inc' is +, 'exp' is -
-    var intValue = 0
-
-    if (e_T_id == 'exp') {
-        intValue = -1
-    } else {
-        intValue = 1
+    //need to store in the correct database 
+    //query
+    //query string 
+    var query = {}
+    var queryString = ''
+    if (db == 'individual_expense_tbl') {
+        //storing columns to add 
+        var columns = ['expense_id', 'expense_type_id', 'user_id', 'description', 'cost_amount']
+        //values array to send 
+        var valArr = [body.expense_id, body.expense_type_id, body.user_id, body.description, body.cost_amount]
+        //query string 
+        queryString = 'INSERT INTO ' + db + ' (expense_id, expense_type_id, user_id, description, cost_amount) VALUES ($1, $2, $3, $4, $5)'
+        //making full query 
+        query = {
+            text: queryString,
+            values: valArr
+        }
+    } 
+    if (db == 'individual_income_tbl') {
+        
+        //storing columns to add 
+        var columns = ['income_id', 'account_id', 'description', 'income_amount']
+        //values array to send 
+        var valArr = [body.income_id, body.account_id, body.description, body.income_amount]
+        //query string 
+        queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount) VALUES ($1, $2, $3, $4)'
+        //making full query 
+        query = {
+            text: queryString,
+            values: valArr
+        }
+    
     }
+    if (db == 'account_tbl') {
+        //database to store in
 
-    //need to store in database
-    const query = {
-        text: 'INSERT INTO individual_expense_tbl (expense_id, expense_type_id, user_id, description, cost_amount) VALUES ($1, $2, $3, $4, $5)',
-        values: [e_id, intValue, uId, d, cA],
-    }
+        //storing columns to add 
+        var columns = ['account_id', 'user_id', 'account_type', 'balance', 'balance_goal', 'monthly_payment']
+        //values array to send 
+        var valArr = [body.account_id, body.user_id, body.account_type, body.balance, body.balance_goal, body.monthly_payment]
+        console.log("\n\n\n"+ valArr + "\n\n\n")
+        //query string 
+        queryString = 'UPDATE account_tbl SET balance = ' + body.balance + ' WHERE account_id = ' + body.account_id
+        // queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount) VALUES ($1, $2, $3, $4)'
+        //making full query 
+        query = {
+            text: queryString,
+            // values: valArr
+        }
+
+
+    } 
+
+ 
     // myClient.query(ageQuery, function (err, result) {
     //     if (err) {
     //         console.log(err)
