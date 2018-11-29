@@ -1,6 +1,6 @@
-//NOTES 
+//NOTES
 //
-// to run locally 
+// to run locally
 // try in terminal with heroku cli:
 // >> DATABASE_URL=$(heroku config:get DATABASE_URL -a ganymede18) npm start
 
@@ -36,7 +36,7 @@ const herokuClient = new Client({
   ssl: true,
 });
 
-//surrounding with try catch? 
+//surrounding with try catch?
 //maybe not
 
 herokuClient.connect();
@@ -58,7 +58,7 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session')
 app.use(cookieParser());
 
-//for json parser 
+//for json parser
 app.use(bodyParser.json());
 
 
@@ -135,23 +135,27 @@ app.get('/trackingPage.html', function(req, res) {
 
     res.sendFile(path.join(__dirname + '/public/html/trackingPage.html'));
 });
+app.get('/accountSettings.html', function(req, res) {
+
+    res.sendFile(path.join(__dirname + '/public/html/accountSettings.html'));
+});
 
 //getting data 
 app.get('/loaddata/all/:id/:tbl', function(req, res) {
     console.log("LOADING DATA")
     // console.log(req.params.id)
     // console.log("\n\n\n\n\n\n\n")
-     //need to load the data again 
+     //need to load the data again
      //connecting for heroku client
     //  herokuClient.connect()
 
      //getting user id
      var userId = req.params.id
-     //getting type 
+     //getting type
      var tbl = req.params.tbl
 
-     //need to run different commands 
-     //vars for commands 
+     //need to run different commands
+     //vars for commands
      var queryString;
      var values;
      var query;
@@ -161,7 +165,7 @@ app.get('/loaddata/all/:id/:tbl', function(req, res) {
     if(tbl == 'individual_income_tbl') {
         queryString = format("select * from individual_income_tbl where account_id in (select account_id from account_tbl where user_id = %L);", userId)
     }
-     //sql command with cars 
+     //sql command with cars
     //  var newSql = "SELECT * from " + tbl + " WHERE user_id = %L"
 
     //  var dataQuery = format(newSql, userId)
@@ -199,15 +203,15 @@ app.get('/loaddata/all/:id/:tbl', function(req, res) {
         }
     }
 
- 
+
     })
 })
 
-//getting data 
+//getting data
 app.get('/loadbudget/:id', function(req, res) {
     console.log("\n\nin budget data\n\n")
     // console.log(req.params.id)
-     //need to load the data again 
+     //need to load the data again
      //connecting for heroku client
     //  herokuClient.connect()
     console.log("here")
@@ -256,7 +260,7 @@ app.get('/loadbudget/:id', function(req, res) {
         // res.end()
     }
 
- 
+
     })
 })
 
@@ -375,7 +379,7 @@ app.get('/userlogin', function(req, res) {
                     //set cookie
                     res.cookie("loggedIn", true)
                     res.cookie("usersName", username)
-                    //saving user_id 
+                    //saving user_id
                     res.cookie("user_id", result.rows[0].user_id)
 
                     res.send({ data: true });
@@ -403,7 +407,7 @@ app.get('/userlogin', function(req, res) {
 
     })
 
-   
+
   });
 
 
@@ -488,73 +492,73 @@ app.get('/createuser', function(req, res) {
 //saving user submitted data
 app.post('/saveexpense', function(req, res) {
     console.log("IN SAVE EXPENSE")
-    //getting data 
+    //getting data
     console.log("Responding to POST")
     console.log(req.body)
     // {test: 'testval'}
 
-    //need to grab the data from the requet 
-   
-    //vars 
+    //need to grab the data from the requet
+
+    //vars
     //db string
-    var db = req.body.db 
-    //storing full body 
+    var db = req.body.db
+    //storing full body
     var body = req.body
     //values store correctly
 
     // select value 'inc' is +, 'exp' is -
-    //need to store in the correct database 
+    //need to store in the correct database
     //query
-    //query string 
+    //query string
     var query = {}
     var queryString = ''
     if (db === 'individual_expense_tbl') {
-        //storing columns to add 
+        //storing columns to add
         var columns = ['expense_id', 'expense_type_id', 'user_id', 'description', 'cost_amount']
-        //values array to send 
+        //values array to send
         var valArr = [body.expense_id, body.expense_type_id, body.user_id, body.description, body.cost_amount]
-        //query string 
+        //query string
         queryString = 'INSERT INTO ' + db + ' (expense_id, expense_type_id, user_id, description, cost_amount) VALUES ($1, $2, $3, $4, $5)'
-        //making full query 
+        //making full query
         query = {
             text: queryString,
             values: valArr
         }
-    } 
+    }
     if (db === 'individual_income_tbl') {
-        
-        //storing columns to add 
+
+        //storing columns to add
         var columns = ['income_id', 'account_id', 'description', 'income_amount', 'user_id']
-        //values array to send 
+        //values array to send
         var valArr = [body.income_id, body.account_id, body.description, body.income_amount, body.user_id]
-        //query string 
+        //query string
         queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount, user_id) VALUES ($1, $2, $3, $4, $5)'
-        //making full query 
+        //making full query
         query = {
             text: queryString,
             values: valArr
         }
-    
+
     }
     if (db == 'account_tbl') {
         //database to store in
 
-        //storing columns to add 
+        //storing columns to add
         var columns = ['account_id', 'user_id', 'account_type', 'balance', 'balance_goal', 'monthly_payment']
-        //values array to send 
+        //values array to send
         var valArr = [body.account_id, body.user_id, body.account_type, body.balance, body.balance_goal, body.monthly_payment]
         console.log("\n\n\n"+ valArr + "\n\n\n")
-        //query string 
+        //query string
         queryString = 'UPDATE account_tbl SET balance = ' + body.balance + ' WHERE account_id = ' + body.account_id
         // queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount) VALUES ($1, $2, $3, $4)'
-        //making full query 
+        //making full query
         query = {
             text: queryString,
             // values: valArr
         }
 
 
-    } 
+    }
 
     //adding to table
     herokuClient.query(query, function (err, result) {
@@ -608,7 +612,7 @@ app.use(function (req, res, next) {
 
 
 //EMAIL
-//woring 
+//woring
 
 /*
 

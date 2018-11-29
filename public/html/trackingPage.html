@@ -25,7 +25,7 @@
       <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
       <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html"> <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Home</a></h2>
       <h2 style="padding-left:50px;"><a style="color:black;" href = "https://ganymede18.herokuapp.com/trackingPage.html"><img src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Tracker</a></h2>
-      <h2 style="padding-left:50px;"><a style="color:black;" href="#"><img src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Account Settings</a></h2>
+      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/accountSettings.html"><img src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Account Settings</a></h2>
       <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contact.html"><img src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Contact Us</a></h2>
     </div>
    </div>
@@ -56,14 +56,15 @@
 <div class="card">
             <div class="add">
                 <div class="add__container">
-                    <select class="add__type" onselect="this.className" id="createitemtype">
+                    <select class="add__type" onselect="this.className">
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
+                    <input type="text" class="add__description" oninput="this.className" placeholder="Add description">
                     <select class="add__description" select="this.className">
                         <option value="checking" selected>Checkings</option>
                         <option value="savings">Savings</option>
-                        <option value="savings">Credit</option>
+                        <option value="credit">Credit</option>
                     </select>
                     <select class="add__description" onselect="this.className">
                         <option value="auto" selected>Auto</option>
@@ -71,8 +72,7 @@
                         <option value="food">Food</option>
                         <option value="entertainment">Entertainment</option>
                     </select>
-                    <input type="text" class="add__description" oninput="this.className" placeholder="Add description" id="createitemdescription">
-                    <input type="number" class="add__value" oninput="this.className" placeholder="Value" id="createitemvalue">
+                    <input type="number" class="add__value" oninput="this.className" placeholder="Value">
                     <button class="add__btn" onclick="this.className">enter</button>
                 </div>
             </div>
