@@ -1,11 +1,16 @@
 // BUDGET CONTROLLLER
 var budgetController = (function () {
     // create a function constructor for income and expense types
-    var Expense = function (id, description, value) {
+    var Expense = function (id, description, value, account_type, category) {
         this.id = id;
         this.description = description;
         this.value = value;
         this.percentage = -1;
+        //james'scode
+        //Account type
+        this.account_type = account_type
+        //expense category
+        this.category = category
     };
 
     Expense.prototype.calcPercentage = function(totalIncome) {
@@ -22,10 +27,13 @@ var budgetController = (function () {
         return this.percentage;
     };
 
-    var Income = function (id, description, value) {
+    //adding in account type
+    var Income = function (id, description, value, account_type) {
         this.id = id;
         this.description = description;
         this.value = value;
+        //account type 
+        this.account_type = account_type
     };
 
     var calculateTotal = function(type) {
@@ -37,46 +45,6 @@ var budgetController = (function () {
         // store the totals in the data object
         data.totals[type] = sum;
     };
-
-
-    // //james's code 
-    // //need to load these with the retrieved data instead
-
-    // //making the variable return a promise I can resolve top level 
-    // var data = async () => {
-    //     return await loadExpenseIncomeTbls()
-    // }
-
-    // //resolving the promise 
-    // data().then(returnedData => {
-    //     //formatting data 
-    //     //spltting expenses and income
-
-    //     console.log("BEFORE ESPENSE")
-    //     var expense = returnedData.expense 
-
-    //     console.log("BEFORE INCOME")
-    //     var income = returnedData.income
-
-    //     console.log("BEFORE DATA")
-
-    //     //making data object 
-    //     data = {
-    //         allItems: {
-    //             exp: expense, //[],
-    //             inc: income//[]
-    //         },
-    //         totals: {
-    //             exp: expense.length,//0,
-    //             inc: income.length //0
-    //         },
-    //         budget: 0,
-    //         percentage: -1 // because evaluated as non-existent
-    //     };
-
-    //     console.log("AFTER DATA")
-
-    // })
 
 
     var data = {
@@ -94,11 +62,13 @@ var budgetController = (function () {
     };
     // create public method to allow other modules to add new items to the data structure
     return {
-        addItem: function (type, desc, val, addingNewItem = true) {
+        //james's code
+        //adding in accountType and category
+        addItem: function (type, desc, val, accountType, category, addingNewItem = true) {
 
             var newItem, ID;
             // create new ID
-            //TODO: need to change to the highest loaded id 
+            
             console.log(type)
             console.log(typeof type)
             console.log(data.allItems[type])
@@ -109,9 +79,9 @@ var budgetController = (function () {
             }
             // create new item based on 'inc' or 'exp' type
             if (type === "exp") {
-                newItem = new Expense(ID, desc, val);
+                newItem = new Expense(ID, desc, val, accountType, category);
             } else if (type === "inc") {
-                newItem = new Income(ID, desc, val);
+                newItem = new Income(ID, desc, val, accountType);
             }
             console.log("\n\nadding to data.allItems\n\n")
             console.log(newItem)
@@ -125,12 +95,11 @@ var budgetController = (function () {
 
             ///////// james's code
             //saving to database code 
-            console.log("SAVING DATGA ")
+            console.log("SAVING DATA ")
             console.log(addingNewItem)
             if(addingNewItem == true) {
                 saveNewItem(newItem, type)
             }
-            // saveNewItem(newItem, type)
             /////////
 
             // return the new item
@@ -220,7 +189,10 @@ var UIController = (function () {
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
         expPercentageLabel: '.item__percentage',
-        dateLabel: '.budget__title--month'
+        dateLabel: '.budget__title--month',
+        //adding account__type and category
+        accountType: '.add__account__type',
+        category: '.add__category'
     };
 
     // private function
@@ -256,7 +228,11 @@ var UIController = (function () {
             return { // return an object with three properties instead of having 3 separate variables
                 type: document.querySelector(DOMstrings.inputType).value, // will be either income or expense
                 description: document.querySelector(DOMstrings.inputDescription).value,
-                value: parseFloat(document.querySelector(DOMstrings.inputValue).value) // the reads a string, so need to convert to a number
+                value: parseFloat(document.querySelector(DOMstrings.inputValue).value), // the reads a string, so need to convert to a number
+                //james's code
+                //account type and category 
+                account_type: document.querySelector(DOMstrings.accountType).value,
+                category: document.querySelector(DOMstrings.category).value
             };
         },
 
@@ -447,7 +423,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                     amountValue = expense_income_loaded.income_amount
                 }
                 console.log("TEST")
-                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, false);
+                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, expense_income_loaded.account_type, expense_income_loaded.category, false);
 
                 //skipping the rest if it's an empty object 
                 if (expense_income_loaded != {}) {
@@ -476,7 +452,7 @@ var controller = (function (budgetCntrl, UICntrl) {
             input = UICntrl.getInput();
             if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
                 // 2. Add the item to the budget controller
-                newItem = budgetCntrl.addItem(input.type, input.description, input.value);
+                newItem = budgetCntrl.addItem(input.type, input.description, input.value, input.account_type, input.category);
                 // 3. Add the new item to the UI
                 UICntrl.addListItem(newItem, input.type);
                 // 4. Clear the fields
@@ -554,8 +530,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
     
         //vars 
-        // var baseUrl = "http://localhost:8080"
-        var baseUrl = "https://ganymede18.herokuapp.com"
+        var baseUrl = "http://localhost:8080"
+        // var baseUrl = "https://ganymede18.herokuapp.com"
         //user id from cookies 
         var user_id_val = getCookie("user_id")
     
@@ -673,6 +649,12 @@ loadBudgetInit(function(allData) {
     console.log("Data object loading first")
     console.log(dataObj)
 
+    //for new users 
+    if(budget == null) {
+        //setting dataobject empty 
+        dataObj = {totalExpenses:0, totalIncome:0, budget:0}
+    }
+
     
     // begin the app or nothing will ever run because the event listeners are in a private function
     controller.init(dataObj);
@@ -683,8 +665,8 @@ loadBudgetInit(function(allData) {
 //adding code down here to not mess with other code for now 
 
 //vars 
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 //saving function
@@ -719,6 +701,8 @@ function saveNewItem(newItem, type) {
             'income_amount': newItem.value, 
             'account_id': 1, //TODO: change
             'user_id': user_id_val,
+            'account_type': newItem.account_type,
+            'category': newItem.category,
             'db': db
         }
     } 
@@ -732,6 +716,8 @@ function saveNewItem(newItem, type) {
             'user_id': user_id_val,
             'description': newItem.description,
             'cost_amount': newItem.value,
+            'account_type': newItem.account_type,
+            'category':newItem.category,
             'db': db
 
         }
@@ -798,8 +784,8 @@ async function loadBudgetAsync() {
 function loadBudget() {
     //vars 
     
-    // var baseUrl = "http://localhost:8080"
-    var baseUrl = "https://ganymede18.herokuapp.com"
+    var baseUrl = "http://localhost:8080"
+    // var baseUrl = "https://ganymede18.herokuapp.com"
     //user id from cookies 
     var user_id_val = getCookie("user_id")
 
