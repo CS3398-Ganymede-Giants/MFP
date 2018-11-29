@@ -94,7 +94,7 @@ var budgetController = (function () {
     };
     // create public method to allow other modules to add new items to the data structure
     return {
-        addItem: function (type, desc, val, addingOldItem = true) {
+        addItem: function (type, desc, val, addingNewItem = true) {
 
             var newItem, ID;
             // create new ID
@@ -125,7 +125,9 @@ var budgetController = (function () {
 
             ///////// james's code
             //saving to database code 
-            if(addingOldItem == false) {
+            console.log("SAVING DATGA ")
+            console.log(addingNewItem)
+            if(addingNewItem == true) {
                 saveNewItem(newItem, type)
             }
             // saveNewItem(newItem, type)
@@ -450,7 +452,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                     amountValue = expense_income_loaded.income_amount
                 }
                 console.log("TEST")
-                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, true);
+                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, false);
 
                 //skipping the rest if it's an empty object 
                 if (expense_income_loaded != {}) {

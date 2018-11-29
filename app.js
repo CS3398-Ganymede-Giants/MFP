@@ -581,7 +581,7 @@ app.get('/createuser', function(req, res) {
 
 //saving user submitted data
 app.post('/saveexpense', function(req, res) {
-
+    console.log("IN SAVE EXPENSE")
     //getting data 
     console.log("Responding to POST")
     console.log(req.body)
@@ -612,7 +612,7 @@ app.post('/saveexpense', function(req, res) {
     //query string 
     var query = {}
     var queryString = ''
-    if (db == 'individual_expense_tbl') {
+    if (db === 'individual_expense_tbl') {
         //storing columns to add 
         var columns = ['expense_id', 'expense_type_id', 'user_id', 'description', 'cost_amount']
         //values array to send 
@@ -625,14 +625,14 @@ app.post('/saveexpense', function(req, res) {
             values: valArr
         }
     } 
-    if (db == 'individual_income_tbl') {
+    if (db === 'individual_income_tbl') {
         
         //storing columns to add 
         var columns = ['income_id', 'account_id', 'description', 'income_amount', 'user_id']
         //values array to send 
         var valArr = [body.income_id, body.account_id, body.description, body.income_amount, body.user_id]
         //query string 
-        queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount, user_id) VALUES ($1, $2, $3, $4, 4%)'
+        queryString = 'INSERT INTO ' + db + ' (income_id, account_id, description, income_amount, user_id) VALUES ($1, $2, $3, $4, $5)'
         //making full query 
         query = {
             text: queryString,
