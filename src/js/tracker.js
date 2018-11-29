@@ -425,11 +425,6 @@ var controller = (function (budgetCntrl, UICntrl) {
     // private function that gets called when we want to add a new item
     var controlAddItem = function (expense_income_loaded = -1, expense_or_income_sent = -1) {
         //optional param check 
-        console.log("control add item")
-        // console.log(typeof expense_income_loaded)
-        // console.log("expense income starting")
-        // console.log(expense_or_income_sent)
-        // console.log(expense_income_loaded)
         if (expense_income_loaded != -1 && expense_or_income_sent != -1) {
             console.log("if 1")
 
@@ -467,7 +462,6 @@ var controller = (function (budgetCntrl, UICntrl) {
                     // 6. Calculate and update expense percentages
                     updateExpPercentages();
                 }
-
 
                 //exit 
                 return 
@@ -528,9 +522,6 @@ var controller = (function (budgetCntrl, UICntrl) {
         //parsing 
         expense = JSON.parse(expense)
         //map array 
-        // expense = expense.map(row => parseInt(row.cost_amount))
-        console.log("after expense")
-        console.log(expense)
 
         //getting income data 
         var income = await loadItemsAsync('individual_income_tbl')
@@ -541,29 +532,11 @@ var controller = (function (budgetCntrl, UICntrl) {
         // income = income.map(row => parseInt(row.cost_amount))
         console.log("after income")
 
-        // //formatting data 
-        // //total exp 
-        // var totalExpenses = allData.expense
-        // // console.log("totalExpenses")
-        // // console.log(JSON.parse(totalExpenses))
-        // //totalExpenses ^ is a JSON object, of the Array, of the JSON Objects of the Rows. Fuck
-        // //get rid of json
-        // totalExpenses = JSON.parse(totalExpenses)
-        // //is now array to map
-        // totalExpenses = totalExpenses.map(row => parseInt(row.cost_amount))
-        // //sum 
-        // // totalExpenses = totalExpenses.reduce()
-        // var sum = totalExpenses.reduce((a, b) => a + b, 0);
-        // // console.log(sum);
-
         //dataObj to return 
         var dataObj = {income: income, expense: expense}
 
         //callback?
         callback && callback(dataObj)
-
-        // return dataObj
-
 
     }
 
@@ -612,12 +585,6 @@ var controller = (function (budgetCntrl, UICntrl) {
             })
             .then(response => {
                 //parsing response
-                // var responseJson = response.json()
-    
-    
-                console.log("RESPONSE...")
-                // console.log(responseJson)
-                // console.log(response.json())
                 //resolving
                 resolve(response.json())
             }); // parses response to JSON
@@ -626,22 +593,7 @@ var controller = (function (budgetCntrl, UICntrl) {
     
     
     }
-    
-    
-    
-    function getCookie(name) {
-        var value = "; " + document.cookie;
-        var parts = value.split("; " + name + "=");
-        if (parts.length == 2) return parts.pop().split(";").shift();
-      }
-    
-    function initEmptyExpense() {
-        // data.allItems.expense = []
-    }
 
-    function initEmptyIncome() {
-        // data.allItems.income = []
-    }
     
     // create a public initialization function
     // return in an object to make public
@@ -669,18 +621,13 @@ var controller = (function (budgetCntrl, UICntrl) {
                 //loaded data 
                 var expense = dataObj.expense
                 var income = dataObj.income 
-                console.log(expense)
-                console.log(income)
+                // console.log(expense)
+                // console.log(income)
 
                 //need to call controlAddItem 
                 //will just send objects and do formatting there 
-                //expenses
-                //empty object because its3:30 am and i don't want to do it the correct way 
-                if (expense.length == 0) {
-                    console.log("empty expense added")
-                    // controlAddItem({}, 'exp', false)
-                    initEmptyExpense()
-                } else {
+                //expenses 
+                if (expense.length != 0) {
                     for(let obj of expense) {
                         console.log("loaded expense added")
                         controlAddItem(obj, 'exp', false)
@@ -688,11 +635,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                     }
                 }
                 //incomes
-                //empty object because its3:30 am and i don't want to do it the correct way 
-                if (income.length == 0) {
-                    // controlAddItem({}, 'exp', false)
-                    initEmptyIncome()
-                } else {
+                if (income.length != 0) {
                     for(let obj of income) {
                         controlAddItem(obj, 'inc', false)
                         // testFunc()
@@ -703,17 +646,13 @@ var controller = (function (budgetCntrl, UICntrl) {
         }
     }
 
-    // //exposing addItem 
-    // window.controlAddItem = controlAddItem
-    // window.testFunc = testFunc
+
 
 })(budgetController, UIController, window);
 
 //james's added code 
 //main
 
- // // set initial budget to zero upon application start
-// nope
 
 // load saved data in if any
 //get saved data 
@@ -734,40 +673,7 @@ loadBudgetInit(function(allData) {
     // begin the app or nothing will ever run because the event listeners are in a private function
     controller.init(dataObj);
 
-    // //load stuff and add items 
-    // loadExpenseIncomeTbls(function(dataObj) {
-    //     console.log("Made it this far?")
-    //     //loaded data 
-    //     var expense = dataObj.expense
-    //     var income = dataObj.income 
-
-    //     //need to call controlAddItem 
-    //     //will just send objects and do formatting there 
-    //     //expenses
-    //     for(let obj of expense) {
-    //         controller.controlAddItem(obj, 'exp')
-    //         // testFunc()
-    //     }
-    //     //incomes
-    //     for(let obj of income) {
-    //         controller.controlAddItem(obj, 'inc')
-    //         // testFunc()
-    //     }
-        
-    // })
-
 })
-
-
-
-
-
-
-
-
-
-
-
 
 
 //adding code down here to not mess with other code for now 
@@ -842,18 +748,6 @@ function saveNewItem(newItem, type) {
         }
     } 
 
-
-    // // body 
-    // var postBody = {
-    //     expense_id: newItem.id,
-    //     expense_type_id: type,
-    //     user_id: user_id_val,
-    //     description: newItem.description,
-    //     cost_amount: newItem.value,
-    //     db: db
-
-    // }
-
      // Default options are marked with *
      return fetch(url, {
         method: "POST", 
@@ -874,7 +768,7 @@ function saveNewItem(newItem, type) {
 
 
 async function saveBudgetAsync(budget) {
-    console.log("savebudgetasync")
+    // console.log("savebudgetasync")
     //sent the budget object from other code 
     //await saveBudget 
     await saveBudget(budget)
@@ -882,9 +776,9 @@ async function saveBudgetAsync(budget) {
 
 function saveBudget(budget) {
     //need to send the budget data over
-    console.log("savebudget")
-    console.log("BUDGET IS ")
-    console.log(budget)
+    // console.log("savebudget")
+    // console.log("BUDGET IS ")
+    // console.log(budget)
 
 }
 
@@ -893,8 +787,6 @@ async function loadBudgetAsync() {
     //javascript await 
     var response = await loadBudget();
     //sending back
-    // console.log("in first one")
-    // console.log(response)
     return response;
 }
 
@@ -937,68 +829,6 @@ function loadBudget() {
 
 }
 
-// async function loadItemsAsync(tbl) {
-
-//     //javascript await 
-//     var response = await loadItems(tbl);
-//     //sending back
-//     return response;
-// }
-
-
-// //Loading function
-// function loadItems(tbl) {
-//     //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
-
-//     //vars 
-//     var baseUrl = "http://localhost:8080"
-//     //user id from cookies 
-//     var user_id_val = getCookie("user_id")
-
-//     //need to make a GET and return json 
-//     //url from base 
-//     var url = baseUrl + '/loaddata/all/' + user_id_val + '/' + tbl
-//     console.log("URL IS ")
-//     console.log(url)
-
-    
-//     //return promise 
-//     return new Promise(resolve => {
-//         //fetch 
-//         // Default options are marked with *
-//         fetch(url, {
-//             method: "GET", 
-//             mode: "same-origin",
-//             // mode: "cors", // no-cors, cors, *same-origin
-//             // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-//             // credentials: "same-origin", // include, *same-origin, omit
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 // "Content-Type": "application/x-www-form-urlencoded",
-//             },
-//             // redirect: "follow", // manual, *follow, error
-//             // referrer: "no-referrer", // no-referrer, *client
-//             // body: postBody, // body data type must match "Content-Type" header
-//         })
-//         .then(response => {
-//             //parsing response
-//             // var responseJson = response.json()
-
-
-//             console.log("RESPONSE...")
-//             // console.log(responseJson)
-//             // console.log(response.json())
-//             //resolving
-//             resolve(response.json())
-//         }); // parses response to JSON
-//     })
-
-
-
-// }
-
-
-
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
@@ -1031,17 +861,6 @@ async function loadBudgetInit(callback) {
     //probably get cookie from browser here 
     //getting account_tbl data 
     var budget = await loadBudgetAsync()
-    //getting individual_expense_data 
-    // var expense = await loadItemsAsync('individual_expense_tbl')
-
-   
-    //formatting data 
-    // var formattedExpense = expense.result.map(row => {
-    //     console.log(row)
-    // })
-
-    //getting individual_income_data
-    // var income = await loadItemsAsync('individual_income_tbl')
 
     //object to return 
     var allData = {"budget": budget}// , "expense": expense }//, "income": income}
@@ -1053,49 +872,3 @@ async function loadBudgetInit(callback) {
     
 }
 
-
-// //getting rows indiviually 
-// async function loadExpenseIncomeTbls(callback) {
-//     console.log("loadExpenseIncomeTbls...")
-//     //getting expense data 
-//     var expense = await loadItemsAsync('individual_expense_tbl')
-//     //parsing 
-//     expense = JSON.parse(expense)
-//     //map array 
-//     expense = expense.map(row => parseInt(row.cost_amount))
-//     console.log("after expense")
-
-//     //getting income data 
-//     var income = await loadItemsAsync('individual_income_tbl')
-//     console.log("1")
-//     //parsing 
-//     income = JSON.parse(income)
-//     //map array 
-//     income = income.map(row => parseInt(row.cost_amount))
-//     console.log("after income")
-
-//     // //formatting data 
-//     // //total exp 
-//     // var totalExpenses = allData.expense
-//     // // console.log("totalExpenses")
-//     // // console.log(JSON.parse(totalExpenses))
-//     // //totalExpenses ^ is a JSON object, of the Array, of the JSON Objects of the Rows. Fuck
-//     // //get rid of json
-//     // totalExpenses = JSON.parse(totalExpenses)
-//     // //is now array to map
-//     // totalExpenses = totalExpenses.map(row => parseInt(row.cost_amount))
-//     // //sum 
-//     // // totalExpenses = totalExpenses.reduce()
-//     // var sum = totalExpenses.reduce((a, b) => a + b, 0);
-//     // // console.log(sum);
-
-//     //dataObj to return 
-//     var dataObj = {income: income, expense: expense}
-
-//     //callback?
-//     callback && callback(dataObj)
-
-//     // return dataObj
-
-
-// }
