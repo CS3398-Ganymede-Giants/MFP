@@ -659,6 +659,7 @@ var controller = (function (budgetCntrl, UICntrl) {
 //get saved data 
 loadBudgetInit(function(allData) {
     //budget 
+    console.log("load trackingPage.html")
     
     var budget = allData.budget
     budget = JSON.parse(budget)
@@ -672,6 +673,7 @@ loadBudgetInit(function(allData) {
     console.log("Data object loading first")
     console.log(dataObj)
 
+    
     // begin the app or nothing will ever run because the event listeners are in a private function
     controller.init(dataObj);
 
