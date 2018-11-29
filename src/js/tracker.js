@@ -659,6 +659,7 @@ var controller = (function (budgetCntrl, UICntrl) {
 //get saved data 
 loadBudgetInit(function(allData) {
     //budget 
+    
     var budget = allData.budget
     budget = JSON.parse(budget)
     budget = budget[0]
@@ -794,6 +795,7 @@ async function loadBudgetAsync() {
 
 function loadBudget() {
     //vars 
+    
     // var baseUrl = "http://localhost:8080"
     var baseUrl = "https://ganymede18.herokuapp.com"
     //user id from cookies 
@@ -803,10 +805,11 @@ function loadBudget() {
     //url from base 
     var url = baseUrl + '/loadbudget/' + user_id_val + '/'
 
-    
+    console.log("here")
     //return promise 
     return new Promise(resolve => {
         //fetch 
+        console.log("here")
         // Default options are marked with *
         fetch(url, {
             method: "GET", 
@@ -823,7 +826,7 @@ function loadBudget() {
             // body: postBody, // body data type must match "Content-Type" header
         })
         .then(response => {
-
+            console.log("here")
             // console.log("RESPONSE")
             // console.log(response.data)
             resolve(response.json())
@@ -863,6 +866,7 @@ function getCookie(name) {
 async function loadBudgetInit(callback) {
     //probably get cookie from browser here 
     //getting account_tbl data 
+    
     var budget = await loadBudgetAsync()
 
     //object to return 

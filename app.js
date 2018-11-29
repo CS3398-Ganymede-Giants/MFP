@@ -210,7 +210,7 @@ app.get('/loadbudget/:id', function(req, res) {
      //need to load the data again 
      //connecting for heroku client
     //  herokuClient.connect()
-
+    console.log("here")
      //getting user id
      var userId = req.cookies['user_id']
      console.log("user id is " + userId)
