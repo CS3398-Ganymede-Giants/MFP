@@ -57,7 +57,7 @@
       <p id="number" class="invalid">A <b>number</b></p>
       <p id="length" class="invalid">Minimum <b>8 characters</b></p>
     </div>
-    <button type="submit" value="Submit">Submit</button>
+    <button type="submit" id="submitForm" onclick="myFunction()" value="Submit">Submit</button>
   </form>
       </div>
     </div>
@@ -165,6 +165,20 @@ function validatePassword(){
     confirm_password.setCustomValidity('');
   }
 }
+
+function myFunction() {
+    var inpObj = document.getElementById("createuserfirstname");
+    var inpObj2 = document.getElementById("createuserlastname");
+    var inpObj3 = document.getElementById("createuserusername");
+    var inpObj4 = document.getElementById("createuserpassword");
+    var inpObj5 = document.getElementById("confirm_password");
+    var inpObj6 = document.getElementById("createuseremail");
+
+    if (!inpObj.checkValidity()) {
+        document.getElementById("demo").innerHTML = inpObj.validationMessage;
+    } else {
+        document.getElementById("submitForm").addEventListener("click", createUser, false);
+    }
 
 password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
