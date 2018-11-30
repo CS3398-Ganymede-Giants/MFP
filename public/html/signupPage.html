@@ -38,16 +38,14 @@
 <div class="row">
   <div class="leftcolumn">
       <form id="regForm"  method="post" style="border:5px solid #ccc">
-  <!-- One "tab" for each step in the form: -->
       <h1 align="center">Register:</h1>
   <div class="tab">
     <li>First name: <input type="text" placeholder="First name..." oninput="this.className = ''" name="fname" id="createuserfirstname" required></li>
     <li>Last name: <input type="text" placeholder="Last name..." oninput="this.className = ''" name="lname" id="createuserlastname" required></li>
-    <!-- <p><input type="text" placeholder="Email..." oninput="this.className = ''" name="email" id="createuseremail" required></p> -->
   </div>
   <div class="tab">
     <li>Username: <input type="username" placeholder="Username..." oninput="this.className = ''" name="uname" id="createuserusername" required></li>
-    <li>Password: <input type="password" placeholder="Password..." oninput="this.className = ''" name="pword" id="createuserpassword" required></li>
+    <li>Password: <input type="password" placeholder="Password..." oninput="this.className = ''" name="pword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="createuserpassword" required></li>
     <li>Confirm password: <input type="password" placeholder="Confirm Password" id="confirm_password" required></li>
     <li>Email address: <input type="email" placehlder="email..." oninput="this.className = ''" name="email" id="createuseremail" required ></li>
   <div id="messageUsername">
