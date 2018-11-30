@@ -40,14 +40,25 @@
       <form id="regForm"  method="post" style="border:5px solid #ccc">
       <h1 align="center">Register:</h1>
   <div class="tab">
-    <>First name: <input type="text" placeholder="First name..." oninput="this.className = ''" name="fname" id="createuserfirstname" required></li>
-    <li>Last name: <input type="text" placeholder="Last name..." oninput="this.className = ''" name="lname" id="createuserlastname" required></li>
+    <p>First name: <input type="text" placeholder="First name..." oninput="this.className = ''" name="fname" id="createuserfirstname" required></p>
+    <p>Last name: <input type="text" placeholder="Last name..." oninput="this.className = ''" name="lname" id="createuserlastname" required></p>
   </div>
   <div class="tab">
-    <li>Username: <input type="username" placeholder="Username..." oninput="this.className = ''" name="uname" id="createuserusername" name="createuserusername" required></li>
-    <li>Password: <input type="password" placeholder="Password..." oninput="this.className = ''" name="pword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="createuserpassword" id="createuserpassword" required></li>
-    <li>Confirm password: <input type="password" placeholder="Confirm Password" id="confirm_password" required></li>
-    <li>Email address: <input type="email" placehlder="email..." oninput="this.className = ''" name="email" id="createuseremail" required ></li>
+    <p>Username: <input type="username" placeholder="Username..." oninput="this.className = ''" name="createuserusername" id="createuserusername" required></p>
+    <p>Password: <input type="password" placeholder="Password..." oninput="this.className = ''" name="createuserpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="createuserpassword" required></p>
+    <p>Confirm password: <input type="password" placeholder="Confirm Password" id="confirm_password" required></p>
+    <p>Email address: <input type="email" placehlder="email..." oninput="this.className = ''" name="email" id="createuseremail" required ></p>
+    <div id="messageUsername">
+      <h3>Username must contain the following:</h3>
+      <p id="length" class="invalid">Minimum <b>3 characters</b></p>
+    </div>
+    <div id="messagePassword">
+      <h3>Password must contain the following:</h3>
+      <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+      <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+      <p id="number" class="invalid">A <b>number</b></p>
+      <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+    </div>
   </div>
   <div style="overflow:auto;">
     <div style="float:right;">
@@ -61,17 +72,6 @@
     <span class="step"></span>
   </div>
 </form>
-<div id="messageUsername">
-  <h3>Username must contain the following:</h3>
-  <p id="length" class="invalid">Minimum <b>3 characters</b></p>
-</div>
-<div id="messagePassword">
-  <h3>Password must contain the following:</h3>
-  <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-  <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-  <p id="number" class="invalid">A <b>number</b></p>
-  <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-</div>
       </div>
     </div>
 
@@ -155,23 +155,9 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 
-var password = document.getElementById("createuserpassword")
-  , confirm_password = document.getElementById("confirm_password");
-
-function validatePassword(){
-  if(password.value != confirm_password.value) {
-    confirm_password.setCustomValidity("Passwords Don't Match");
-  } else {
-    confirm_password.setCustomValidity('');
-  }
-}
-
-password.onchange = validatePassword;
-confirm_password.onkeyup = validatePassword;
-
 //START OF PASSWORD REQUIREMENTS
 
-var myInput = document.getElementById("pword");
+var myInput = document.getElementById("createuserpassword");
 var letter = document.getElementById("letter");
 var capital = document.getElementById("capital");
 var number = document.getElementById("number");
@@ -230,7 +216,7 @@ myInput.onkeyup = function() {
 }
 
 
-var myInput2 = document.getElementById("uname");
+var myInput2 = document.getElementById("createuserusername");
 
 // When the user clicks on the password field, show the message box
 myInput2.onfocus = function() {
@@ -252,6 +238,22 @@ myInput2.onkeyup = function() {
     length.classList.add("invalid");
   }
 }
+
+var password = document.getElementById("createuserpassword")
+  , confirm_password = document.getElementById("confirm_password");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+
+
 </script>
 
 </body>
