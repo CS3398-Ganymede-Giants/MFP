@@ -48,7 +48,7 @@
     <p>Email address: <input type="email" placehlder="email..." oninput="this.className = ''" name="email" id="createuseremail" required ></p>
     <div id="messageUsername">
       <h3>Username must contain the following:</h3>
-      <p id="length" class="invalid">Minimum <b>3 characters</b></p>
+      <p id="length2" class="invalid">Minimum <b>3 characters</b></p>
     </div>
     <div id="messagePassword">
       <h3>Password must contain the following:</h3>
@@ -131,6 +131,7 @@ myInput.onkeyup = function() {
 
 
 var myInput2 = document.getElementById("createuserusername");
+var length2 = document.getElementById("length2");
 
 // When the user clicks on the password field, show the message box
 myInput2.onfocus = function() {
@@ -145,11 +146,11 @@ myInput2.onblur = function() {
 myInput2.onkeyup = function() {
   // Validate length
   if(myInput2.value.length >= 3) {
-    length.classList.remove("invalid");
-    length.classList.add("valid");
+    length2.classList.remove("invalid");
+    length2.classList.add("valid");
   } else {
-    length.classList.remove("valid");
-    length.classList.add("invalid");
+    length2.classList.remove("valid");
+    length2.classList.add("invalid");
   }
 }
 
