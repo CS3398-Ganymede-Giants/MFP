@@ -131,16 +131,63 @@ app.get('/contactus.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/contactus.html'));
 });
 
+
 app.get('/trackingPage.html', function(req, res) {
+    //creating cookie
+    // res.cookie("key", "value")
+    res.cookie('loggedIn', false)
+
+    //deleting cookie
+    // res.clearCookie('key')
 
     res.sendFile(path.join(__dirname + '/public/html/trackingPage.html'));
+    // console.log("test.html")
+
 });
+
 app.get('/accountSettings.html', function(req, res) {
+    //creating cookie
+    // res.cookie("key", "value")
+    res.cookie('loggedIn', false)
+
+    //deleting cookie
+    // res.clearCookie('key')
 
     res.sendFile(path.join(__dirname + '/public/html/accountSettings.html'));
+    // console.log("test.html")
+
 });
 
-//getting data 
+app.get('/contact.html', function(req, res) {
+    //creating cookie
+    // res.cookie("key", "value")
+    res.cookie('loggedIn', false)
+
+    //deleting cookie
+    // res.clearCookie('key')
+
+    res.sendFile(path.join(__dirname + '/public/html/contact.html'));
+    // console.log("test.html")
+
+});
+
+app.get('/loginConfirmation.html', function(req, res) {
+    //creating cookie
+    // res.cookie("key", "value")
+    res.cookie('loggedIn', false)
+
+    //deleting cookie
+    // res.clearCookie('key')
+
+    res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+    // console.log("test.html")
+
+});
+
+
+
+
+//getting data
 app.get('/loaddata/all/:id/:tbl', function(req, res) {
     console.log("LOADING DATA")
     // console.log(req.params.id)
@@ -266,16 +313,10 @@ app.get('/loadbudget/:id', function(req, res) {
 
 
 
-app.get('/loginConfirmation.html', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
-});
+
 
 app.get('/userinfo.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
-});
-
-app.get('/contact.html', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/contact.html'));
 });
 
 //EXPRESS HTTP REQUESTS
