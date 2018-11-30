@@ -56,17 +56,17 @@
 <div class="card">
             <div class="add">
                 <div class="add__container">
-                    <select class="add__type" onselect="this.className">
+                    <select class="add__type" onselect="this.className" id="typeSelected">
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
                     <input type="text" class="add__description" oninput="this.className" placeholder="Add description">
-                    <select class="add__description" select="this.className">
+                    <select class="add__description" select="this.className" id=message>
                         <option value="checking" selected>Checkings</option>
                         <option value="savings">Savings</option>
                         <option value="credit">Credit</option>
                     </select>
-                    <select class="add__description" onselect="this.className">
+                    <select class="add__description" onselect="this.className" id="message2">
                         <option value="auto" selected>Auto</option>
                         <option value="home">Home</option>
                         <option value="food">Food</option>
@@ -107,6 +107,19 @@
         }
 
           document.getElementById("welcomeBackUserText").innerHTML = "Welcome, " + getCookie("usersName") + "!"
+
+          var myType = document.getElementById("typeSelected");
+
+          myType.onchange = function() {
+            if (myType.value ==  "exp" ){
+              document.getElementById("message").style.display = "inline";
+              document.getElementById("message2").style.display = "inline";
+            } else {
+              document.getElementById("message").style.display = "none";
+              document.getElementById("message2").style.display = "none";
+            }
+          }
+
 </script>
 </body>
 </html>

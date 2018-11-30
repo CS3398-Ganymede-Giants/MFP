@@ -9,7 +9,20 @@ body {
     font-family: 'Open Sans Condensed', sans-serif;
     padding: 10px;
 }
+/* The message box is shown when the user clicks on the password field */
+#message, #message2 {
+    display:none;
+    background: #ffffff;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+}
 
+#message, #message2 select {
+    padding: 10px 35px;
+    font-size: 18px;
+}
 /* Header styles*/
 /* Header styles*/
 .header {
