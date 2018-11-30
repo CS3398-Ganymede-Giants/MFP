@@ -154,6 +154,16 @@ myInput2.onkeyup = function() {
   }
 }
 
+var userN = document.getElementById("createuserusername");
+
+function validateUsername(){
+  if(userN.length < 3){
+    userN.setCustomValidity("Username must be more than 3 charaters");
+  } else{
+    userN.setCustomValidity('');
+  }
+}
+
 var password = document.getElementById("createuserpassword")
   , confirm_password = document.getElementById("confirm_password");
 
