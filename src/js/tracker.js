@@ -485,8 +485,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                 // 2. Add the item to the budget controller
                 //get value 
                 var expense_type = document.getElementById("select_expense_type").value
-                console.log("SLDKFSLDFJ")
-                console.log(expense_type)
+                //making new item
                 newItem = budgetCntrl.addItem(input.type, input.description, input.value, expense_type);
                 // 3. Add the new item to the UI
                 UICntrl.addListItem(newItem, input.type);
@@ -565,8 +564,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
     
         //vars 
-        var baseUrl = "http://localhost:8080"
-        // var baseUrl = "https://ganymede18.herokuapp.com"
+        // var baseUrl = "http://localhost:8080"
+        var baseUrl = "https://ganymede18.herokuapp.com"
         //user id from cookies 
         var user_id_val = getCookie("user_id")
     
@@ -722,8 +721,8 @@ loadBudgetInit(function(allData) {
 //adding code down here to not mess with other code for now 
 
 //vars 
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
+// var baseUrl = "http://localhost:8080"
+var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 //saving function
@@ -845,8 +844,8 @@ async function loadBudgetAsync() {
 function loadBudget() {
     //vars 
     
-    var baseUrl = "http://localhost:8080"
-    // var baseUrl = "https://ganymede18.herokuapp.com"
+    // var baseUrl = "http://localhost:8080"
+    var baseUrl = "https://ganymede18.herokuapp.com"
     //user id from cookies 
     var user_id_val = getCookie("user_id")
 

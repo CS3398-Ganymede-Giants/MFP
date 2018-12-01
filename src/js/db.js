@@ -21,8 +21,8 @@
 // });
 
 //variables
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
+// var baseUrl = "http://localhost:8080"
+var baseUrl = "https://ganymede18.herokuapp.com"
 
 var test2 = function() {
     console.log("test() called");
