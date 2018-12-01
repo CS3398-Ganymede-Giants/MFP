@@ -59,6 +59,12 @@
     </div>
     <button type="submit" id="submitForm" onclick="myFunction()" value="Submit">Submit</button>
   </form>
+  <div id="demo"></div>
+  <div id="demo2"></div>
+  <div id="demo3"></div>
+  <div id="demo4"></div>
+  <div id="demo5"></div>
+  <div id="demo6"></div>
       </div>
     </div>
 
@@ -173,8 +179,14 @@ function myFunction() {
     var inpObj5 = document.getElementById("confirm_password");
     var inpObj6 = document.getElementById("createuseremail");
 
-    if (!inpObj.checkValidity()) {
+    if (!inpObj.checkValidity() && !inpObj2.checkValidity() && !inpObj3.checkValidity() && !inpObj4.checkValidity() && !inpObj5.checkValidity() && !inpObj6.checkValidity()) {
         document.getElementById("demo").innerHTML = inpObj.validationMessage;
+        document.getElementById("demo2").innerHTML = inpObj2.validationMessage;
+        document.getElementById("demo3").innerHTML = inpObj3.validationMessage;
+        document.getElementById("demo4").innerHTML = inpObj4.validationMessage;
+        document.getElementById("demo5").innerHTML = inpObj5.validationMessage;
+        document.getElementById("demo6").innerHTML = inpObj6.validationMessage;
+
     } else {
         document.getElementById("submitForm").addEventListener("click", createUser, false);
     }
@@ -188,3 +200,4 @@ confirm_password.onkeyup = validatePassword;
 
 </body>
 </html>
+
