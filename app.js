@@ -594,15 +594,43 @@ app.post('/saveexpense', function(req, res) {
         console.log("ESPENSE QUERY IS ")
         console.log(query)
 
+        //adding to table
+    herokuClient.query(query, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.send({ data: false });
+        } else {
+            console.log("\n\nno error in adding\n\n")
+            // res.cookie("usersName", username)
+            return res.send({ data: true });
+        }
+    })
+
+
     }
     if (db === 'individual_income_tbl') {
 
+        //need to get account_id first 
+        //insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = <user_id from cookie> and account_type = 'Checking or Savings or Credit'), 'Paycheck', 250);
+        query = format("insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = %L and account_type = %L), 'Paycheck', %L);",body.user_id, body.account_type, body.income_amount)
+
+        //adding to table
+        herokuClient.query(query, function (err, result) {
+            if (err) {
+                console.log(err)
+                res.send({ data: false });
+            } else {
+                console.log("\n\nno error in adding\n\n")
+                // res.cookie("usersName", username)
+                return res.send({ data: true });
+            }
+        })
         //storing columns to add
-        var columns = ['account_id', 'description', 'income_amount', 'user_id']
+        // var columns = ['account_id', 'description', 'income_amount', 'user_id']
         //values array to send
-        var valArr = [body.account_id, body.description, body.income_amount, body.user_id]
+        // var valArr = [body.account_id, body.description, body.income_amount, body.user_id]
         //query string
-        query = format('INSERT INTO ' + db + ' (account_id, description, income_amount, user_id) VALUES (%L, %L, %L, %L)', body.account_id, body.description, body.income_amount, body.user_id)
+        // query = format('INSERT INTO ' + db + ' (account_id, description, income_amount, user_id) VALUES (%L, %L, %L, %L)', body.account_id, body.description, body.income_amount, body.user_id)
        
     }
     if (db == 'account_tbl') {
@@ -616,10 +644,7 @@ app.post('/saveexpense', function(req, res) {
         //query string
         query = format('UPDATE account_tbl SET balance = ' + body.balance + ' WHERE account_id = ' + body.account_id, body.account_id, body.user_id, body.account_type, body.balance, body.balance_goal, body.monthly_payment)
         
-
-    }
-
-    //adding to table
+        //adding to table
     herokuClient.query(query, function (err, result) {
         if (err) {
             console.log(err)
@@ -631,6 +656,10 @@ app.post('/saveexpense', function(req, res) {
         }
     })
 
+
+    }
+
+    
 
 
     // return res.send()

@@ -602,13 +602,13 @@ var controller = (function (budgetCntrl, UICntrl) {
     // create a public initialization function
     // return in an object to make public
     return {
-        init: function (dataObj = -1) {
+        init: function (dataObj) {
             //console.log('Application has begun.');
             UICntrl.displayMonth();
 
            //dataObj maybe has data to use
             //if it's -1 it's a new user 
-            if (dataObj == -1) {
+            if (dataObj) {
                 console.log("INIT EMPTY")
                 //init empty
                 UICntrl.displayBudget({
@@ -620,6 +620,7 @@ var controller = (function (budgetCntrl, UICntrl) {
             } else {
                 //init full
                 console.log("INIT FULL")
+                console.log(dataObj)
                 UICntrl.displayBudget({
                     budget: dataObj.budget, //budget, //0,
                     totalInc: dataObj.totalIncome,
@@ -694,10 +695,10 @@ loadBudgetInit(function(allData) {
     console.log(dataObj.budget)
 
     //could be empty 
-    if (dataObj.budget == null) {
+    if (dataObj.budget == "0") {
         //send it empty data 
         console.log("SENDING EMPTY")
-        controller.init()
+        controller.init(dataObj)
     } else {
         // send it full data
         // begin the app or nothing will ever run because the event listeners are in a private function
