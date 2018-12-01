@@ -438,17 +438,18 @@ app.get('/createuser', function(req, res) {
 
     //test postgres code
     console.log("IN CREATE USER")
+    console.log(req.params['passwd'])
     //user to search
      //this outputs
     // { username: 'asdf'}
     // console.log(req.query)
     //NEED TO GET FROM REQUEST
-    var username = req.query['username'];
-    var passw = req.query['passwd'];
-    var firstName = req.query['firstName'];
-    var lastName = req.query['lastName'];
+    var username = req.params['username'];
+    var passw = req.params['passwd'];
+    var firstName = req.params['firstName'];
+    var lastName = req.params['lastName'];
     //var userId = req.query['userId']
-    var email = req.query['email']
+    var email = req.params['email']
 
     // console.log(username)
     // console.log(passw)

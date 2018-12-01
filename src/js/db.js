@@ -296,6 +296,7 @@ var connect = function () {
 
   async function createUser(firstName, lastName, username, passw, email) {
     console.log("createUser function called.");
+    // console.log(passw)
 
     //getting result of adding user
     var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, email)
