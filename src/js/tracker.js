@@ -1,11 +1,12 @@
 // BUDGET CONTROLLLER
 var budgetController = (function () {
     // create a function constructor for income and expense types
-    var Expense = function (id, description, value) {
+    var Expense = function (id, description, value, expense_type) {
         this.id = id;
         this.description = description;
         this.value = value;
         this.percentage = -1;
+        this.expense_type = expense_type;
     };
 
     Expense.prototype.calcPercentage = function(totalIncome) {
@@ -22,10 +23,11 @@ var budgetController = (function () {
         return this.percentage;
     };
 
-    var Income = function (id, description, value) {
+    var Income = function (id, description, value, expense_type) {
         this.id = id;
         this.description = description;
         this.value = value;
+        this.expense_type = expense_type
     };
 
     var calculateTotal = function(type) {
@@ -94,7 +96,7 @@ var budgetController = (function () {
     };
     // create public method to allow other modules to add new items to the data structure
     return {
-        addItem: function (type, desc, val, addingNewItem = true) {
+        addItem: function (type, desc, val, expense_type = -1, addingNewItem = true) {
             console.log("IN add item first controller")
 
             var newItem, ID;
@@ -110,9 +112,9 @@ var budgetController = (function () {
             }
             // create new item based on 'inc' or 'exp' type
             if (type === "exp") {
-                newItem = new Expense(ID, desc, val);
+                newItem = new Expense(ID, desc, val, expense_type);
             } else if (type === "inc") {
-                newItem = new Income(ID, desc, val);
+                newItem = new Income(ID, desc, val, expense_type);
             }
             console.log("\n\nadding to data.allItems\n\n")
             console.log(newItem)
@@ -221,7 +223,8 @@ var UIController = (function () {
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
         expPercentageLabel: '.item__percentage',
-        dateLabel: '.budget__title--month'
+        dateLabel: '.budget__title--month'//,
+        // inputAccount: '.add__account'
     };
 
     // private function
@@ -361,6 +364,7 @@ var UIController = (function () {
         },
 
         changedType: function() {
+            console.log("CHANGED TYPE")
             var fields = document.querySelectorAll(
                 DOMstrings.inputType + ',' +
                 DOMstrings.inputDescription + ',' +
@@ -437,6 +441,8 @@ var controller = (function (budgetCntrl, UICntrl) {
             } else {
                 // declare variables
                 var newItem = -1; //,input;
+                //getting the expense type 
+                var expense_type = document.getElementById("select_expense_type").value
                 
                 //skipping 1
                 // 2. Add the item to the budget controller
@@ -448,7 +454,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                     amountValue = expense_income_loaded.income_amount
                 }
                 console.log("TEST")
-                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, false);
+                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, expense_type, false);
 
                 //skipping the rest if it's an empty object 
                 if (expense_income_loaded != {}) {
@@ -470,14 +476,17 @@ var controller = (function (budgetCntrl, UICntrl) {
 
             
         } else {
-            console.log("after if 1")
+            // console.log("after if 1")
             // declare variables
             var input, newItem;
             // 1. Get the field input data when enter key or button is clicked
             input = UICntrl.getInput();
             if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
                 // 2. Add the item to the budget controller
-                newItem = budgetCntrl.addItem(input.type, input.description, input.value);
+                //get value 
+                var expense_type = document.getElementById("select_expense_type").value
+                //making new item
+                newItem = budgetCntrl.addItem(input.type, input.description, input.value, expense_type);
                 // 3. Add the new item to the UI
                 UICntrl.addListItem(newItem, input.type);
                 // 4. Clear the fields
@@ -526,14 +535,12 @@ var controller = (function (budgetCntrl, UICntrl) {
 
         //getting income data 
         var income = await loadItemsAsync('individual_income_tbl')
-        console.log(income)
+        // console.log(income)
         //parsing 
         income = JSON.parse(income)
         //map array 
         // income = income.map(row => parseInt(row.cost_amount))
-        console.log("after income")
-        console.log(expense)
-        console.log(income)
+        
 
         //dataObj to return 
         var dataObj = {income: income, expense: expense}
@@ -602,13 +609,13 @@ var controller = (function (budgetCntrl, UICntrl) {
     // create a public initialization function
     // return in an object to make public
     return {
-        init: function (dataObj = -1) {
+        init: function (dataObj) {
             //console.log('Application has begun.');
             UICntrl.displayMonth();
 
            //dataObj maybe has data to use
             //if it's -1 it's a new user 
-            if (dataObj == -1) {
+            if (dataObj) {
                 console.log("INIT EMPTY")
                 //init empty
                 UICntrl.displayBudget({
@@ -620,6 +627,7 @@ var controller = (function (budgetCntrl, UICntrl) {
             } else {
                 //init full
                 console.log("INIT FULL")
+                console.log(dataObj)
                 UICntrl.displayBudget({
                     budget: dataObj.budget, //budget, //0,
                     totalInc: dataObj.totalIncome,
@@ -694,10 +702,10 @@ loadBudgetInit(function(allData) {
     console.log(dataObj.budget)
 
     //could be empty 
-    if (dataObj.budget == null) {
+    if (dataObj.budget == "0") {
         //send it empty data 
         console.log("SENDING EMPTY")
-        controller.init()
+        controller.init(dataObj)
     } else {
         // send it full data
         // begin the app or nothing will ever run because the event listeners are in a private function
@@ -738,18 +746,24 @@ function saveNewItem(newItem, type) {
     var db = ''
     //changing post body for each table
     var postBody = {}
+    //need to get the account type 
+    var account_type = document.getElementById("select_account_type").value
+    //getting expense type 
+    var expense_type = document.getElementById("select_expense_type").value
     if (type == 'inc') {
         //database to store in
         db = 'individual_income_tbl'
+        
         //postbody to send 
         postBody = {
             //['income_id', 'account_id', 'description', 'income_amount']
             // 'income_id': newItem.id,
             'description': newItem.description, 
             'income_amount': newItem.value, 
-            'account_id': 1, //TODO: change
+            // 'account_id': 1, //TODO: change
             'user_id': user_id_val,
-            'db': db
+            'db': db,
+            'account_type': account_type//"Checking" //TODO change
         }
     } 
     if (type == 'exp') {
@@ -758,10 +772,12 @@ function saveNewItem(newItem, type) {
         postBody = {
             //['expense_id', 'expense_type_id', 'user_id', 'description', 'cost_amount']
             // 'expense_id': newItem.id,
-            'expense_type_id': 1, //TODO: change
+            // 'expense_type_id': 1, //TODO: change
+            'expense_type': newItem.expense_type,
             'user_id': user_id_val,
             'description': newItem.description,
             'cost_amount': newItem.value,
+            'account_type':account_type,
             'db': db
 
         }
