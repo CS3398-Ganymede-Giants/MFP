@@ -56,21 +56,21 @@
 <div class="card">
             <div class="add">
                 <div class="add__container">
-                    <select class="add__type" onselect="this.className" id="typeSelected">
+                    <select class="add__type" onselect="this.className">
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
                     <input type="text" class="add__description" oninput="this.className" placeholder="Add description">
-                    <select class="add__description" select="this.className" id=message>
-                        <option value="checking" selected>Checkings</option>
-                        <option value="savings">Savings</option>
-                        <option value="credit">Credit</option>
+                    <select class="add__description" select="this.className">
+                        <option value="Checking" selected>Checkings</option>
+                        <option value="Savings">Savings</option>
+                        <option value="Credit">Credit</option>
                     </select>
-                    <select class="add__description" onselect="this.className" id="message2">
-                        <option value="auto" selected>Auto</option>
-                        <option value="home">Home</option>
-                        <option value="food">Food</option>
-                        <option value="entertainment">Entertainment</option>
+                    <select class="add__description" onselect="this.className">
+                        <option value="Auto" selected>Auto</option>
+                        <option value="Home">Home</option>
+                        <option value="Food">Food</option>
+                        <option value="Entertainment">Entertainment</option>
                     </select>
                     <input type="number" class="add__value" oninput="this.className" placeholder="Value">
                     <button class="add__btn" onclick="this.className">enter</button>
@@ -107,18 +107,6 @@
         }
 
           document.getElementById("welcomeBackUserText").innerHTML = "Welcome, " + getCookie("usersName") + "!"
-
-          var myType = document.getElementById("typeSelected");
-
-          myType.onchange = function() {
-            if (myType.value ==  "exp" ){
-              document.getElementById("message").style.display = "inline";
-              document.getElementById("message2").style.display = "inline";
-            } else {
-              document.getElementById("message").style.display = "none";
-              document.getElementById("message2").style.display = "none";
-            }
-          }
 
 </script>
 </body>
