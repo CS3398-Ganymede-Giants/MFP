@@ -221,7 +221,8 @@ var UIController = (function () {
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
         expPercentageLabel: '.item__percentage',
-        dateLabel: '.budget__title--month'
+        dateLabel: '.budget__title--month'//,
+        // inputAccount: '.add__account'
     };
 
     // private function
@@ -361,6 +362,7 @@ var UIController = (function () {
         },
 
         changedType: function() {
+            console.log("CHANGED TYPE")
             var fields = document.querySelectorAll(
                 DOMstrings.inputType + ',' +
                 DOMstrings.inputDescription + ',' +
@@ -470,7 +472,7 @@ var controller = (function (budgetCntrl, UICntrl) {
 
             
         } else {
-            console.log("after if 1")
+            // console.log("after if 1")
             // declare variables
             var input, newItem;
             // 1. Get the field input data when enter key or button is clicked
@@ -526,14 +528,12 @@ var controller = (function (budgetCntrl, UICntrl) {
 
         //getting income data 
         var income = await loadItemsAsync('individual_income_tbl')
-        console.log(income)
+        // console.log(income)
         //parsing 
         income = JSON.parse(income)
         //map array 
         // income = income.map(row => parseInt(row.cost_amount))
-        console.log("after income")
-        console.log(expense)
-        console.log(income)
+        
 
         //dataObj to return 
         var dataObj = {income: income, expense: expense}
@@ -557,8 +557,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
     
         //vars 
-        // var baseUrl = "http://localhost:8080"
-        var baseUrl = "https://ganymede18.herokuapp.com"
+        var baseUrl = "http://localhost:8080"
+        // var baseUrl = "https://ganymede18.herokuapp.com"
         //user id from cookies 
         var user_id_val = getCookie("user_id")
     
@@ -713,8 +713,8 @@ loadBudgetInit(function(allData) {
 //adding code down here to not mess with other code for now 
 
 //vars 
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 //saving function
@@ -747,9 +747,10 @@ function saveNewItem(newItem, type) {
             // 'income_id': newItem.id,
             'description': newItem.description, 
             'income_amount': newItem.value, 
-            'account_id': 1, //TODO: change
+            // 'account_id': 1, //TODO: change
             'user_id': user_id_val,
-            'db': db
+            'db': db,
+            'account_type': "Checking" //TODO change
         }
     } 
     if (type == 'exp') {
@@ -828,8 +829,8 @@ async function loadBudgetAsync() {
 function loadBudget() {
     //vars 
     
-    // var baseUrl = "http://localhost:8080"
-    var baseUrl = "https://ganymede18.herokuapp.com"
+    var baseUrl = "http://localhost:8080"
+    // var baseUrl = "https://ganymede18.herokuapp.com"
     //user id from cookies 
     var user_id_val = getCookie("user_id")
 

@@ -21,8 +21,8 @@
 // });
 
 //variables
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 
 var test2 = function() {
     console.log("test() called");
@@ -277,23 +277,7 @@ var connect = function () {
     });
   }
 
-  // var logout = function () {
-  //   console.log("logout function called.");
-  //   console.log("LOGOUT CLICKED")
-
-  //   //vars
-  //   var getMainWithQuery = 'https://ganymede18.herokuapp.com/userlogout'
-
-  //   //http reqest
-  //     fetch(buildUrl(getMainWithQuery, {
-  //   }),);
-
-  // }
-
-//   var createUser = function (username, passw, firstName, lastName) {
-//     console.log("createUser function called.");
-//   }
-
+  
   async function createUser(firstName, lastName, username, passw, email) {
     console.log("createUser function called.");
     // console.log(passw)
@@ -301,33 +285,22 @@ var connect = function () {
     //getting result of adding user
     var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, email)
     // createUserAsync(username, passw, firstName, lastName, email, function(didAddSuccessfully) {
-      console.log("IN ASYNC FUNCTION ")
-      console.log(didAddSuccessfully)
-      console.log(didAddSuccessfully.data)
-      console.log("BEFORE IF")
-      // alert("test")
+
 
       //choosing the next page
       if (didAddSuccessfully.data == true) {
         //redirect
-        console.log("IN IF")
-        
+        // console.log("IN IF")
+        window.alert("User added!")
         window.location.href = baseUrl + "/loginConfirmation.html";
         // alert("User added")
         
       } else {
         
-        console.log("IN IF not added")
-        window.location.href = baseUrl + "/loginConfirmation.html";
-        // alert("User not added")
+        //user not added
+        window.alert("User NOT added!")
+
       }
-      // console.log("AFTER IF")
-    // })
-
-    
-
-
-
 
   }
 
@@ -361,19 +334,9 @@ var connect = function () {
           // referrer: "no-referrer", // no-referrer, *client
           // body: postBody, // body data type must match "Content-Type" header
       }).then(response => {
-          console.log("here again")
-          // var responseJson = JSON.parse(response)
-          console.log("RESPONSE")
-          // console.log(response.json())
-          // var responseJson = response.json()
-          // console.log(responseJson)
-          // resolve(responseJson)
-          //callback
-          // resolve()
-          
+          //resolving promise with data
           resolve(response.json())
-          // callback && callback(response.json())
-          // resolve(responseJson.result.data)
+          
       }); // parses response to JSON
   })
 
@@ -423,53 +386,6 @@ console.log("in load items")
   var testJson = {test:"data"}
   return testJson
 
-  // //vars 
-  // var baseUrl = "http://localhost:8080"
-  // //user id from cookies 
-  // var user_id_val = getCookie("user_id")
-
-  // //need to make a GET and return json 
-  // //url from base 
-  // var url = baseUrl + '/user/:id/data'
-  // console.log("url is ")
-  // console.log(url)
-
-  // //request body
-  // var postBody = {
-  //     user_id: user_id_val
-  // }
-
-  // //fetch 
-  // // Default options are marked with *
-  // fetch(url, {
-  //     method: "POST", 
-  //     mode: "same-origin",
-  //     // mode: "cors", // no-cors, cors, *same-origin
-  //     // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-  //     // credentials: "same-origin", // include, *same-origin, omit
-  //     headers: {
-  //         "Content-Type": "application/json",
-  //         // "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     // redirect: "follow", // manual, *follow, error
-  //     // referrer: "no-referrer", // no-referrer, *client
-  //     body: postBody, // body data type must match "Content-Type" header
-  // })
-  // .then(response => function() {
-
-  //     console.log("RESPONSE")
-  //     console.log(response.json())
-  //     return response.json()
-  // }); // parses response to JSON
-
-
-//delete 
-/*UICntrl.displayBudget({
-  budget: 0,
-  totalInc: 0,
-  totalExp: 0,
-  percentage: -1
-});*/
 
 }
 
@@ -485,363 +401,14 @@ function getCookie(name) {
 
 
 
-/*
-  async function createItem() {
-    console.log("createItem function called.");
 
 
 
-    //variables are
-    // var itemType = "+"
-    var itemType = document.getElementById("createitemtype").value;
-    // var itemDescription = "income"
-    var itemDescription = document.getElementById("createitemdescription").value;
-    // var itemValue = "1200"
-    var itemValue = document.getElementById("createitemvalue").value;
 
 
-    var didAddItemSuccessfully = await createItemAsync(itemType, itemDescription, itemValue)
 
-    console.log("IN ASYNC FUNCTION ")
-    console.log(didAddItemSuccessfully)
 
-    //choosing
-    if (didAddItemSuccessfully == true) {
-    window.location.href = "https://ganymede18.herokuapp.com/trackingPage.html";
-      alert("Item added")
-    } else {
-      alert("Item not added")
-    }
 
 
 
 
-  }
-
-  */
-
-/*
-  function createItemAsync(itemType, itemDescription, itemValue) {
-    //base url to GET
-
-    var getMainWithQuery = 'https://ganymede18.herokuapp.com/createItem'
-
-    return new Promise(resolve => {
-        //calling the fetch
-        fetch(buildUrl(getMainWithQuery, {
-            itemType:expense_type_id,
-            itemDescription:description,
-            itemValue:cost_amount
-        }),).then(response =>
-            response.json().then(data => ({
-                data: data,
-                status: response.status
-            })
-        ).then(res => {
-            console.log("Item added?")
-            console.log(res.data.data)
-
-            //storing
-            searchResult = res.data.data;
-
-            //fulfilling the promise
-            resolve(searchResult)
-
-
-        }));
-    });
-  }
-  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-var test = function () {
-
-    // import axios from 'axios'
-
-
-    console.log("test() called");
-
-    // fetch('http://localhost:8080//user/:id')
-    //     .then(function(response) {
-    //         console.log(response);
-    //     return response.json();
-    //     })
-    //     .then(function(myJson) {
-    //     console.log(JSON.stringify(myJson));
-    //     });
-
-    var userNameToSearch = document.getElementById("usernameinput").value;
-    console.log(userNameToSearch)
-
-    // const Get = 'http://localhost:8080/get.json'
-    const GetMain = 'http://localhost:8080/user/:id/?x=2&y=3'
-
-    //base url
-    var getMainWithQuery = 'http://localhost:8080/user/:id'
-
-    // const Post = 'http://localhost:8080/post.json'
-
-    const Data = {name:userNameToSearch}
-
-    const otherPram={
-        headers:{
-            "content-type":"application/json; charset=UTF-8"
-        },
-        body:Data,
-        method:"GET"
-    };
-
-    // fetch(GetMain) // Call the fetch function passing the url of the API as a parameter
-    //     .then(function(res) {
-    //         // Your code for handling the data you get from the API
-    //         console.log("Fetch succeeded")
-    //         console.log(res.json());
-    //     })
-    //     .catch(function() {
-    //         // This is where you run code if the server returns any errors
-    //         console.log("Fetch did not succeed")
-    //     });
-
-    // fetch(GetMain)
-    //     .then(data=>{return data})
-    //     .then(data=>{console.log(data.json())})
-    //     .then(res=>{console.log(res)})
-
-    //processing url?
-
-
-
-    fetch(buildUrl(getMainWithQuery, {
-        username: userNameToSearch
-    }),)
-        .then(function(response) {
-            console.log(response.json())
-            return response;
-        })
-        .then(function(myJson) {
-            console.log(JSON.stringify(myJson));
-        });
-
-    // fetch(GetMain)
-    //     .then(function(response) {
-    //       console.log(response)
-    //       console.log(response.json())
-    //       return response.json();
-    //     })
-    //     .then(function(myJson) {
-    //       console.log(JSON.stringify(myJson));
-    //       return response.json()
-    //     });
-
-    // fetch(Url, otherPram)
-    // .then(data=>{return data.json()})
-    // .then(res=>{console.log(res)})
-    // .catch(error=>console.log(error))
-
-//     axios.get('/user?ID=12345')
-//   .then(function (response) {
-//     console.log(response);
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
-
-    // //database code
-    // const { Client } = require('pg');
-
-
-    // require(['pg'], function (pg) {
-    //     //foo is now loaded.
-
-    //     // const {Client} =
-    //     // console.log("test() called again after loading");
-
-    //     // const client = new Client({
-    //     // connectionString: process.env.DATABASE_URL,
-    //     // ssl: true,
-    //     // });
-    // });
-
-    // define(function (require) {
-    //     const { Client } = require('pg');
-
-    //     // const client = new Client({
-    // //   connectionString: process.env.DATABASE_URL,
-    // //   ssl: true,
-    // // });
-
-    // // client.connect();
-
-    // // client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-    // //   if (err) throw err;
-    // //   for (let row of res.rows) {
-    // //     // console.log(JSON.stringify(row));
-    // //   }
-    // //   console.log("CONNECTION SUCEEDED");
-    // //   client.end();
-    // // });
-
-    //     console.log("In define")
-    // });
-
-    // const client = new Client({
-    //   connectionString: process.env.DATABASE_URL,
-    //   ssl: true,
-    // });
-
-    // client.connect();
-
-    // client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-    //   if (err) throw err;
-    //   for (let row of res.rows) {
-    //     // console.log(JSON.stringify(row));
-    //   }
-    //   console.log("CONNECTION SUCEEDED");
-    //   client.end();
-    // });
-}
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-// Database connectivity
-
-var connect = function () {
-    const { Client } = require('pg');
-
-    const client = new Client({
-      connectionString: process.env.DATABASE_URL,
-      ssl: true,
-    });
-
-    client.connect();
-
-    client.query('SELECT table_schema, table_name FROM information_schema.tables;', (err, res) => {
-      if (err) throw err;
-      for (let row of res.rows) {
-        console.log(JSON.stringify(row));
-      }
-      client.end();
-    });
-  }
-
-  function login(username, passw) {
-    const { Client } = require('pg');
-
-    const client = new Client({
-      connectionString: process.env.DATABASE_URL,
-      ssl: true,
-    });
-
-    client.connect();
-
-    client.query('SELECT user_id FROM user_tbl WHERE username = $1 AND passw = $2', username, passw)
-      .then(res => {
-        if (res) {
-          client.end();
-          return true;
-        } else {
-          client.end();
-          return false;
-        }
-      })
-      .catch(e => console.error(e.stack));
-
-    client.end();
-  }
-
-  function searchUser(username) {
-    const { Client } = require('pg');
-
-    const client = new Client({
-      connectionString: process.env.DATABASE_URL,
-      ssl: true,
-    });
-
-    client.connect();
-
-    client.query('SELECT username FROM user_tbl WHERE username = $1', username)
-      .then(res => {
-        if (res) {
-          client.end();
-          return true;
-        } else {
-          client.end();
-          return false;
-        }
-      })
-      .catch(e => console.error(e.stack));
-
-    client.end();
-  }
-
-  function createUser(username, passw, firstName, lastName) {
-    if (searchUser(username)) {
-      const { Client } = require('pg');
-
-      const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: true,
-      });
-
-      client.connect();
-
-      client.query('INSERT INTO user_tbl VALUES ($1, $2, $3, $4) RETURNING user_id', username, passw, firstName, lastName)
-        .then(res => {
-          if (res) {
-            client.end();
-            return true;
-          } else {
-            client.end();
-            return false;
-          }
-        })
-        .catch(e => console.error(e.stack));
-
-      client.end();
-    }
-    return false;
-  }
-
-
-  */
