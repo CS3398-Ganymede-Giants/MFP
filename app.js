@@ -438,18 +438,18 @@ app.get('/createuser', function(req, res) {
 
     //test postgres code
     console.log("IN CREATE USER")
-    console.log(req.params['passwd'])
+    console.log(req.query.passw)
     //user to search
      //this outputs
     // { username: 'asdf'}
     // console.log(req.query)
     //NEED TO GET FROM REQUEST
-    var username = req.params['username'];
-    var passw = req.params['passwd'];
-    var firstName = req.params['firstName'];
-    var lastName = req.params['lastName'];
+    var username = req.query.username;
+    var passw = req.query.passw;
+    var firstName = req.query.firstName;
+    var lastName = req.query.lastName;
     //var userId = req.query['userId']
-    var email = req.params['email']
+    var email = req.query.email
 
     // console.log(username)
     // console.log(passw)
@@ -479,66 +479,66 @@ app.get('/createuser', function(req, res) {
             res.cookie("usersName", username)
             res.cookie("user_id", result.rows[0].user_id)
 
-            //going to prepopulate the account_tbl with checking,savings,credit
-            //hmm pausing on that
-            //need to prepopulate account tables
-                //insert into account_tbl (user_id, account_type, balance) values (<user_id from cookie>, 'Checking, Savings, or Credit', 500) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;
-                //user_id
-                var user_id = '96'
-                //query 
-                query = format("insert into account_tbl (user_id, account_type, balance) values (%L, 'Checking', 0) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", user_id)
+            // //going to prepopulate the account_tbl with checking,savings,credit
+            // //hmm pausing on that
+            // //need to prepopulate account tables
+            //     //insert into account_tbl (user_id, account_type, balance) values (<user_id from cookie>, 'Checking, Savings, or Credit', 500) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;
+            //     //user_id
+            //     var user_id = '96'
+            //     //query 
+            //     query = format("insert into account_tbl (user_id, account_type, balance) values (%L, %L, %L) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", user_id, 'Checking', 0)
 
-                //request 
-                herokuClient.query(query, function (err, result) {
-                    if (err) {
-                        console.log(err)
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(JSON.stringify({ data: false }));
-                    } else {
-                        console.log("\n\nno error in adding account\n\n")
+            //     //request 
+            //     herokuClient.query(query, function (err, result) {
+            //         if (err) {
+            //             console.log(err)
+            //             res.setHeader('Content-Type', 'application/json');
+            //             res.send(JSON.stringify({ data: false }));
+            //         } else {
+            //             console.log("\n\nno error in adding account\n\n")
 
-                        //ading next account 
-                        //query 
-                        query = format("insert into account_tbl (user_id, account_type, balance) values (%L, 'Savings', 0) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", user_id)
+            //             //ading next account 
+            //             //query 
+            //             query = format("insert into account_tbl (user_id, account_type, balance) values (%L, 'Savings', 0) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", user_id)
 
-                        //request 
-                        herokuClient.query(query, function (err, result) {
-                            if (err) {
-                                console.log(err)
-                                res.setHeader('Content-Type', 'application/json');
-                                res.send(JSON.stringify({ data: false }));
-                            } else {
-                                console.log("\n\nno error in adding account\n\n")
+            //             //request 
+            //             herokuClient.query(query, function (err, result) {
+            //                 if (err) {
+            //                     console.log(err)
+            //                     res.setHeader('Content-Type', 'application/json');
+            //                     res.send(JSON.stringify({ data: false }));
+            //                 } else {
+            //                     console.log("\n\nno error in adding account\n\n")
 
-                                //adding last account 
-                                //query 
-                                query = format("insert into account_tbl (user_id, account_type, balance) values (%L, 'Credit', 0) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", user_id)
+            //                     //adding last account 
+            //                     //query 
+            //                     query = format("insert into account_tbl (user_id, account_type, balance) values (%L, 'Credit', 0) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", user_id)
 
-                                //request 
-                                herokuClient.query(query, function (err, result) {
-                                    if (err) {
-                                        console.log(err)
-                                        res.setHeader('Content-Type', 'application/json');
-                                        res.send(JSON.stringify({ data: false }));
-                                    } else {
-                                        console.log("\n\nno error in adding account\n\n")
-                                        res.setHeader('Content-Type', 'application/json');
-                                        res.send(JSON.stringify({ data: true }));
+            //                     //request 
+            //                     herokuClient.query(query, function (err, result) {
+            //                         if (err) {
+            //                             console.log(err)
+            //                             res.setHeader('Content-Type', 'application/json');
+            //                             res.send(JSON.stringify({ data: false }));
+            //                         } else {
+            //                             console.log("\n\nno error in adding account\n\n")
+            //                             res.setHeader('Content-Type', 'application/json');
+            //                             res.send(JSON.stringify({ data: true }));
                                         
 
-                                    }
-                                })
+            //                         }
+            //                     })
                                 
 
-                            }
-                        })
+            //                 }
+            //             })
                         
 
-                    }
-                })
+            //         }
+            //     })
 
-            // res.setHeader('Content-Type', 'application/json');
-            // res.send(JSON.stringify({ data: true }));
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ data: true }));
         }
     })
     // res.setHeader('Content-Type', 'application/json');

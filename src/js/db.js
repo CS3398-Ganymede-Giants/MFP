@@ -300,18 +300,31 @@ var connect = function () {
 
     //getting result of adding user
     var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, email)
+    // createUserAsync(username, passw, firstName, lastName, email, function(didAddSuccessfully) {
+      console.log("IN ASYNC FUNCTION ")
+      console.log(didAddSuccessfully)
+      console.log(didAddSuccessfully.data)
+      console.log("BEFORE IF")
+      // alert("test")
 
-    console.log("IN ASYNC FUNCTION ")
-    console.log(didAddSuccessfully.data)
+      //choosing the next page
+      if (didAddSuccessfully.data == true) {
+        //redirect
+        console.log("IN IF")
+        
+        window.location.href = baseUrl + "/loginConfirmation.html";
+        // alert("User added")
+        
+      } else {
+        
+        console.log("IN IF not added")
+        window.location.href = baseUrl + "/loginConfirmation.html";
+        // alert("User not added")
+      }
+      // console.log("AFTER IF")
+    // })
 
-    //choosing the next page
-    if (didAddSuccessfully.data == true) {
-      //redirect
-      window.location.href = baseUrl + "/loginConfirmation.html";
-      alert("User added")
-    } else {
-      alert("User not added")
-    }
+    
 
 
 
@@ -352,9 +365,15 @@ var connect = function () {
           // var responseJson = JSON.parse(response)
           console.log("RESPONSE")
           // console.log(response.json())
-          var responseJson = response.json()
-          console.log(responseJson)
-          resolve(responseJson)
+          // var responseJson = response.json()
+          // console.log(responseJson)
+          // resolve(responseJson)
+          //callback
+          // resolve()
+          
+          resolve(response.json())
+          // callback && callback(response.json())
+          // resolve(responseJson.result.data)
       }); // parses response to JSON
   })
 

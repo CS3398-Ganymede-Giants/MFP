@@ -37,8 +37,8 @@
 
 <div class="row">
   <div class="leftcolumn">
-      <form id="regForm"  method="post" style="border:5px solid #ccc">
-      <h1 align="center">Register:</h1>
+    <form id="regForm" style="border:5px solid #ccc">
+    <h1 align="center">Register:</h1>
 
     <p>First name: <input type="text" placeholder="First name..." oninput="this.className = ''" name="fname" id="createuserfirstname" required></p>
     <p>Last name: <input type="text" placeholder="Last name..." oninput="this.className = ''" name="lname" id="createuserlastname" required></p>
@@ -57,10 +57,10 @@
       <p id="number" class="invalid">A <b>number</b></p>
       <p id="length" class="invalid">Minimum <b>8 characters</b></p>
     </div>
-    <button type="submit" id="submitForm" onclick="myFunction()" value="Submit">Submit</button>
   </form>
-      </div>
-    </div>
+  <button type="submit" onclick="myFunction()">Submit</button>
+  </div>
+</div>
 
 
 <div class="footer">
@@ -166,21 +166,22 @@ function validatePassword(){
 }
 
 function myFunction() {
-    // var inpObj = document.getElementById("createuserfirstname");
-    // var inpObj2 = document.getElementById("createuserlastname");
-    // var inpObj3 = document.getElementById("createuserusername");
-    // var inpObj4 = document.getElementById("createuserpassword");
-    // var inpObj5 = document.getElementById("confirm_password");
-    // var inpObj6 = document.getElementById("createuseremail");
+    console.log("In MyFunction()")
+    var inpObj = document.getElementById("createuserfirstname");
+    var inpObj2 = document.getElementById("createuserlastname");
+    var inpObj3 = document.getElementById("createuserusername");
+    var inpObj4 = document.getElementById("createuserpassword");
+    var inpObj5 = document.getElementById("confirm_password");
+    var inpObj6 = document.getElementById("createuseremail");
 
-    // if (!inpObj.checkValidity()) {
-    //     document.getElementById("demo").innerHTML = inpObj.validationMessage;
-    // } else {
+    if (!inpObj.checkValidity()) {
+        document.getElementById("demo").innerHTML = inpObj.validationMessage;
+    } else {
         // document.getElementById("submitForm").addEventListener("click", createUser, false);
-        //need to call the function
+        // need to call the function
         console.log("Creating user from html")
-        // createUser(inpObj.value, inpObj2.value, inpObj3.value, inpObj4.value, inpObj6.value)
-    // }
+        createUser(inpObj.value, inpObj2.value, inpObj3.value, inpObj4.value, inpObj6.value)
+    }
 
   }
 
