@@ -45,7 +45,7 @@
     <p>Username: <input type="username" placeholder="Username..." oninput="this.className = ''" name="createuserusername" id="createuserusername" required></p>
     <p>Password: <input type="password" placeholder="Password..." oninput="this.className = ''" name="createuserpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="createuserpassword" required></p>
     <p>Confirm password: <input type="password" placeholder="Confirm Password" id="confirm_password" required></p>
-    <p>Email address: <input type="email" placehlder="email..." oninput="this.className = ''" name="email" id="createuseremail" required ></p>
+    <p>Email address: <input type="email" placeholder="email..." oninput="this.className = ''" name="email" id="createuseremail" required ></p>
     <div id="messageUsername">
       <h3>Username must contain the following:</h3>
       <p id="length2" class="invalid">Minimum <b>3 characters</b></p>
@@ -166,18 +166,21 @@ function validatePassword(){
 }
 
 function myFunction() {
-    var inpObj = document.getElementById("createuserfirstname");
-    var inpObj2 = document.getElementById("createuserlastname");
-    var inpObj3 = document.getElementById("createuserusername");
-    var inpObj4 = document.getElementById("createuserpassword");
-    var inpObj5 = document.getElementById("confirm_password");
-    var inpObj6 = document.getElementById("createuseremail");
+    // var inpObj = document.getElementById("createuserfirstname");
+    // var inpObj2 = document.getElementById("createuserlastname");
+    // var inpObj3 = document.getElementById("createuserusername");
+    // var inpObj4 = document.getElementById("createuserpassword");
+    // var inpObj5 = document.getElementById("confirm_password");
+    // var inpObj6 = document.getElementById("createuseremail");
 
-    if (!inpObj.checkValidity()) {
-        document.getElementById("demo").innerHTML = inpObj.validationMessage;
-    } else {
-        document.getElementById("submitForm").addEventListener("click", createUser, false);
-    }
+    // if (!inpObj.checkValidity()) {
+    //     document.getElementById("demo").innerHTML = inpObj.validationMessage;
+    // } else {
+        // document.getElementById("submitForm").addEventListener("click", createUser, false);
+        //need to call the function
+        console.log("Creating user from html")
+        // createUser(inpObj.value, inpObj2.value, inpObj3.value, inpObj4.value, inpObj6.value)
+    // }
 
   }
 

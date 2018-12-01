@@ -95,6 +95,7 @@ var budgetController = (function () {
     // create public method to allow other modules to add new items to the data structure
     return {
         addItem: function (type, desc, val, addingNewItem = true) {
+            console.log("IN add item first controller")
 
             var newItem, ID;
             // create new ID
@@ -125,7 +126,7 @@ var budgetController = (function () {
 
             ///////// james's code
             //saving to database code 
-            console.log("SAVING DATGA ")
+            console.log("SAVING DATA ")
             console.log(addingNewItem)
             if(addingNewItem == true) {
                 saveNewItem(newItem, type)
@@ -531,6 +532,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         //map array 
         // income = income.map(row => parseInt(row.cost_amount))
         console.log("after income")
+        console.log(expense)
+        console.log(income)
 
         //dataObj to return 
         var dataObj = {income: income, expense: expense}
@@ -554,8 +557,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
     
         //vars 
-        // var baseUrl = "http://localhost:8080"
-        var baseUrl = "https://ganymede18.herokuapp.com"
+        var baseUrl = "http://localhost:8080"
+        // var baseUrl = "https://ganymede18.herokuapp.com"
         //user id from cookies 
         var user_id_val = getCookie("user_id")
     
@@ -599,18 +602,34 @@ var controller = (function (budgetCntrl, UICntrl) {
     // create a public initialization function
     // return in an object to make public
     return {
-        init: function (dataObj) {
+        init: function (dataObj = -1) {
             //console.log('Application has begun.');
             UICntrl.displayMonth();
 
-           //dataObj has data to use
+           //dataObj maybe has data to use
+            //if it's -1 it's a new user 
+            if (dataObj == -1) {
+                console.log("INIT EMPTY")
+                //init empty
+                UICntrl.displayBudget({
+                    budget: 0,
+                    totalInc: 0,
+                    totalExp: 0, //totalExpenses,
+                    percentage: -1
+                });
+            } else {
+                //init full
+                console.log("INIT FULL")
+                UICntrl.displayBudget({
+                    budget: dataObj.budget, //budget, //0,
+                    totalInc: dataObj.totalIncome,
+                    totalExp: dataObj.totalExpenses, //totalExpenses,
+                    percentage: -1
+                });
+                
+            }
 
-            UICntrl.displayBudget({
-                budget: dataObj.budget, //budget, //0,
-                totalInc: dataObj.totalIncome,
-                totalExp: dataObj.totalExpenses, //totalExpenses,
-                percentage: -1
-            });
+            
 
             //event listeners
             setUpEventListeners();
@@ -618,12 +637,13 @@ var controller = (function (budgetCntrl, UICntrl) {
             //james's code 
             //load stuff and add items 
             loadExpenseIncomeTbls(function(dataObj) {
-                console.log("Made it this far?")
+                console.log("Made it this far?...")
                 //loaded data 
                 var expense = dataObj.expense
                 var income = dataObj.income 
-                // console.log(expense)
-                // console.log(income)
+                console.log(expense)
+                console.log(income)
+
 
                 //need to call controlAddItem 
                 //will just send objects and do formatting there 
@@ -671,11 +691,21 @@ loadBudgetInit(function(allData) {
     var dataObj = { /*totalExpenses: sum,*/ budget: budget}
 
     console.log("Data object loading first")
-    console.log(dataObj)
+    console.log(dataObj.budget)
+
+    //could be empty 
+    if (dataObj.budget == null) {
+        //send it empty data 
+        console.log("SENDING EMPTY")
+        controller.init()
+    } else {
+        // send it full data
+        // begin the app or nothing will ever run because the event listeners are in a private function
+        controller.init(dataObj);
+    }
 
     
-    // begin the app or nothing will ever run because the event listeners are in a private function
-    controller.init(dataObj);
+   
 
 })
 
@@ -683,8 +713,8 @@ loadBudgetInit(function(allData) {
 //adding code down here to not mess with other code for now 
 
 //vars 
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 //saving function
@@ -714,7 +744,7 @@ function saveNewItem(newItem, type) {
         //postbody to send 
         postBody = {
             //['income_id', 'account_id', 'description', 'income_amount']
-            'income_id': newItem.id,
+            // 'income_id': newItem.id,
             'description': newItem.description, 
             'income_amount': newItem.value, 
             'account_id': 1, //TODO: change
@@ -727,7 +757,7 @@ function saveNewItem(newItem, type) {
         //postbody to send 
         postBody = {
             //['expense_id', 'expense_type_id', 'user_id', 'description', 'cost_amount']
-            'expense_id': newItem.id,
+            // 'expense_id': newItem.id,
             'expense_type_id': 1, //TODO: change
             'user_id': user_id_val,
             'description': newItem.description,
@@ -798,8 +828,8 @@ async function loadBudgetAsync() {
 function loadBudget() {
     //vars 
     
-    // var baseUrl = "http://localhost:8080"
-    var baseUrl = "https://ganymede18.herokuapp.com"
+    var baseUrl = "http://localhost:8080"
+    // var baseUrl = "https://ganymede18.herokuapp.com"
     //user id from cookies 
     var user_id_val = getCookie("user_id")
 

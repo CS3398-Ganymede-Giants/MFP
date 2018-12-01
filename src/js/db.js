@@ -21,8 +21,8 @@
 // });
 
 //variables
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 
 var test2 = function() {
     console.log("test() called");
@@ -294,42 +294,19 @@ var connect = function () {
 //     console.log("createUser function called.");
 //   }
 
-  async function createUser() {
+  async function createUser(firstName, lastName, username, passw, email) {
     console.log("createUser function called.");
 
-
-
-    //variables are
-    // var username = "j212"
-    var username = document.getElementById("createuserusername").value;
-    // var passw = "p212"
-    var passw = document.getElementById("createuserpassword").value;
-    // var firstName = "James22"
-    var firstName = document.getElementById("createuserfirstname").value;
-    // var lastName = "L22"
-    var lastName = document.getElementById("createuserlastname").value;
-    var email = document.getElementById("createuseremail").value;
-    //user_id
-    //var userId = Math.floor(Math.random()*1000)
-
-    //getting element from ID from DOM
-    // var userNameToSearch = document.getElementById("usernameinput").value;
-    // //logging usernametosearch
-    // console.log(userNameToSearch)
-
-    // //storing result of search
-    // var searchResult = await searchUserAsync(userNameToSearch)
-
+    //getting result of adding user
     var didAddSuccessfully = await createUserAsync(username, passw, firstName, lastName, email)
 
     console.log("IN ASYNC FUNCTION ")
-    console.log(didAddSuccessfully)
+    console.log(didAddSuccessfully.data)
 
-    //choosing
-    if (didAddSuccessfully == true) {
+    //choosing the next page
+    if (didAddSuccessfully.data == true) {
       //redirect
-    // window.location.href = "https://ganymede18.herokuapp.com/userinfo.html";
-    window.location.href = baseUrl + "/loginConfirmation.html";
+      window.location.href = baseUrl + "/loginConfirmation.html";
       alert("User added")
     } else {
       alert("User not added")
@@ -342,35 +319,45 @@ var connect = function () {
 
   function createUserAsync(username, passw, firstName, lastName, email) {
     //base url to GET
-    var getMainWithQuery = baseUrl + '/createuser'
+    var url = baseUrl + '/createuser'
     // var getMainWithQuery = 'https://ganymede18.herokuapp.com/createuser'
 
+    //return promise 
     return new Promise(resolve => {
-        //calling the fetch
-        fetch(buildUrl(getMainWithQuery, {
-            username: username,
-            passwd: passw,
-            firstName:firstName,
-            lastName:lastName, 
-            email: email
-        }),).then(response =>
-            response.json().then(data => ({
-                data: data,
-                status: response.status
-            })
-        ).then(res => {
-            console.log("User added?")
-            console.log(res.data.data)
+      //fetch 
+      // console.log("here in promise")
+      // Default options are marked with *
+      fetch(buildUrl(url, {
+        username:username,
+        passw:passw,
+        firstName:firstName,
+        lastName:lastName,
+        email:email
+      }), {
+          method: "GET", 
+          mode: "same-origin",
+          // mode: "cors", // no-cors, cors, *same-origin
+          // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          // credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+              "Content-Type": "application/json",
+              // "Content-Type": "application/x-www-form-urlencoded",
+          },
+          // redirect: "follow", // manual, *follow, error
+          // referrer: "no-referrer", // no-referrer, *client
+          // body: postBody, // body data type must match "Content-Type" header
+      }).then(response => {
+          console.log("here again")
+          // var responseJson = JSON.parse(response)
+          console.log("RESPONSE")
+          // console.log(response.json())
+          var responseJson = response.json()
+          console.log(responseJson)
+          resolve(responseJson)
+      }); // parses response to JSON
+  })
 
-            //storing
-            searchResult = res.data.data;
-
-            //fulfilling the promise
-            resolve(searchResult)
-
-
-        }));
-    });
+   
   }
 
   function buildUrl(url, parameters) {
