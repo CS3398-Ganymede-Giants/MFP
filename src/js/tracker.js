@@ -1,3 +1,9 @@
+//vars 
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
+
+
+
 // BUDGET CONTROLLLER
 var budgetController = (function () {
     // create a function constructor for income and expense types
@@ -39,46 +45,6 @@ var budgetController = (function () {
         // store the totals in the data object
         data.totals[type] = sum;
     };
-
-
-    // //james's code 
-    // //need to load these with the retrieved data instead
-
-    // //making the variable return a promise I can resolve top level 
-    // var data = async () => {
-    //     return await loadExpenseIncomeTbls()
-    // }
-
-    // //resolving the promise 
-    // data().then(returnedData => {
-    //     //formatting data 
-    //     //spltting expenses and income
-
-    //     console.log("BEFORE ESPENSE")
-    //     var expense = returnedData.expense 
-
-    //     console.log("BEFORE INCOME")
-    //     var income = returnedData.income
-
-    //     console.log("BEFORE DATA")
-
-    //     //making data object 
-    //     data = {
-    //         allItems: {
-    //             exp: expense, //[],
-    //             inc: income//[]
-    //         },
-    //         totals: {
-    //             exp: expense.length,//0,
-    //             inc: income.length //0
-    //         },
-    //         budget: 0,
-    //         percentage: -1 // because evaluated as non-existent
-    //     };
-
-    //     console.log("AFTER DATA")
-
-    // })
 
 
     var data = {
@@ -364,7 +330,7 @@ var UIController = (function () {
         },
 
         changedType: function() {
-            console.log("CHANGED TYPE")
+            // console.log("CHANGED TYPE")
             var fields = document.querySelectorAll(
                 DOMstrings.inputType + ',' +
                 DOMstrings.inputDescription + ',' +
@@ -411,10 +377,6 @@ var controller = (function (budgetCntrl, UICntrl) {
         // pass the budget object as a parameter to the displayBudget method b/c it's looking for an obj argument
         UICntrl.displayBudget(budget);
 
-
-        //james's code 
-        //going to try to save the budget stuff here 
-        saveBudgetAsync(budget)
     };
 
     var updateExpPercentages = function() {
@@ -564,8 +526,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
     
         //vars 
-        var baseUrl = "http://localhost:8080"
-        // var baseUrl = "https://ganymede18.herokuapp.com"
+        // var baseUrl = "http://localhost:8080"
+        // // var baseUrl = "https://ganymede18.herokuapp.com"
         //user id from cookies 
         var user_id_val = getCookie("user_id")
     
@@ -613,31 +575,7 @@ var controller = (function (budgetCntrl, UICntrl) {
             //console.log('Application has begun.');
             UICntrl.displayMonth();
 
-        //    //dataObj maybe has data to use
-        //     //if it's -1 it's a new user 
-        //     if (dataObj) {
-        //         console.log("INIT EMPTY")
-        //         //init empty
-        //         UICntrl.displayBudget({
-        //             budget: 0,
-        //             totalInc: 0,
-        //             totalExp: 0, //totalExpenses,
-        //             percentage: -1
-        //         });
-        //     } else {
-        //         //init full
-        //         console.log("INIT FULL")
-        //         console.log(dataObj)
-        //         UICntrl.displayBudget({
-        //             budget: dataObj.budget, //budget, //0,
-        //             totalInc: dataObj.totalIncome,
-        //             totalExp: dataObj.totalExpenses, //totalExpenses,
-        //             percentage: -1
-        //         });
-                
-        //     }
-
-            //testing just initializing with 0 again 
+            //just initializing with 0 again 
             UICntrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
@@ -645,8 +583,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                 percentage: -1
             });
 
-            
-
+        
             //event listeners
             setUpEventListeners();
 
@@ -657,7 +594,9 @@ var controller = (function (budgetCntrl, UICntrl) {
                 //loaded data 
                 var expense = dataObj.expense
                 var income = dataObj.income 
+                console.log("loaded expenses were:")
                 console.log(expense)
+                console.log("loaded incomes were:")
                 console.log(income)
 
 
@@ -678,6 +617,9 @@ var controller = (function (budgetCntrl, UICntrl) {
                         // testFunc()
                     }
                 }
+
+                //load graphs here?
+                loadGraphs()
                 
             })
         }
@@ -689,55 +631,60 @@ var controller = (function (budgetCntrl, UICntrl) {
 
 //james's added code 
 //main
-
-
-//this function just loads the initial budget for display
-//do we need this? if it's not 0 it'll just load anyway
-// loadBudgetInit(function(allData) {
-//     //budget 
-//     console.log("load trackingPage.html")
-    
-//     var budget = allData.budget
-//     budget = JSON.parse(budget)
-//     budget = budget[0]
-//     budget = budget.sum
-    
-
-//     //data object 
-//     var dataObj = { /*totalExpenses: sum,*/ budget: budget}
-
-//     console.log("Data object loading first")
-//     console.log(dataObj.budget)
-
-//     //could be empty 
-//     if (dataObj.budget == "0") {
-//         //send it empty data 
-//         console.log("SENDING EMPTY")
-//         controller.init(dataObj)
-//     } else {
-//         // send it full data
-//         // begin the app or nothing will ever run because the event listeners are in a private function
-//         controller.init(dataObj);
-//     }
-
-// })
+// send it 0 because loading saved expenses/income is done through using the controlAddItem function through the above code
+// begin the app or nothing will ever run because the event listeners are in a private function
+controller.init();
 
 
 
-    // send it full data
-    // begin the app or nothing will ever run because the event listeners are in a private function
-    controller.init();
+
+//Database functions:
+//for graphs
+function loadGraphs() {
+    //getting the graph from the html after it's loaded 
+    var ctx = document.getElementById("myChart").getContext('2d');
+        //creating the chart 
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Gay"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+}
 
 
 
-//adding code down here to not mess with other code for now 
-
-//vars 
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
-
-
-//saving function
+//saving expense/income
 function saveNewItem(newItem, type) {
     console.log("SAVE ITEM")
     //need to make post request 
@@ -746,11 +693,7 @@ function saveNewItem(newItem, type) {
     var url = baseUrl + '/saveexpense'
     // var url = 'https://ganymede18.herokuapp.com/posts'
 
-    //need: expense_id, expense_type_id, user_id, description, cost_amount
-    //newItem has expense_id, description, cost_amount
-    //sent var type is expense_type_id
-    //need to get user_id
-    //in cookies 
+    //user_id
     var user_id_val = getCookie("user_id")
 
     //need to get the db to save to
@@ -768,8 +711,6 @@ function saveNewItem(newItem, type) {
         
         //postbody to send 
         postBody = {
-            //['income_id', 'account_id', 'description', 'income_amount']
-            // 'income_id': newItem.id,
             'description': newItem.description, 
             'income_amount': newItem.value, 
             // 'account_id': 1, //TODO: change
@@ -782,9 +723,6 @@ function saveNewItem(newItem, type) {
         db = 'individual_expense_tbl'
         //postbody to send 
         postBody = {
-            //['expense_id', 'expense_type_id', 'user_id', 'description', 'cost_amount']
-            // 'expense_id': newItem.id,
-            // 'expense_type_id': 1, //TODO: change
             'expense_type': newItem.expense_type,
             'user_id': user_id_val,
             'description': newItem.description,
@@ -794,22 +732,7 @@ function saveNewItem(newItem, type) {
 
         }
     }
-    if (type == 'budget') {
-        //database to store in
-        db = 'account_tbl'
-        //account_id | user_id | account_type | balance | balance_goal | monthly_payment 
-        //postbody to send 
-        postBody = {
-
-            'account_id': 1, //TODO: change
-            'user_id': user_id_val,
-            'account_type': "Checking",
-            'balance': newItem.budget, 
-            'balance_goal': 0, //TODO: change
-            'monthly_payment': 0, //TODO change
-            'db':db
-        }
-    } 
+    
 
      // Default options are marked with *
      return fetch(url, {
@@ -830,79 +753,15 @@ function saveNewItem(newItem, type) {
 }
 
 
-async function saveBudgetAsync(budget) {
-    // console.log("savebudgetasync")
-    //sent the budget object from other code 
-    //await saveBudget 
-    await saveBudget(budget)
-}
-
-function saveBudget(budget) {
-    //need to send the budget data over
-    // console.log("savebudget")
-    // console.log("BUDGET IS ")
-    // console.log(budget)
-
-}
-
-
-async function loadBudgetAsync() {
-    //javascript await 
-    var response = await loadBudget();
-    //sending back
-    return response;
-}
-
-function loadBudget() {
-    //vars 
-    
-    var baseUrl = "http://localhost:8080"
-    // var baseUrl = "https://ganymede18.herokuapp.com"
-    //user id from cookies 
-    var user_id_val = getCookie("user_id")
-
-    //need to make a GET and return json 
-    //url from base 
-    var url = baseUrl + '/loadbudget/' + user_id_val + '/'
-
-    console.log("here")
-    //return promise 
-    return new Promise(resolve => {
-        //fetch 
-        console.log("here")
-        // Default options are marked with *
-        fetch(url, {
-            method: "GET", 
-            mode: "same-origin",
-            // mode: "cors", // no-cors, cors, *same-origin
-            // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            // credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                // "Content-Type": "application/x-www-form-urlencoded",
-            },
-            // redirect: "follow", // manual, *follow, error
-            // referrer: "no-referrer", // no-referrer, *client
-            // body: postBody, // body data type must match "Content-Type" header
-        })
-        .then(response => {
-            console.log("here")
-            // console.log("RESPONSE")
-            // console.log(response.data)
-            resolve(response.json())
-        }); // parses response to JSON
-    })
-
-}
-
+//getting particular cookie from cookies
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
     if (parts.length == 2) return parts.pop().split(";").shift();
   }
 
-
-  function buildUrl(url, parameters) {
+//building URL for GET requests
+function buildUrl(url, parameters) {
     let qs = "";
     for (const key in parameters) {
         if (parameters.hasOwnProperty(key)) {
@@ -921,21 +780,95 @@ function getCookie(name) {
 }
 
 
-//need to get all data
-//damnit need to consolidate this code 
-async function loadBudgetInit(callback) {
-    //probably get cookie from browser here 
-    //getting account_tbl data 
+
+
+
+
+
+
+
+//code to delete 
+
+
+// async function saveBudgetAsync(budget) {
+//     // console.log("savebudgetasync")
+//     //sent the budget object from other code 
+//     //await saveBudget 
+//     await saveBudget(budget)
+// }
+
+// function saveBudget(budget) {
+//     //need to send the budget data over
+//     // console.log("savebudget")
+//     // console.log("BUDGET IS ")
+//     // console.log(budget)
+
+// }
+
+
+// async function loadBudgetAsync() {
+//     //javascript await 
+//     var response = await loadBudget();
+//     //sending back
+//     return response;
+// }
+
+// function loadBudget() {
+//     //vars 
     
-    var budget = await loadBudgetAsync()
+//     var baseUrl = "http://localhost:8080"
+//     // var baseUrl = "https://ganymede18.herokuapp.com"
+//     //user id from cookies 
+//     var user_id_val = getCookie("user_id")
 
-    //object to return 
-    var allData = {"budget": budget}// , "expense": expense }//, "income": income}
+//     //need to make a GET and return json 
+//     //url from base 
+//     var url = baseUrl + '/loadbudget/' + user_id_val + '/'
 
-    //callback
-    callback && callback(allData)
+//     console.log("here")
+//     //return promise 
+//     return new Promise(resolve => {
+//         //fetch 
+//         console.log("here")
+//         // Default options are marked with *
+//         fetch(url, {
+//             method: "GET", 
+//             mode: "same-origin",
+//             // mode: "cors", // no-cors, cors, *same-origin
+//             // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+//             // credentials: "same-origin", // include, *same-origin, omit
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 // "Content-Type": "application/x-www-form-urlencoded",
+//             },
+//             // redirect: "follow", // manual, *follow, error
+//             // referrer: "no-referrer", // no-referrer, *client
+//             // body: postBody, // body data type must match "Content-Type" header
+//         })
+//         .then(response => {
+//             console.log("here")
+//             // console.log("RESPONSE")
+//             // console.log(response.data)
+//             resolve(response.json())
+//         }); // parses response to JSON
+//     })
 
-    // return allData
+// }
+
+// //need to get all data
+// //damnit need to consolidate this code 
+// async function loadBudgetInit(callback) {
+//     //probably get cookie from browser here 
+//     //getting account_tbl data 
     
-}
+//     var budget = await loadBudgetAsync()
 
+//     //object to return 
+//     var allData = {"budget": budget}// , "expense": expense }//, "income": income}
+
+//     //callback
+//     callback && callback(allData)
+
+//     // return allData
+    
+// }

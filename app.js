@@ -83,6 +83,8 @@ var port = process.env.PORT || 8080;
 app.use(express.static('public'))
 //same thing for src directory, to serve javascript
 app.use(express.static('src'))
+//serving up scripts
+// app.use(express.static('scripts'))
 
 //basic response for the homepage, basic url '/'', sending the main.html file, which loads the
 //CSS and JS in /public/ and /src/
@@ -92,13 +94,8 @@ app.get('/', function(req, res) {
     // res.sendFile(path.join(__dirname + '/public/html/main.html'));
     // res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
 
-    //check for logged in cookie
-    // console.log(document.cookie)
-    // console.log(req.cookies['key'])
-    // console.log(req.cookies)
-
-    console.log("req.cookies")
-    console.log(req.cookies['loggedIn'])
+    // console.log("req.cookies")
+    // console.log(req.cookies['loggedIn'])
 
     if (req.cookies['loggedIn'] == true) {
         res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
@@ -114,9 +111,6 @@ app.get('/test.html', function(req, res) {
     //creating cookie
     // res.cookie("key", "value")
     res.cookie('loggedIn', false)
-
-    //deleting cookie
-    // res.clearCookie('key')
 
     res.sendFile(path.join(__dirname + '/public/html/test.html'));
     // console.log("test.html")
@@ -434,11 +428,6 @@ app.get('/userlogout', function(req, res) {
 //for searching user
 app.get('/createuser', function(req, res) {
 
-
-
-    //test postgres code
-    console.log("IN CREATE USER")
-    console.log(req.query.passw)
     //user to search
      //this outputs
     // { username: 'asdf'}
@@ -470,6 +459,8 @@ app.get('/createuser', function(req, res) {
             res.cookie("user_id", result.rows[0].user_id)
             //user id 
             var user_id = result.rows[0].user_id
+            
+            //TODO use simpler code
 
             //going to prepopulate the account_tbl with checking,savings,credit
             //hmm pausing on that
@@ -549,11 +540,6 @@ app.get('/createuser', function(req, res) {
             }
         })
 
-
-
-
-
-
 })
 
 
@@ -576,66 +562,21 @@ app.post('/saveexpense', function(req, res) {
 
     // select value 'inc' is +, 'exp' is -
     //need to store in the correct database
-    //query
-    //query string
+    //query 1 and 2
     var query = {}
-    var queryString = ''
+    var query2 = {}
     if (db === 'individual_expense_tbl') {
         //storing columns to add
-        // var columns = ['expense_type_id', 'user_id', 'description', 'cost_amount']
-        //values array to send
-        // var valArr = [body.expense_type_id, body.user_id, body.description, body.cost_amount]
-        //query string
-        // query = format('INSERT INTO ' + db + ' (expense_type_id, user_id, description, cost_amount) VALUES (%L, %L, %L, %L)', body.expense_type_id, body.user_id, body.description, body.cost_amount)
-        // console.log("ESPENSE QUERY IS ")
-        // console.log(query)
-
+        
         //new query string 
         //insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = '<Auto, Home, Food, Entertainment, or Miscellaneous>'), <user_id from cookie>, 'Auto insurance', 150);
         query = format("insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = %L), %L, %L, %L);", body.expense_type, body.user_id, body.description, body.cost_amount )
         //update account_tbl set balance = balance - 50 where user_id = <user_id from cookie> and account_type = 'Checking, Savings, or Credit';
-        var query2 = format("update account_tbl set balance = balance - %L where user_id = %L and account_type = %L;", body.cost_amount, body.user_id, body.account_type)
-        console.log("QUERY 1")
-        console.log(query)
-        console.log("query2")
-        console.log(query2)
-        //adding to table
-        //first query
-        herokuClient.query(query, function (err, result) {
-            if (err) {
-                console.log(err)
-                res.send({ data: false });
-            } else {
-                console.log("\n\nno error in adding\n\n")
-                console.log(result)
-                // res.cookie("usersName", username)
-                //adding to table
-                //query 2
-                //second new query string 
-                        
-                herokuClient.query(query2, function (err, result) {
-                    if (err) {
-                        console.log(err)
-                        res.send({ data: false });
-                    } else {
-                        console.log("\n\nno error in adding\n\n")
-                        console.log(result)
-                        // res.cookie("usersName", username)
-                        return res.send({ data: true });
-                    }
-                })
-                // return res.send({ data: true });
-            }
-        })
+        query2 = format("update account_tbl set balance = balance - %L where user_id = %L and account_type = %L;", body.cost_amount, body.user_id, body.account_type)
+        
 
     }
     if (db === 'individual_income_tbl') {
-
-
-
-        //need to get account_id first 
-        //insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = <user_id from cookie> and account_type = 'Checking or Savings or Credit'), 'Paycheck', 250);
-        // query = format("insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = %L and account_type = %L), 'Paycheck', %L);",body.user_id, body.account_type, body.income_amount)
 
         //new query sring 
         //insert into account_tbl (user_id, account_type, balance) values (<user_id from cookie>, 'Checking, Savings, or Credit', 500) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;
@@ -643,62 +584,38 @@ app.post('/saveexpense', function(req, res) {
 
         //second new query string 
         //insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = <user_id from cookie> and account_type = 'Checking or Savings or Credit'), 'Paycheck', 250);
-        var query2 = format("insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = %L and account_type = %L), %L, %L);", body.user_id, body.account_type, body.description, body.income_amount )
-        //adding to table
-        herokuClient.query(query, function (err, result) {
-            if (err) {
-                console.log(err)
-                res.send({ data: false });
-            } else {
-                console.log("\n\nno error in adding\n\n")
-                // res.cookie("usersName", username)
-                //query2
-                herokuClient.query(query2, function (err, result) {
-                    if (err) {
-                        console.log(err)
-                        res.send({ data: false });
-                    } else {
-                        console.log("\n\nno error in adding\n\n")
-                        // res.cookie("usersName", username)
-                        return res.send({ data: true });
-                    }
-                })
-                // return res.send({ data: true });
-            }
-        })
-        //storing columns to add
-        // var columns = ['account_id', 'description', 'income_amount', 'user_id']
-        //values array to send
-        // var valArr = [body.account_id, body.description, body.income_amount, body.user_id]
-        //query string
-        // query = format('INSERT INTO ' + db + ' (account_id, description, income_amount, user_id) VALUES (%L, %L, %L, %L)', body.account_id, body.description, body.income_amount, body.user_id)
-       
-    }
-    if (db == 'account_tbl') {
-        //database to store in
-
-        //storing columns to add
-        var columns = ['account_id', 'user_id', 'account_type', 'balance', 'balance_goal', 'monthly_payment']
-        //values array to send
-        var valArr = [body.account_id, body.user_id, body.account_type, body.balance, body.balance_goal, body.monthly_payment]
-        console.log("\n\n\n"+ valArr + "\n\n\n")
-        //query string
-        query = format('UPDATE account_tbl SET balance = ' + body.balance + ' WHERE account_id = ' + body.account_id, body.account_id, body.user_id, body.account_type, body.balance, body.balance_goal, body.monthly_payment)
+        query2 = format("insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = %L and account_type = %L), %L, %L);", body.user_id, body.account_type, body.description, body.income_amount )
         
-        //adding to table
+    }
+
+    //first query
     herokuClient.query(query, function (err, result) {
         if (err) {
             console.log(err)
             res.send({ data: false });
         } else {
             console.log("\n\nno error in adding\n\n")
+            console.log(result)
             // res.cookie("usersName", username)
-            return res.send({ data: true });
+            //adding to table
+            //query 2
+            //second new query string 
+                    
+            herokuClient.query(query2, function (err, result) {
+                if (err) {
+                    console.log(err)
+                    res.send({ data: false });
+                } else {
+                    console.log("\n\nno error in adding\n\n")
+                    console.log(result)
+                    // res.cookie("usersName", username)
+                    return res.send({ data: true });
+                }
+            })
+            // return res.send({ data: true });
         }
     })
 
-
-    }
 
 })
 

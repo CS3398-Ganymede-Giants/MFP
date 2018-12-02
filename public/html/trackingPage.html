@@ -54,9 +54,12 @@
                   </div>
               </div>
         </div>
+        <!-- middle card -->
         <!-- graphs in here for now -->
-        <div class="financeGraphs">
-            <canvas id="myChart" width="400" height="400"></canvas>
+        <!-- <div class="graph_card" width="400" height="400"> -->
+        <div class="graph_card">
+            <!-- <canvas class="graph" id="myChart" width="400" height="400"></canvas> -->
+            <canvas class="graph" id="myChart"></canvas>
         </div>
         <!-- bottom card -->
         <div class="card">
@@ -129,15 +132,15 @@
 </script>
 
 <!-- script for graphs  -->
-<!-- script for loading graph code -->
-<script src="node_modules/chart.js/dist/Chart.js"></script>
+<!-- script for graphs  -->
+<script src="scripts/chart.js/dist/Chart.js"></script>
 <!-- script for graph code -->
 <script>
         var ctx = document.getElementById("myChart").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Gay"],
                 datasets: [{
                     label: '# of Votes',
                     data: [12, 19, 3, 5, 2, 3],

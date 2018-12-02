@@ -96,6 +96,24 @@ body {
     margin-top: 20px;
 }
 
+.graph_card {
+    border-radius: 25px;
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    width: 500px;
+    height: 500px;
+}
+
+.graph {
+    border-radius: 25px;
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    width: 400px;
+    height: 400px;
+}
+
 
 /* Clear floats after the columns */
 .row:after {
