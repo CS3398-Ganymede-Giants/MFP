@@ -1,6 +1,6 @@
 //vars 
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
+// var baseUrl = "http://localhost:8080"
+var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 
@@ -98,8 +98,9 @@ var budgetController = (function () {
             console.log(addingNewItem)
             if(addingNewItem == true) {
                 saveNewItem(newItem, type)
+                //add to graph?
+                loadGraphs(data.allItems.exp)
             }
-            // saveNewItem(newItem, type)
             /////////
 
             // return the new item
@@ -641,8 +642,9 @@ controller.init();
 
 //Database functions:
 //for graphs
-function loadGraphs(expense, income) {
+function loadGraphs(expense, income = -1) {
 //TODO: customize more
+console.log("IN LOAD GRAPHS")
 
     //what charts to load?
     //1: expense category breakdown 
@@ -712,6 +714,7 @@ function loadGraphs(expense, income) {
 //processing data for graphs 
 function processPieChart(dataRows) {
     //assuming expense for this second 
+
     
     //variables to put in object to return 
     //data obj to return 

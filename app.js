@@ -11,8 +11,8 @@ const express = require('express')
 var bodyParser = require('body-parser')
 
 //baseurl
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
+// var baseUrl = "http://localhost:8080"
+var baseUrl = "https://ganymede18.herokuapp.com"
 
 //for charts 
 // var Chart = require('chart.js');
