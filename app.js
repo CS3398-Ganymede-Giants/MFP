@@ -440,11 +440,13 @@ app.get('/createuser', function(req, res) {
     //var userId = req.query['userId']
     var email = req.query.email
 
-    var query = {
-        text: "INSERT INTO user_tbl (username, passw, firstname, lastname, email_address) VALUES ($1, crypt($2, gen_salt('bf')), $3, $4, $5) RETURNING user_id",
-        values: [username, passw, firstName, lastName, email]
-    }
+    // var query = {
+    //     text: "INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES ($1, crypt($2, gen_salt('bf')), $3, $4, $5, $6) RETURNING user_id",
+    //     values: [username, passw, firstName, lastName, email, TRUE]
+    // }
    
+    //query string 
+    query = format("INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES (%L, crypt(%L, gen_salt('bf')), %L, %L, %L, %L) RETURNING user_id", username, passw, firstName, lastName, email, true)
 
     herokuClient.query(query, function (err, result) {
         if (err) {
