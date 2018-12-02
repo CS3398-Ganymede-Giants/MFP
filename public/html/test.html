@@ -46,11 +46,55 @@
       <p id="counter" class="blue">
         0
       </p>
+
+      <canvas id="myChart" width="400" height="400"></canvas>
     </body>
+
+    
     
     <!-- Linking javascript to this html file -->
     <!-- Need to do this at the end because if the JavaScript is added before -->
     <!-- the HTML elements are created, then it won't be able to compile correctly. -->
     <script type="text/javascript" src="js/db.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- script for graphs  -->
+<script>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
 </html>

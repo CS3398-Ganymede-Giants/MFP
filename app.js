@@ -14,6 +14,10 @@ var bodyParser = require('body-parser')
 var baseUrl = "http://localhost:8080"
 // var baseUrl = "https://ganymede18.herokuapp.com"
 
+//for charts 
+// var Chart = require('chart.js');
+// var myChart = new Chart(ctx, {...});
+
 
 
 //test databse code
@@ -140,6 +144,19 @@ app.get('/accountSettings.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/accountSettings.html'));
 });
 
+app.get('/loginConfirmation.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+});
+
+app.get('/userinfo.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
+});
+
+app.get('/contact.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/html/contact.html'));
+});
+
+
 //getting data 
 app.get('/loaddata/all/:id/:tbl', function(req, res) {
     console.log("\nLOADING DATA in table "+ req.params.tbl + "\n")
@@ -265,24 +282,10 @@ app.get('/loadbudget/:id', function(req, res) {
 })
 
 
-
-app.get('/loginConfirmation.html', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
-});
-
-app.get('/userinfo.html', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
-});
-
-app.get('/contact.html', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/contact.html'));
-});
-
 //EXPRESS HTTP REQUESTS
 
 //for searching user
 app.get('/user/:id', function(req, res) {
-
 
 
     //user to search
@@ -291,7 +294,6 @@ app.get('/user/:id', function(req, res) {
     // console.log(req.query)
     //NEED TO GET FROM REQUEST
     var userId = req.query['username'];
-
 
 
     //connecting for heroku client
@@ -448,12 +450,6 @@ app.get('/createuser', function(req, res) {
     var lastName = req.query.lastName;
     //var userId = req.query['userId']
     var email = req.query.email
-
-    // console.log(username)
-    // console.log(passw)
-    // console.log(firstName)
-    // console.log(lastName)
-    // console.log(email)
 
     var query = {
         text: "INSERT INTO user_tbl (username, passw, firstname, lastname, email_address) VALUES ($1, crypt($2, gen_salt('bf')), $3, $4, $5) RETURNING user_id",
@@ -703,11 +699,6 @@ app.post('/saveexpense', function(req, res) {
 
 
     }
-
-    
-
-
-    // return res.send()
 
 })
 

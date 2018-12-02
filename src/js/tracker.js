@@ -613,29 +613,37 @@ var controller = (function (budgetCntrl, UICntrl) {
             //console.log('Application has begun.');
             UICntrl.displayMonth();
 
-           //dataObj maybe has data to use
-            //if it's -1 it's a new user 
-            if (dataObj) {
-                console.log("INIT EMPTY")
-                //init empty
-                UICntrl.displayBudget({
-                    budget: 0,
-                    totalInc: 0,
-                    totalExp: 0, //totalExpenses,
-                    percentage: -1
-                });
-            } else {
-                //init full
-                console.log("INIT FULL")
-                console.log(dataObj)
-                UICntrl.displayBudget({
-                    budget: dataObj.budget, //budget, //0,
-                    totalInc: dataObj.totalIncome,
-                    totalExp: dataObj.totalExpenses, //totalExpenses,
-                    percentage: -1
-                });
+        //    //dataObj maybe has data to use
+        //     //if it's -1 it's a new user 
+        //     if (dataObj) {
+        //         console.log("INIT EMPTY")
+        //         //init empty
+        //         UICntrl.displayBudget({
+        //             budget: 0,
+        //             totalInc: 0,
+        //             totalExp: 0, //totalExpenses,
+        //             percentage: -1
+        //         });
+        //     } else {
+        //         //init full
+        //         console.log("INIT FULL")
+        //         console.log(dataObj)
+        //         UICntrl.displayBudget({
+        //             budget: dataObj.budget, //budget, //0,
+        //             totalInc: dataObj.totalIncome,
+        //             totalExp: dataObj.totalExpenses, //totalExpenses,
+        //             percentage: -1
+        //         });
                 
-            }
+        //     }
+
+            //testing just initializing with 0 again 
+            UICntrl.displayBudget({
+                budget: 0,
+                totalInc: 0,
+                totalExp: 0, //totalExpenses,
+                percentage: -1
+            });
 
             
 
@@ -683,39 +691,43 @@ var controller = (function (budgetCntrl, UICntrl) {
 //main
 
 
-// load saved data in if any
-//get saved data 
-loadBudgetInit(function(allData) {
-    //budget 
-    console.log("load trackingPage.html")
+//this function just loads the initial budget for display
+//do we need this? if it's not 0 it'll just load anyway
+// loadBudgetInit(function(allData) {
+//     //budget 
+//     console.log("load trackingPage.html")
     
-    var budget = allData.budget
-    budget = JSON.parse(budget)
-    budget = budget[0]
-    budget = budget.sum
+//     var budget = allData.budget
+//     budget = JSON.parse(budget)
+//     budget = budget[0]
+//     budget = budget.sum
     
 
-    //data object 
-    var dataObj = { /*totalExpenses: sum,*/ budget: budget}
+//     //data object 
+//     var dataObj = { /*totalExpenses: sum,*/ budget: budget}
 
-    console.log("Data object loading first")
-    console.log(dataObj.budget)
+//     console.log("Data object loading first")
+//     console.log(dataObj.budget)
 
-    //could be empty 
-    if (dataObj.budget == "0") {
-        //send it empty data 
-        console.log("SENDING EMPTY")
-        controller.init(dataObj)
-    } else {
-        // send it full data
-        // begin the app or nothing will ever run because the event listeners are in a private function
-        controller.init(dataObj);
-    }
+//     //could be empty 
+//     if (dataObj.budget == "0") {
+//         //send it empty data 
+//         console.log("SENDING EMPTY")
+//         controller.init(dataObj)
+//     } else {
+//         // send it full data
+//         // begin the app or nothing will ever run because the event listeners are in a private function
+//         controller.init(dataObj);
+//     }
 
-    
-   
+// })
 
-})
+
+
+    // send it full data
+    // begin the app or nothing will ever run because the event listeners are in a private function
+    controller.init();
+
 
 
 //adding code down here to not mess with other code for now 

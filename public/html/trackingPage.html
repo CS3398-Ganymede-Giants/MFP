@@ -30,9 +30,10 @@
     </div>
    </div>
 
-
-<div class="rightcolumn">
-  <div class="card">
+    <!-- adding in graphs somewhere in here -->
+    <div class="rightcolumn">
+        <!-- upper card -->
+        <div class="card">
 
               <div class="budget__title">
                   Available Budget in <span class="budget__title--month">%Month%</span>:
@@ -52,8 +53,13 @@
                       <div class="budget__expenses--percentage"></div>
                   </div>
               </div>
-   </div>
-<div class="card">
+        </div>
+        <!-- graphs in here for now -->
+        <div class="financeGraphs">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <!-- bottom card -->
+        <div class="card">
             <div class="add">
                 <div class="add__container">
                     <select class="add__type" onselect="this.className" id="typeSelected">
@@ -109,17 +115,61 @@
 
           document.getElementById("welcomeBackUserText").innerHTML = "Welcome, " + getCookie("usersName") + "!"
           
-var myType = document.getElementById("typeSelected");
+        var myType = document.getElementById("typeSelected");
 
-myType.onchange = function() {
-  if (myType.value ==  "exp" ){
-    document.getElementById("message").style.display = "inline";
-  } else {
-    document.getElementById("message").style.display = "none";
-  }
-}
+        myType.onchange = function() {
+        if (myType.value ==  "exp" ){
+            document.getElementById("message").style.display = "inline";
+        } else {
+            document.getElementById("message").style.display = "none";
+        }
+        }
 
 
+</script>
+
+<!-- script for graphs  -->
+<!-- script for loading graph code -->
+<script src="node_modules/chart.js/dist/Chart.js"></script>
+<!-- script for graph code -->
+<script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
 </script>
 </body>
 </html>
