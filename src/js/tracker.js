@@ -618,8 +618,9 @@ var controller = (function (budgetCntrl, UICntrl) {
                     }
                 }
 
-                //load graphs here?
-                loadGraphs()
+                //load graphs here
+                //send it expense and income
+                loadGraphs(expense, income)
                 
             })
         }
@@ -640,11 +641,147 @@ controller.init();
 
 //Database functions:
 //for graphs
-function loadGraphs() {
+function loadGraphs(expense, income) {
+//TODO: customize more
+
+    //what charts to load?
+    //1: expense category breakdown 
+    //2: progress to goal
+
+    //making Expense BreakDown Pie Chart first
     //getting the graph from the html after it's loaded 
-    var ctx = document.getElementById("myChart").getContext('2d');
-        //creating the chart 
-        var myChart = new Chart(ctx, {
+    var ctx = document.getElementById("expenseBreakdown").getContext('2d');
+   
+
+    //data object 
+    // var data = {} //expense values from db // OR 0 if new user!
+    var data = processPieChart(expense)
+
+    
+    //creating the chart
+    var myPieChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: data,
+        options: {
+            title: {
+                display: true,
+                text: 'Expense Breakdown'
+            }
+        }
+    });
+
+
+    // var myChart = new Chart(ctx, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Gay"],
+    //         datasets: [{
+    //             label: '# of Votes',
+    //             data: [12, 19, 3, 5, 2, 3],
+    //             backgroundColor: [
+    //                 'rgba(255, 99, 132, 0.2)',
+    //                 'rgba(54, 162, 235, 0.2)',
+    //                 'rgba(255, 206, 86, 0.2)',
+    //                 'rgba(75, 192, 192, 0.2)',
+    //                 'rgba(153, 102, 255, 0.2)',
+    //                 'rgba(255, 159, 64, 0.2)'
+    //             ],
+    //             borderColor: [
+    //                 'rgba(255,99,132,1)',
+    //                 'rgba(54, 162, 235, 1)',
+    //                 'rgba(255, 206, 86, 1)',
+    //                 'rgba(75, 192, 192, 1)',
+    //                 'rgba(153, 102, 255, 1)',
+    //                 'rgba(255, 159, 64, 1)'
+    //             ],
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero:true
+    //                 }
+    //             }]
+    //         }
+    //     }
+    // });
+}
+
+//processing data for graphs 
+function processPieChart(dataRows) {
+    //assuming expense for this second 
+    
+    //variables to put in object to return 
+    //data obj to return 
+    var data = {}
+    //nested data set 
+    var nestedData = []
+    //nested labels 
+    var nestedLabels = []
+
+    //need to see if there's any at all
+    if (dataRows.length == 0) {
+        //nothing stored 
+        console.log("No data stored")
+        nestedData = [0, 0, 0, 0 ] //TODO change if added misc category
+        nestedLabels = ["Auto", "Home", "Food", "Entertainment"]
+    } else {
+        //if there IS data 
+        // console.log("Expense data loaded in graph")
+        // console.log(dataRows)
+
+        //need to sum data and seperate by category 
+        //storing values 
+        //init to 0
+        var expenseTypes = [0,0,0,0]
+        //iterating
+        for ( let indivExpense of dataRows) {
+            //sum into expensetypes [index - 1]
+            expenseTypes[indivExpense.expense_type_id - 1] += indivExpense.cost_amount
+        }
+        //store again 
+        nestedData = expenseTypes
+        nestedLabels = ["Auto", "Home", "Food", "Entertainment"]
+    }
+
+    //storing in data object to return
+    //TODO change if adding income breakdown
+    data = {
+        datasets: [{
+            //label of graph 
+            label: 'Expense Category',
+            //data to send
+            data: nestedData,
+            //colors
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'//,
+                // 'rgba(153, 102, 255, 0.2)',
+                // 'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'//,
+                // 'rgba(153, 102, 255, 1)',
+                // 'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+
+        }],
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: nestedLabels
+    };
+
+    //returning object
+    return data
+
+    var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Gay"],
@@ -680,6 +817,8 @@ function loadGraphs() {
                 }
             }
         });
+
+    
 }
 
 
