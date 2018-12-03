@@ -8,17 +8,20 @@
 //using express.js just because it's relatively user friendly
 const express = require('express')
 //post json parser
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
+//email.js
+const Email = require('./src/js/email.js')
+//making new email object with email to send to 
+var emailObj = new Email()
+
+//alert 
+// import alert from 'alert-node'
+// var alert = require('alert-node')
 
 //baseurl
 var baseUrl = "http://localhost:8080"
 // var baseUrl = "https://ganymede18.herokuapp.com"
-
-//for charts 
-// var Chart = require('chart.js');
-// var myChart = new Chart(ctx, {...});
-
-
+//email instance 
 
 //test databse code
 // const { Client } = require('pg');
@@ -97,9 +100,10 @@ app.get('/', function(req, res) {
     // console.log("req.cookies")
     // console.log(req.cookies['loggedIn'])
 
-    if (req.cookies['loggedIn'] == true) {
+    if (req.cookies['loggedIn'] == false) {
         res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
     } else {
+        // alert("test")
         res.sendFile(path.join(__dirname + '/public/html/main.html'));
     }
 
@@ -121,6 +125,39 @@ app.get('/signupPage.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/signupPage.html'));
 });
 
+app.get('/emailConfirmation.html', function(req, res) {
+console.log("in email confirmation")
+    //need to get user_id from cookie
+    var user_id = req.cookies['user_id']
+    //also email from user_tbl
+    var query = format("select * from user_tbl where user_id = %L;", user_id)
+
+    //querying
+    herokuClient.query(query, function(err, res) {
+        //if error
+        if (err) {
+            throw err;
+        } else {
+            //no error 
+            console.log(res.rows)
+            //res.rows[0].email_address has email address
+            var emailToSendTo = res.rows[0].email_address
+
+            //now we can actually send it
+            //need to set email first 
+            emailObj.setEmail(emailToSendTo)
+            //generate link to send
+            var linkToSend = emailObj.generateRandomUrl()
+            //email the link
+            emailObj.sendEmailSendGrid(linkToSend)
+        }
+    })
+
+    res.sendFile(path.join(__dirname + '/public/html/emailConfirmation.html'));
+
+    
+});
+
 app.get('/userinfo.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
 });
@@ -138,8 +175,74 @@ app.get('/accountSettings.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/accountSettings.html'));
 });
 
+//testing email 
+app.get('/test', function(req, res) {
+    
+
+    //
+
+    // console.log(emailObj.email)
+    // console.log(emailObj.generateRandomUrl())
+    // console.log(emailObj.getCodes())
+})
+
 app.get('/loginConfirmation.html', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+
+    //check if email is verified 
+    //get user id from request 
+    var user_id = req.cookies['user_id']
+    console.log("USER ID IS ")
+    console.log(user_id)
+    
+    //check email verified
+    var query = format("SELECT * FROM user_tbl where user_id = %L", user_id)
+
+
+    //stting email verified
+    //UPDATE user_tbl WHERE user_id = <user_id from cookie> SET email_verified = TRUE
+    //first query
+    herokuClient.query(query, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.send({ data: false });
+        } else {
+            console.log("no error in searching for user")
+            // console.log(result.rows[0].email_verified)
+            // res.cookie("usersName", username)
+            //adding to table
+            //query 2
+            //second new query string 
+            //result has data 
+            var emailIsVerified = result.rows[0].email_verified
+
+            //if email is verified
+                //redirect to login page 
+            //if email not verified
+                //send main page with alert to check email
+            if (emailIsVerified == true) {
+                //send the file 
+                res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+            } else {
+                // res.sendFile(path.join(__dirname + '/public/html/emailConfirmation.html'));
+                res.redirect(baseUrl + "/emailConfirmation.html")
+            }
+                    
+            // herokuClient.query(query2, function (err, result) {
+            //     if (err) {
+            //         console.log(err)
+            //         res.send({ data: false });
+            //     } else {
+            //         console.log("\n\nno error in adding\n\n")
+            //         console.log(result)
+            //         // res.cookie("usersName", username)
+            //         return res.send({ data: true });
+            //     }
+            // })
+            // return res.send({ data: true });
+        }
+    })
+
+    // res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
 });
 
 app.get('/userinfo.html', function(req, res) {
@@ -149,6 +252,60 @@ app.get('/userinfo.html', function(req, res) {
 app.get('/contact.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/contact.html'));
 });
+
+//getting for email 
+app.get('/emailConfirm', function(req, response) {
+    //params have code 
+    var code = req.query.code//['code']
+
+    //get cookie one last time 
+    var userId = req.cookies['user_id']
+
+    //need to compare to active codes
+    var isActive = emailObj.isActiveCode(code)
+
+    console.log("code")
+    console.log(code)
+    console.log(isActive)
+    console.log(emailObj.getCodes())
+
+    //if active code 
+    if (/*isActive == */true) {
+        //set cookies
+        response.cookie("loggedIn", true)
+        // res.cookie("usersName", username)
+        //saving user_id
+        // res.cookie("user_id", result.rows[0].user_id)
+        //code removed already
+        
+
+        //replace email_verified in user_tbl
+        var query = format("UPDATE user_tbl SET email_verified = %L WHERE user_id = %L ", true, userId)
+        //query reqyest 
+        herokuClient.query(query, function(err, res) {
+            if (err) {
+                console.log("Error updating email_verified")
+                console.log(err)
+            } else {
+                //no error 
+
+                //remove email 
+                emailObj.deleteEmail()
+                //redirect to loginConfirmation
+                response.redirect(baseUrl + "/loginConfirmation.html")
+
+            }
+        })
+
+        
+    } else {
+        //not active code
+        //redirect to loginConfirmation
+        res.redirect(baseUrl + "/loginConfirmation.html")
+    
+
+    }
+})
 
 
 //getting data 
@@ -425,6 +582,10 @@ app.get('/userlogout', function(req, res) {
 
   });
 
+app.get('/testresponse', function(req, res) {
+
+})
+
 //for searching user
 app.get('/createuser', function(req, res) {
 
@@ -446,7 +607,7 @@ app.get('/createuser', function(req, res) {
     // }
    
     //query string 
-    query = format("INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES (%L, crypt(%L, gen_salt('bf')), %L, %L, %L, %L) RETURNING user_id", username, passw, firstName, lastName, email, true)
+    query = format("INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES (%L, crypt(%L, gen_salt('bf')), %L, %L, %L, %L) RETURNING user_id", username, passw, firstName, lastName, email, false)
 
     herokuClient.query(query, function (err, result) {
         if (err) {
@@ -455,12 +616,13 @@ app.get('/createuser', function(req, res) {
             res.send(JSON.stringify({ data: false }));
         } else {
             console.log("\n\nno error in adding\n\n")
-            // console.log("user id is ")
-            // console.log(result.rows[0].user_id)
+            console.log("user id is ")
+            console.log(result.rows[0].user_id)
             res.cookie("usersName", username)
             res.cookie("user_id", result.rows[0].user_id)
             //user id 
-            var user_id = result.rows[0].user_id
+            var user_id = result.rows[0].user_id;
+            var usersName = username;
             
             //TODO use simpler code
 
@@ -526,7 +688,10 @@ app.get('/createuser', function(req, res) {
                                     } else {
                                         console.log("\n\nno error in adding account\n\n")
                                         res.setHeader('Content-Type', 'application/json');
-                                        res.send(JSON.stringify({ data: true }));
+                                        res.cookie("usersName", username)
+                                        res.cookie("user_id", user_id)
+                                        // res.redirect('/emailConfirmation.html')
+                                        res.send(JSON.stringify({ data: true, user_id: user_id }));
                                         
 
                                     }
@@ -631,13 +796,13 @@ app.post('/saveexpense', function(req, res) {
 })
 
 
-  app.get('/user/:id/failed', function(req, res) {
+app.get('/user/:id/failed', function(req, res) {
     // res.send('user ' + req.params.id);
     res.send({ status: 'FAILED' });
-  });
+});
 
 
-
+//Initializing the server
 //telling the server to listen on the assigned port
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
@@ -645,14 +810,6 @@ app.listen(port, () => console.log(`App listening on port ${port}!`))
 // a 404 page just cause
 app.use(function (req, res, next) {
   res.status(404).send("Sorry, page doesn't exist!")
-})
-
-
-
-
-app.use(function (req, res, next) {
-    console.log('Time:', Date.now())
-    next()
 })
 
 

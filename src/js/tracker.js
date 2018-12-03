@@ -557,8 +557,7 @@ var controller = (function (budgetCntrl, UICntrl) {
         //GET req to node server to grab data from individual_expense_tbl to populate table etc with 
     
         //vars 
-        // var baseUrl = "http://localhost:8080"
-        // // var baseUrl = "https://ganymede18.herokuapp.com"
+
         //user id from cookies 
         var user_id_val = getCookie("user_id")
     
@@ -801,12 +800,7 @@ function processPieChart(dataRows) {
         //storing values 
         //labels 
         nestedLabels = ["Auto", "Home", "Food", "Entertainment"]
-        var labelObject = {
-            1: "Auto",
-            2: "Home",
-            3: "Food",
-            4: "Entertainment"
-        }
+        
         //init to 0
         var expenseTypes = [0,0,0,0]
         //iterating
@@ -1039,8 +1033,7 @@ function buildUrl(url, parameters) {
 // function loadBudget() {
 //     //vars 
     
-//     var baseUrl = "http://localhost:8080"
-//     // var baseUrl = "https://ganymede18.herokuapp.com"
+//   
 //     //user id from cookies 
 //     var user_id_val = getCookie("user_id")
 
