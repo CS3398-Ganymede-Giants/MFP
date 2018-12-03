@@ -33,7 +33,7 @@ body {
 /* Style the input container */
 .topnav .search-container {
   float: right;
-  padding-left: 50px;
+  padding-left: 50%;
 }
 
 /* Style the input field inside the navbar */
