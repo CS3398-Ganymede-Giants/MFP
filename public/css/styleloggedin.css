@@ -30,27 +30,33 @@ body {
     background-color: #21B375;
 }
 
-/* Style the search box inside the navigation bar */
-.topnav input[type=text] {
-    float: right;
-    padding: 6px;
-    padding-left: 20px;
-    border: none;
-    margin-top: 8px;
-    margin-right: 16px;
-    font-size: 17px;
+/* Style the input container */
+.topnav .search-container {
+  float: right;
 }
 
-.topnav button {
-  float: right;
-  width: 20%;
-  padding: 10px;
-  background: #2196F3;
-  color: white;
+/* Style the input field inside the navbar */
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
   font-size: 17px;
-  border: 1px solid grey;
-  border-left: none; /* Prevent double borders */
+  border: none;
+}
+
+/* Style the button inside the input container */
+.topnav .search-container button {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
   cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
 }
 /* Style the topnav links, text color */
 .topnav a {
