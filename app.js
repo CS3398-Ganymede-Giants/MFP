@@ -11,8 +11,8 @@ const express = require('express')
 var bodyParser = require('body-parser')
 
 //baseurl
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 
 //for charts 
 // var Chart = require('chart.js');
@@ -569,10 +569,19 @@ app.post('/saveexpense', function(req, res) {
     var query2 = {}
     if (db === 'individual_expense_tbl') {
         //storing columns to add
+
+        //formatting type 
+        // var labelObject = {
+        //     1: "Auto",
+        //     2: "Home",
+        //     3: "Food",
+        //     4: "Entertainment"
+        // }
+        var labelArray = ["Auto", "Home", "Food", "Entertainment"]
         
         //new query string 
         //insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = '<Auto, Home, Food, Entertainment, or Miscellaneous>'), <user_id from cookie>, 'Auto insurance', 150);
-        query = format("insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = %L), %L, %L, %L);", body.expense_type, body.user_id, body.description, body.cost_amount )
+        query = format("insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = %L), %L, %L, %L);", labelArray[body.expense_type_id], body.user_id, body.description, body.cost_amount )
         //update account_tbl set balance = balance - 50 where user_id = <user_id from cookie> and account_type = 'Checking, Savings, or Credit';
         query2 = format("update account_tbl set balance = balance - %L where user_id = %L and account_type = %L;", body.cost_amount, body.user_id, body.account_type)
         

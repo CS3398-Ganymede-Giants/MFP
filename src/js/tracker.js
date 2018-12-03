@@ -1,18 +1,19 @@
 //vars 
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 
 // BUDGET CONTROLLLER
 var budgetController = (function () {
     // create a function constructor for income and expense types
-    var Expense = function (id, description, value, expense_type) {
+    var Expense = function (id, description, cost_amount, expense_type_id) {
         this.id = id;
         this.description = description;
-        this.value = value;
+        this.cost_amount = cost_amount;
         this.percentage = -1;
-        this.expense_type = expense_type;
+        this.expense_type_id = expense_type_id;
+        
     };
 
     Expense.prototype.calcPercentage = function(totalIncome) {
@@ -62,15 +63,15 @@ var budgetController = (function () {
     };
     // create public method to allow other modules to add new items to the data structure
     return {
-        addItem: function (type, desc, val, expense_type = -1, addingNewItem = true) {
+        addItem: function (type, desc, val, expense_type_id = -1, addingNewItem = true) {
             console.log("IN add item first controller")
 
             var newItem, ID;
             // create new ID
             //TODO: need to change to the highest loaded id 
-            console.log(type)
-            console.log(typeof type)
-            console.log(data.allItems[type])
+            // console.log(type)
+            // console.log(typeof type)
+            // console.log(data.allItems[type])
             if (data.allItems[type].length > 0) {
                 ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
             } else {
@@ -78,9 +79,9 @@ var budgetController = (function () {
             }
             // create new item based on 'inc' or 'exp' type
             if (type === "exp") {
-                newItem = new Expense(ID, desc, val, expense_type);
+                newItem = new Expense(ID, desc, val, expense_type_id);
             } else if (type === "inc") {
-                newItem = new Income(ID, desc, val, expense_type);
+                newItem = new Income(ID, desc, val, expense_type_id);
             }
             console.log("\n\nadding to data.allItems\n\n")
             console.log(newItem)
@@ -94,12 +95,14 @@ var budgetController = (function () {
 
             ///////// james's code
             //saving to database code 
-            console.log("SAVING DATA ")
-            console.log(addingNewItem)
+            // console.log("SAVING DATA ")
+            // console.log(newItem)
             if(addingNewItem == true) {
                 saveNewItem(newItem, type)
                 //add to graph?
-                loadGraphs(data.allItems.exp)
+                // loadGraphs(data.allItems.exp)
+                updateGraphNewItem(data.allItems.exp)
+                // addData('expenseBreakdown', newItem)
             }
             /////////
 
@@ -417,8 +420,10 @@ var controller = (function (budgetCntrl, UICntrl) {
                     amountValue = expense_income_loaded.income_amount
                 }
                 console.log("TEST")
-                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, expense_type, false);
-
+                console.log(expense_type)
+                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, expense_income_loaded.expense_type_id, false);
+                console.log("NEW ITEM")
+                console.log(newItem)
                 //skipping the rest if it's an empty object 
                 if (expense_income_loaded != {}) {
                     console.log("new item")
@@ -447,9 +452,9 @@ var controller = (function (budgetCntrl, UICntrl) {
             if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
                 // 2. Add the item to the budget controller
                 //get value 
-                var expense_type = document.getElementById("select_expense_type").value
+                var expense_type_id = document.getElementById("select_expense_type").selectedIndex;
                 //making new item
-                newItem = budgetCntrl.addItem(input.type, input.description, input.value, expense_type);
+                newItem = budgetCntrl.addItem(input.type, input.description, input.value, expense_type_id);
                 // 3. Add the new item to the UI
                 UICntrl.addListItem(newItem, input.type);
                 // 4. Clear the fields
@@ -494,6 +499,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         var expense = await loadItemsAsync('individual_expense_tbl')
         //parsing 
         expense = JSON.parse(expense)
+        console.log("SECOND LOADED")
+        console.log(expense)
         //map array 
 
         //getting income data 
@@ -607,7 +614,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                 if (expense.length != 0) {
                     for(let obj of expense) {
                         console.log("loaded expense added")
-                        controlAddItem(obj, 'exp', false)
+                        controlAddItem(obj, 'exp', false, )
                         // testFunc()
                     }
                 }
@@ -642,9 +649,12 @@ controller.init();
 
 //Database functions:
 //for graphs
+var expenseBreakdown;
 function loadGraphs(expense, income = -1) {
 //TODO: customize more
-console.log("IN LOAD GRAPHS")
+console.log("In LOAD GRAPHS")
+console.log(expense)
+
 
     //what charts to load?
     //1: expense category breakdown 
@@ -659,9 +669,12 @@ console.log("IN LOAD GRAPHS")
     // var data = {} //expense values from db // OR 0 if new user!
     var data = processPieChart(expense)
 
+    console.log("AFTER PROCESSING")
+    console.log(data)
+
     
     //creating the chart
-    var myPieChart = new Chart(ctx,{
+    expenseBreakdown = new Chart(ctx,{
         type: 'doughnut',
         data: data,
         options: {
@@ -711,6 +724,55 @@ console.log("IN LOAD GRAPHS")
     // });
 }
 
+//minor pre processing 
+function updateGraphNewItem(expense) {
+    console.log("EXPENSE SENT IS ")
+    console.log(expense)
+    //vars to store
+    var newExpense = []
+    //need to preprocess 
+    var labelObject = {
+        "Auto": 1,
+        "Home": 2, 
+        "Food":3, 
+        "Entertainment": 4
+    }
+    for (let e of expense) {
+        e.expense_type = labelObject[e.expense_type]
+        //push
+        newExpense.push(e)
+    }
+
+    //now call function
+    console.log("NEW DATA IS")
+    console.log(newExpense)
+
+    //updating graphs?
+    loadGraphs(newExpense)
+}
+
+//updating graphs 
+//globl chart 
+// var chart;
+function addData(chart, newItem) {
+    //need to get chart from html 
+    var chart = document.getElementById("expenseBreakdown").getContext('2d');
+    console.log(chart)
+    console.log("IN UPDATE CHART")
+    console.log(chart)
+    console.log(newItem)
+    
+    // console.log(data)
+
+    // chart.data.labels.push(newItem.expense_type);
+    chart.data.datasets.forEach((dataset) => {
+        // dataset.data.push(data);
+        console.log(dataset.data)
+    });
+    chart.update();
+}
+
+
 //processing data for graphs 
 function processPieChart(dataRows) {
     //assuming expense for this second 
@@ -723,6 +785,8 @@ function processPieChart(dataRows) {
     var nestedData = []
     //nested labels 
     var nestedLabels = []
+    console.log("DATA ROWS")
+    console.log(dataRows)
 
     //need to see if there's any at all
     if (dataRows.length == 0) {
@@ -737,16 +801,30 @@ function processPieChart(dataRows) {
 
         //need to sum data and seperate by category 
         //storing values 
+        //labels 
+        nestedLabels = ["Auto", "Home", "Food", "Entertainment"]
+        var labelObject = {
+            1: "Auto",
+            2: "Home",
+            3: "Food",
+            4: "Entertainment"
+        }
         //init to 0
         var expenseTypes = [0,0,0,0]
         //iterating
         for ( let indivExpense of dataRows) {
+            console.log("INDIV")
+            console.log(indivExpense)
             //sum into expensetypes [index - 1]
-            expenseTypes[indivExpense.expense_type_id - 1] += indivExpense.cost_amount
+            expenseTypes[indivExpense.expense_type_id] += parseInt(indivExpense.cost_amount)
+            console.log(expenseTypes)
+            //sum into expensetypes 
+            //might have expense_type need expense index
+            // expenseTypes[]
         }
         //store again 
         nestedData = expenseTypes
-        nestedLabels = ["Auto", "Home", "Food", "Entertainment"]
+        
     }
 
     //storing in data object to return
@@ -862,10 +940,15 @@ function saveNewItem(newItem, type) {
         }
     } 
     if (type == 'exp') {
+        //swithcing label and string 
+        
         db = 'individual_expense_tbl'
+        console.log("\n\n\n\n")
+        // console.log(labelObject[newItem.expense_type])
+        console.log(newItem)
         //postbody to send 
         postBody = {
-            'expense_type': newItem.expense_type,
+            'expense_type_id': newItem.expense_type_id, //labelObject[newItem.expense_type],
             'user_id': user_id_val,
             'description': newItem.description,
             'cost_amount': newItem.value,
