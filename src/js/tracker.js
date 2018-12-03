@@ -39,10 +39,19 @@ var budgetController = (function () {
 
     var calculateTotal = function(type) {
         var sum = 0;
-        // add all values in the array depending on if it's 'exp' or 'inc'
-        data.allItems[type].forEach(function(currentElement){
-            sum += parseInt(currentElement.value);
-        });
+        //if is expense 
+        if (type == 'exp') {
+             // add all values in the array depending on if it's 'exp' or 'inc'
+            data.allItems[type].forEach(function(currentElement){
+                sum += parseInt(currentElement.cost_amount);
+            });
+        } else {
+             // add all values in the array depending on if it's 'exp' or 'inc'
+            data.allItems[type].forEach(function(currentElement){
+               sum += parseInt(currentElement.value);
+            });
+        }
+       
         // store the totals in the data object
         data.totals[type] = sum;
     };
@@ -83,8 +92,8 @@ var budgetController = (function () {
             } else if (type === "inc") {
                 newItem = new Income(ID, desc, val, expense_type_id);
             }
-            console.log("\n\nadding to data.allItems\n\n")
-            console.log(newItem)
+            // console.log("\n\nadding to data.allItems\n\n")
+            // console.log(newItem)
             // add new exp or inc to the end of the allItems.exp or allItems.inc array
             //lazy code 
             if (newItem != undefined) {
@@ -128,11 +137,13 @@ var budgetController = (function () {
         },
 
         calculateBudget: function() {
+            
             // calculate total income and expenses
             calculateTotal('exp');
             calculateTotal('inc');
             // calculate budget: income - expenses
             data.budget = data.totals.inc - data.totals.exp;
+            
             // calculate percentage of income that has already been spent
             if (data.totals.inc > 0){
                 // if income > 0, then calculate the percent expenses
@@ -141,6 +152,7 @@ var budgetController = (function () {
                 // display nothing
                 data.percentage = -1;
             }
+            
         },
 
         calculatePercentages: function() {
@@ -235,23 +247,27 @@ var UIController = (function () {
         },
 
         addListItem: function (obj, type) {
-            console.log("ADD LIST ITEM")
-            console.log(obj)
-            console.log(type)
+            // console.log("ADD LIST ITEM")
+            // console.log(obj)
+            // console.log(type)
             // declare variables
             var html, newHtml, element;
+            //temp
+            var sentValue;
             // create HTML string with placeholder text
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer;
                 html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%\t</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline">del</i></button></div></div></div>'
+                sentValue = obj.value
             } else if (type === 'exp') {
                 element = DOMstrings.expenseContainer;
                 html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%\t</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline">del</i></button></div></div></div>'
+                sentValue = obj.cost_amount
             }
             // replace placeholder text with some actual data
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
+            newHtml = newHtml.replace('%value%', formatNumber(sentValue, type));
             // insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
@@ -379,6 +395,8 @@ var controller = (function (budgetCntrl, UICntrl) {
         // 3. Display the budget on the UI
         // console.log(budget);
         // pass the budget object as a parameter to the displayBudget method b/c it's looking for an obj argument
+        // console.log("KKKKKKKKKDKJKDJFKJDF")
+        // console.log(budget)
         UICntrl.displayBudget(budget);
 
     };
@@ -397,7 +415,7 @@ var controller = (function (budgetCntrl, UICntrl) {
     var controlAddItem = function (expense_income_loaded = -1, expense_or_income_sent = -1) {
         //optional param check 
         if (expense_income_loaded != -1 && expense_or_income_sent != -1) {
-            console.log("if 1")
+            // console.log("if 1")
 
             //4am code 
             if(expense_income_loaded == JSON.stringify({})) {
@@ -419,15 +437,15 @@ var controller = (function (budgetCntrl, UICntrl) {
                 } else {
                     amountValue = expense_income_loaded.income_amount
                 }
-                console.log("TEST")
-                console.log(expense_type)
-                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, amountValue, expense_income_loaded.expense_type_id, false);
-                console.log("NEW ITEM")
-                console.log(newItem)
+                // console.log("TEST\n\n\n\n\n")
+                // console.log(amountValue)
+                newItem = budgetCntrl.addItem(expense_or_income_sent, expense_income_loaded.description, parseInt(amountValue), expense_income_loaded.expense_type_id, false);
+                // console.log("NEW ITEM")
+                // console.log(newItem)
                 //skipping the rest if it's an empty object 
                 if (expense_income_loaded != {}) {
-                    console.log("new item")
-                    console.log(newItem)
+                    // console.log("new item")
+                    // console.log(newItem)
                     // 3. Add the new item to the UI
                     UICntrl.addListItem(newItem, expense_or_income_sent);
                     // 4. Clear the fields
@@ -494,13 +512,18 @@ var controller = (function (budgetCntrl, UICntrl) {
     //james's code
     //getting rows indiviually 
     async function loadExpenseIncomeTbls(callback) {
-        console.log("loadExpenseIncomeTbls...")
+        // console.log("loadExpenseIncomeTbls...")
         //getting expense data 
         var expense = await loadItemsAsync('individual_expense_tbl')
         //parsing 
         expense = JSON.parse(expense)
+        //formatting 
+        var newExpense = []
+        for (let e of expense) {
+            newExpense.push({expense_id: e.expense_id, expense_type_id: e.expense_type_id - 1, user_id:e.user_id, description:e.description, cost_amount:e.cost_amount, timestamp:e.timestamp })
+        }
         console.log("SECOND LOADED")
-        console.log(expense)
+        // console.log(expense)
         //map array 
 
         //getting income data 
@@ -513,7 +536,7 @@ var controller = (function (budgetCntrl, UICntrl) {
         
 
         //dataObj to return 
-        var dataObj = {income: income, expense: expense}
+        var dataObj = {income: income, expense: newExpense}
 
         //callback?
         callback && callback(dataObj)
@@ -542,7 +565,7 @@ var controller = (function (budgetCntrl, UICntrl) {
         //need to make a GET and return json 
         //url from base 
         var url = baseUrl + '/loaddata/all/' + user_id_val + '/' + tbl
-        console.log("URL IS ")
+        // console.log("URL IS ")
         console.log(url)
     
         
@@ -598,14 +621,14 @@ var controller = (function (budgetCntrl, UICntrl) {
             //james's code 
             //load stuff and add items 
             loadExpenseIncomeTbls(function(dataObj) {
-                console.log("Made it this far?...")
+                // console.log("Made it this far?...")
                 //loaded data 
                 var expense = dataObj.expense
                 var income = dataObj.income 
-                console.log("loaded expenses were:")
-                console.log(expense)
-                console.log("loaded incomes were:")
-                console.log(income)
+                // console.log("loaded expenses were:")
+                // console.log(expense)
+                // console.log("loaded incomes were:")
+                // console.log(income)
 
 
                 //need to call controlAddItem 
@@ -613,7 +636,7 @@ var controller = (function (budgetCntrl, UICntrl) {
                 //expenses 
                 if (expense.length != 0) {
                     for(let obj of expense) {
-                        console.log("loaded expense added")
+                        // console.log("loaded expense added")
                         controlAddItem(obj, 'exp', false, )
                         // testFunc()
                     }
@@ -652,8 +675,8 @@ controller.init();
 var expenseBreakdown;
 function loadGraphs(expense, income = -1) {
 //TODO: customize more
-console.log("In LOAD GRAPHS")
-console.log(expense)
+// console.log("In LOAD GRAPHS")
+// console.log(expense)
 
 
     //what charts to load?
@@ -669,8 +692,8 @@ console.log(expense)
     // var data = {} //expense values from db // OR 0 if new user!
     var data = processPieChart(expense)
 
-    console.log("AFTER PROCESSING")
-    console.log(data)
+    // console.log("AFTER PROCESSING")
+    // console.log(data)
 
     
     //creating the chart
@@ -726,51 +749,26 @@ console.log(expense)
 
 //minor pre processing 
 function updateGraphNewItem(expense) {
-    console.log("EXPENSE SENT IS ")
-    console.log(expense)
+    // console.log("EXPENSE SENT IS ")
+    // console.log(expense)
     //vars to store
     var newExpense = []
     //need to preprocess 
-    var labelObject = {
-        "Auto": 1,
-        "Home": 2, 
-        "Food":3, 
-        "Entertainment": 4
-    }
+    var labelArray = ["Auto", "Home", "Food", "Entertainment"]
     for (let e of expense) {
-        e.expense_type = labelObject[e.expense_type]
+        e.expense_type = labelArray[e.expense_type]
         //push
         newExpense.push(e)
     }
 
     //now call function
-    console.log("NEW DATA IS")
-    console.log(newExpense)
+    // console.log("NEW DATA IS")
+    // console.log(newExpense)
 
     //updating graphs?
     loadGraphs(newExpense)
 }
 
-//updating graphs 
-//globl chart 
-// var chart;
-function addData(chart, newItem) {
-    //need to get chart from html 
-    var chart = document.getElementById("expenseBreakdown").getContext('2d');
-    console.log(chart)
-    console.log("IN UPDATE CHART")
-    console.log(chart)
-    console.log(newItem)
-    
-    // console.log(data)
-
-    // chart.data.labels.push(newItem.expense_type);
-    chart.data.datasets.forEach((dataset) => {
-        // dataset.data.push(data);
-        console.log(dataset.data)
-    });
-    chart.update();
-}
 
 
 //processing data for graphs 
@@ -951,7 +949,7 @@ function saveNewItem(newItem, type) {
             'expense_type_id': newItem.expense_type_id, //labelObject[newItem.expense_type],
             'user_id': user_id_val,
             'description': newItem.description,
-            'cost_amount': newItem.value,
+            'cost_amount': newItem.cost_amount,
             'account_type':account_type,
             'db': db
 
@@ -1096,4 +1094,25 @@ function buildUrl(url, parameters) {
 
 //     // return allData
     
+// }
+
+// //updating graphs 
+// //globl chart 
+// // var chart;
+// function addData(chart, newItem) {
+//     //need to get chart from html 
+//     var chart = document.getElementById("expenseBreakdown").getContext('2d');
+//     // console.log(chart)
+//     // console.log("IN UPDATE CHART")
+//     // console.log(chart)
+//     // console.log(newItem)
+    
+//     // console.log(data)
+
+//     // chart.data.labels.push(newItem.expense_type);
+//     chart.data.datasets.forEach((dataset) => {
+//         // dataset.data.push(data);
+//         // console.log(dataset.data)
+//     });
+//     chart.update();
 // }
