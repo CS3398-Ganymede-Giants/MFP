@@ -87,6 +87,11 @@ body {
     padding-left: 20px;
 }
 
+.userposting input[type=text] {
+    padding: 20px;
+    border: 2px #21B375;
+    border-radius: 4px;
+}
 /* Add a card effect for articles */
 .card {
     border-radius: 25px;
