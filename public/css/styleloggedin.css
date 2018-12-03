@@ -30,6 +30,34 @@ body {
     background-color: #21B375;
 }
 
+/* Style the input container */
+.topnav .search-container {
+  float: right;
+}
+
+/* Style the input field inside the navbar */
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+}
+
+/* Style the button inside the input container */
+.topnav .search-container button {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
+}
 /* Style the topnav links, text color */
 .topnav a {
     float: left;
@@ -58,7 +86,20 @@ body {
     width: 75%;
     padding-left: 20px;
 }
-
+.userposting {
+  padding-top: 20px;
+}
+.userposting input[type=text] {
+  width: 90%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #21B375;
+  border-radius: 4px;
+}
+.userposting input[type=text]:focus {
+    border: 3px solid #21B375;
+}
 /* Add a card effect for articles */
 .card {
     border-radius: 25px;
