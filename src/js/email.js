@@ -14,14 +14,15 @@ var randomstring = require("randomstring");
 
 
 
-// var baseUrl = "https://ganymede18.herokuapp.com"
+
 //active codes 
 // var activeCodes = []
 
 module.exports = function (email = "") {
     //vars 
     //baseurl
-    this.baseUrl = "http://localhost:8080"
+    // this.baseUrl = "http://localhost:8080"
+    this.baseUrl = "https://ganymede18.herokuapp.com"
     //email sent
     this.email = email
     //active email codes
@@ -177,6 +178,7 @@ module.exports = function (email = "") {
         sgMail.send(msg)
         .then(() => {
           //Celebrate
+          console.log("\nEmail sent successully\n")
         })
         .catch(error => {
       

@@ -19,8 +19,8 @@ var emailObj = new Email()
 // var alert = require('alert-node')
 
 //baseurl
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
+// var baseUrl = "http://localhost:8080"
+var baseUrl = "https://ganymede18.herokuapp.com"
 //email instance 
 
 //test databse code
@@ -28,24 +28,18 @@ var baseUrl = "http://localhost:8080"
 //testing postgres code
 var pg = require('pg')
 var format = require('pg-format')
-//postgres credentials
-//test postgres code
-const PGUSER = 'jameslaroux'
-const PGDATABASE = 'testdb'
+
 
 //heroku postgres code
 //connecting when the app initializes
 const { Client } = require('pg');
 
-
+//heroky pg client
 const herokuClient = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
-
-//surrounding with try catch?
-//maybe not
-
+//connecting
 herokuClient.connect();
 
 herokuClient.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
@@ -68,10 +62,6 @@ app.use(cookieParser());
 //for json parser
 app.use(bodyParser.json());
 
-
-//requestjs
-// const Request = require('request');
-// const request = Request()
 
 //so we can handle files more easily
 var path = require('path');
@@ -100,7 +90,7 @@ app.get('/', function(req, res) {
     // console.log("req.cookies")
     // console.log(req.cookies['loggedIn'])
 
-    if (req.cookies['loggedIn'] == false) {
+    if (req.cookies['loggedIn'] == true) {
         res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
     } else {
         // alert("test")

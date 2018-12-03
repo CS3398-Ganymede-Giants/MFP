@@ -1,6 +1,6 @@
 //vars 
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
+// var baseUrl = "http://localhost:8080"
+var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 
