@@ -1,179 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
-  <link type="text/css" rel="stylesheet" href="css/trackerStyle.css">
-  <link type="text/css" rel="stylesheet" href="css/dropdown.css">
-  <link rel="stylesheet" href="css/loginBar.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="css/trackerStyle.css">
+    <link type="text/css" rel="stylesheet" href="css/dropdown.css">
+    <link rel="stylesheet" href="css/loginBar.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
 
 </head>
+
 <body>
-<div class="topnav" class="topBar">
-    <div class="welcomeBackDiv">
-      <div class="welcomeBackText" id="welcomeBackUserText"> Welcome!</div>
-      <button type="submit" onclick="logout()" class="welcomeBackButton" >Logout</button>
-    </div>
-</div>
+    <!-- Modal div for entering finance goal info  -->
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
 
-<div class="clearfix">
-  <div class="leftcolumn">
-    <div class="card">
-      <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
-      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html"> <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Home</a></h2>
-      <h2 style="padding-left:50px;"><a style="color:black;" href = "https://ganymede18.herokuapp.com/trackingPage.html"><img src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Tracker</a></h2>
-      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/accountSettings.html"><img src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Account Settings</a></h2>
-      <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contact.html"><img src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Contact Us</a></h2>
-    </div>
-   </div>
-
-    <!-- adding in graphs somewhere in here -->
-    <div class="rightcolumn">
-        <!-- upper card -->
-        <div class="card">
-
-              <div class="budget__title">
-                  Available Budget in <span class="budget__title--month">%Month%</span>:
-              </div>
-              <div class="budget__value"></div>
-              <div class="budget__income clearfix">
-                  <div class="budget__income--text">Income</div>
-                  <div class="right">
-                      <div class="budget__income--value">%</div>
-                      <div class="budget__income--percentage">&nbsp;</div>
-                  </div>
-              </div>
-              <div class="budget__expenses clearfix">
-                  <div class="budget__expenses--text">Expenses</div>
-                  <div class="right clearfix">
-                      <div class="budget__expenses--value"></div>
-                      <div class="budget__expenses--percentage"></div>
-                  </div>
-              </div>
-        </div>
-        <!-- middle card -->
-        <!-- graphs in here for now -->
-        <!-- <div class="graph_card" width="400" height="400"> -->
-        <div class="graph_card">
-            <!-- <canvas class="graph" id="myChart" width="400" height="400"></canvas> -->
-            <canvas class="graph" id="expenseBreakdown"></canvas>
-        </div>
-        <!-- bottom card -->
-        <div class="card">
-            <div class="add">
-                <div class="add__container">
-                    <select class="add__type" onselect="this.className" id="typeSelected">
-                        <option value="inc" selected>+</option>
-                        <option value="exp">-</option>
-                    </select>
-                    <input type="text" class="add__description" oninput="this.className" placeholder="Add description">
-                    <select class="add__description" select="this.className" id="select_account_type">
-                        <option value="Checking" selected>Checkings</option>
-                        <option value="Savings">Savings</option>
-                        <option value="Credit">Credit</option>
-                    </select>
-                    <!-- <select class="add__description" onselect="this.className" id="message"> -->
-                    <select class="add__description" onselect="this.className" id="select_expense_type">
-                        <option value="Auto">Auto</option>
-                        <option value="Home">Home</option>
-                        <option value="Food">Food</option>
-                        <option value="Entertainment">Entertainment</option>
-                    </select>
-                    <input type="number" class="add__value" oninput="this.className" placeholder="Value">
-                    <button class="add__btn" onclick="this.className">enter</button>
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            
+            <div class="innerModalRight">
+                <h1>Enter any current account balanaces:</h1>
+            
+                <!-- <p>Some text in the Modal..</p> -->
+                <!-- divs for each account type -->
+                <div class="modal-account">
+                    <h1>Checking:</h1>
+                    <!-- <textarea rows="1" cols="10"></textarea> -->
+                    <!-- <input type="text" id="modal-checking" name="name" required minlength="1"  size="10" class="modal-input"> -->
+                    <span class="currencyinput">$<input type="number" id="modal-checking-initial" name="name" required minlength="1" size="10"
+                            class="modal-input"></span>
+                </div>
+                <div class="modal-account">
+                    <h1>Savings:</h1>
+                    <!-- <input type="text" id="modal-savings" name="name" required minlength="1" size="10" class="modal-input"> -->
+                    <span class="currencyinput">$<input type="number" id="modal-savings-initial" name="name" required minlength="1" size="10"
+                            class="modal-input"></span>
+                </div>
+                <div class="modal-account">
+                    <h1>Credit (- balance):</h1>
+                    <!-- <input type="text" id="modal-credit" name="name" required minlength="1" size="10" class="modal-input"> -->
+                    <span class="currencyinput">$<input type="number" id="modal-credit-initial" name="name" required minlength="1" size="10"
+                            class="modal-input"></span>
                 </div>
             </div>
-            <div class="container clearfix">
-                <div class="card_three income">
-                    <h3 class="income__title">Income</h3>
-
-                    <div class="income__list"></div>
+            <div class="innerModalLeft">
+                <h1>Enter short-term finance goals:</h1>
+            
+                <!-- <p>Some text in the Modal..</p> -->
+                <!-- divs for each account type -->
+                <div class="modal-account">
+                    <h1>Checking:</h1>
+                    <!-- <textarea rows="1" cols="10"></textarea> -->
+                    <!-- <input type="text" id="modal-checking" name="name" required minlength="1"  size="10" class="modal-input"> -->
+                    <span class="currencyinput">$<input type="number" id="modal-checking" name="name" required minlength="1" size="10"
+                            class="modal-input"></span>
                 </div>
-                <div class="card_two expenses">
-                    <h3 class="expenses__title">Expenses</h3>
-                    <div class="expenses__list"></div>
+                <div class="modal-account">
+                    <h1>Savings:</h1>
+                    
+                    <span class="currencyinput">$<input type="number" id="modal-savings" name="name" required minlength="1" size="10" class="modal-input"></span>
+                </div>
+                <div class="modal-account">
+                    <h1>Credit:</h1>
+                   
+                    <span class="currencyinput">$<input type="number" id="modal-credit" name="name" required minlength="1" size="10" class="modal-input"></span>
+                </div>
+            </div>
+
+            
+            <button id="submitModalButton" class="welcomeBackButton" onclick="saveModalData()">Submit</button>
+           
+        </div>
+
+    </div>
+
+    <div id="everything_besides_modal" class="everything_besides_modal_focus">
+        <div class="topnav" class="topBar">
+            <div class="welcomeBackDiv">
+                <div class="welcomeBackText" id="welcomeBackUserText"> Welcome!</div>
+                <button type="submit" onclick="logout()" class="welcomeBackButton">Logout</button>
+            </div>
+        </div>
+
+
+
+        <div class="clearfix">
+            <div class="leftcolumn">
+                <div class="card">
+                    <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
+                    <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html">
+                            <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                            Home</a></h2>
+                    <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/trackingPage.html"><img
+                                src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                            Tracker</a></h2>
+                    <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/accountSettings.html"><img
+                                src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                            Account Settings</a></h2>
+                    <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contact.html"><img
+                                src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                            Contact Us</a></h2>
+                </div>
+            </div>
+
+            <!-- adding in graphs somewhere in here -->
+            <div class="rightcolumn">
+                <!-- upper card -->
+                <div class="card">
+
+                    <div class="budget__title">
+                        Available Budget in <span class="budget__title--month">%Month%</span>:
+                    </div>
+                    <div class="budget__value"></div>
+                    <div class="budget__income clearfix">
+                        <div class="budget__income--text">Income</div>
+                        <div class="right">
+                            <div class="budget__income--value">%</div>
+                            <div class="budget__income--percentage">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="budget__expenses clearfix">
+                        <div class="budget__expenses--text">Expenses</div>
+                        <div class="right clearfix">
+                            <div class="budget__expenses--value"></div>
+                            <div class="budget__expenses--percentage"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- middle card -->
+                <!-- graphs in here for now -->
+                <!-- <div class="graph_card" width="400" height="400"> -->
+                <div class="main_graph_card">
+                    <div class="graph_card_left">
+                        <!-- <canvas class="graph" id="myChart" width="400" height="400"></canvas> -->
+                        <canvas class="graph" id="expenseBreakdown" aria-label="Hello ARIA World" role="img"></canvas>
+                    </div>
+                    <div class="graph_card_right">
+                        <!-- <canvas class="graph" id="myChart" width="400" height="400"></canvas> -->
+                        <canvas class="graph" id="financeLineChart" aria-label="Hello ARIA World2" role="img"></canvas>
+                        <!-- <canvas class="graph" id="financeLineChart2" aria-label="Hello ARIA World2" role="img"></canvas>
+                        <canvas class="graph" id="financeLineChart3" aria-label="Hello ARIA World2" role="img"></canvas> -->
+                    </div>
+                </div>
+
+                <!-- bottom card -->
+                <div class="card">
+                    <div class="add">
+                        <div class="add__container">
+                            <select class="add__type" onselect="this.className" id="typeSelected">
+                                <option value="inc">+</option>
+                                <option value="exp" selected>-</option>
+                            </select>
+                            <input type="text" class="add__description" oninput="this.className" placeholder="Add description">
+                            <select class="add__description" select="this.className" id="select_account_type">
+                                <option value="Checking" selected>Checkings</option>
+                                <option value="Savings">Savings</option>
+                                <option value="Credit">Credit</option>
+                            </select>
+                            <!-- <select class="add__description" onselect="this.className" id="message"> -->
+                            <select class="add__description" onselect="this.className" id="select_expense_type">
+                                <option value="Auto">Auto</option>
+                                <option value="Home">Home</option>
+                                <option value="Food">Food</option>
+                                <option value="Entertainment">Entertainment</option>
+                            </select>
+                            <input type="number" class="add__value" oninput="this.className" placeholder="Value">
+                            <button class="add__btn" onclick="this.className">enter</button>
+                        </div>
+                    </div>
+                    <div class="container clearfix">
+                        <div class="card_three income">
+                            <h3 class="income__title">Income</h3>
+
+                            <div class="income__list"></div>
+                        </div>
+                        <div class="card_two expenses">
+                            <h3 class="expenses__title">Expenses</h3>
+                            <div class="expenses__list"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="footer">
+            <h3>&copy;MyFinancePal was develped by Ivy, Robert, Zaniab, James and Tyler (Group Ganymede).</h3>
+        </div>
     </div>
-</div>
 
-<div class="footer">
-  <h3>&copy;MyFinancePal was develped by Ivy, Robert, Zaniab, James and Tyler (Group Ganymede).</h3>
-</div>
 
-<script type="text/javascript" src="js/tracker.js"></script>
-<script type="text/javascript" src="js/db.js"></script>
-<script type="text/javascript">
+
+    <script type="text/javascript" src="js/tracker.js"></script>
+    <script type="text/javascript" src="js/db.js"></script>
+    <script type="text/javascript">
 
         //setting the welcome greeting with the name from the cookies, written before a demo
-          function getCookie(name) {
-          var value = "; " + document.cookie;
-          var parts = value.split("; " + name + "=");
-          if (parts.length == 2) return parts.pop().split(";").shift();
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
         }
 
-          document.getElementById("welcomeBackUserText").innerHTML = "Welcome, " + getCookie("usersName") + "!"
-          
+        document.getElementById("welcomeBackUserText").innerHTML = "Welcome, " + getCookie("usersName") + "!"
+
         var myType = document.getElementById("typeSelected");
 
-        myType.onchange = function() {
-        if (myType.value ==  "exp" ){
-            document.getElementById("message").style.display = "inline";
-        } else {
-            document.getElementById("message").style.display = "none";
+        myType.onchange = function () {
+            if (myType.value == "exp") {
+                document.getElementById("select_expense_type").style.display = "inline";
+            } else {
+                document.getElementById("select_expense_type").style.display = "none";
+            }
         }
+
+
+    </script>
+
+    <!-- script for graphs  -->
+    <!-- script for graphs  -->
+    <!-- <script src="scripts/chart.js/dist/Chart.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+
+    <!-- script for modal -->
+    <script>
+       
+        //everything besides modal 
+        // var everything_besides_modal = document.getElementById('everything_besides_modal')
+
+        // Get the button that opens the modal
+        // var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        // btn.onclick = function () {
+        //     modal.style.display = "block";
+        // }
+
+        
+        
+        
+        // hideModal()
+        // showModal()
+
+        //get cookie data 
+        ////cookie set to 'showModal = true'
+        
+        
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            var modal = document.getElementById('myModal');
+            //hide modal
+            modal.style.display = "none";
+            //unblur 
+            // everything_besides_modal.focus()
+            // everything_besides_modal.focus()
+            document.getElementById('everything_besides_modal').className = "everything_besides_modal_focus"
+            
         }
 
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            var modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                //hide modal
+                modal.style.display = "none";
+                //unblur 
+                // everything_besides_modal.focus()
+                document.getElementById('everything_besides_modal').className = "everything_besides_modal_focus"
+            }
+        } 
 
-</script>
+        // //on page load 
+        // window.onload = function() {
+            var showModalCookie = getCookie('showModal')
+            console.log("COOKIE")
+            console.log(showModalCookie)
+            if (showModalCookie == "true") {
+                console.log("SHOWING MODAL")
+                showModal()
+                //showing the modal
+                // modal.style.display = "none" //"block"
+                // //blurring everything else
+                // document.getElementById('everything_besides_modal').className = "everything_besides_modal_focus"
 
-<!-- script for graphs  -->
-<!-- script for graphs  -->
-<!-- <script src="scripts/chart.js/dist/Chart.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
-<!-- script for graph code -->
-<script>
-        // var ctx = document.getElementById("myChart").getContext('2d');
-        // var myChart = new Chart(ctx, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Gay"],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [12, 19, 3, 5, 2, 3],
-        //             backgroundColor: [
-        //                 'rgba(255, 99, 132, 0.2)',
-        //                 'rgba(54, 162, 235, 0.2)',
-        //                 'rgba(255, 206, 86, 0.2)',
-        //                 'rgba(75, 192, 192, 0.2)',
-        //                 'rgba(153, 102, 255, 0.2)',
-        //                 'rgba(255, 159, 64, 0.2)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255,99,132,1)',
-        //                 'rgba(54, 162, 235, 1)',
-        //                 'rgba(255, 206, 86, 1)',
-        //                 'rgba(75, 192, 192, 1)',
-        //                 'rgba(153, 102, 255, 1)',
-        //                 'rgba(255, 159, 64, 1)'
-        //             ],
-        //             borderWidth: 1
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             yAxes: [{
-        //                 ticks: {
-        //                     beginAtZero:true
-        //                 }
-        //             }]
-        //         }
-        //     }
-        // });
-</script>
+            } else {
+                hideModal()
+            }
+        // }
+
+        //need to check if finance data is set or not 
+        //TODO
+        function showModal() {
+            // Get the modal
+            var modal = document.getElementById('myModal');
+            //showing the modal
+            modal.style.display = "block"
+            //blurring everything else
+            document.getElementById('everything_besides_modal').className = "everything_besides_modal_blur"
+        }
+
+        function hideModal() {
+            var modal = document.getElementById('myModal');
+            //showing the modal
+            modal.style.display = "none"
+            //blurring everything else
+            document.getElementById('everything_besides_modal').className = "everything_besides_modal_focus"
+        }
+
+        //getting particular cookie from cookies
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+       
+    </script>
 </body>
+
 </html>

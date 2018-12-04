@@ -3,6 +3,7 @@
 .topnav .login-container {
   float: right;
   display: inline-block;
+  border-radius: 15px;
 }
 
 .topnav input[type=text] {

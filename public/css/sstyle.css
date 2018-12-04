@@ -28,6 +28,7 @@ body {
 .topnav {
     overflow: auto;
     background-color: #21B375;
+    border-radius: 15px;
 }
 
 /* Style the topnav links, text color */

@@ -19,8 +19,8 @@ var emailObj = new Email()
 // var alert = require('alert-node')
 
 //baseurl
-// var baseUrl = "http://localhost:8080"
-var baseUrl = "https://ganymede18.herokuapp.com"
+var baseUrl = "http://localhost:8080"
+// var baseUrl = "https://ganymede18.herokuapp.com"
 //email instance 
 
 //test databse code
@@ -42,15 +42,16 @@ const herokuClient = new Client({
 //connecting
 herokuClient.connect();
 
-herokuClient.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    // console.log(JSON.stringify(row));
-  }
-//   herokuClient.end();
-});
+// herokuClient.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+//   if (err) throw err;
+//   for (let row of res.rows) {
+//     // console.log(JSON.stringify(row));
+//   }
+// //   herokuClient.end();
+// });
 //end heroku code
 
+//Express code
 //making the express object that will be used to control our server
 const app = express()
 
@@ -84,16 +85,20 @@ app.use(express.static('src'))
 // viewed at http://localhost:8080 on local machines
 app.get('/', function(req, res) {
     console.log("\n\napp.get('/'\n\n")
-    // res.sendFile(path.join(__dirname + '/public/html/main.html'));
-    // res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+    //user logged in or not
+    var isLoggedIn = req.cookies['loggedIn']
+    console.log(req.cookies)
 
-    // console.log("req.cookies")
-    // console.log(req.cookies['loggedIn'])
-
-    if (req.cookies['loggedIn'] == true) {
-        res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+    if (isLoggedIn == true) {
+        // res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+        console.log("redirect")
+        //set cookies 
+        res.cookie('user_id', req.cookies['user_id'])
+        res.redirect(baseUrl + "/loginConfirmation.html")
     } else {
         // alert("test")
+        res.cookie('user_id', -1)
+        res.cookie('loggedIn', false)
         res.sendFile(path.join(__dirname + '/public/html/main.html'));
     }
 
@@ -115,7 +120,7 @@ app.get('/signupPage.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/signupPage.html'));
 });
 
-app.get('/emailConfirmation.html', function(req, res) {
+app.get('/emailConfirmation', function(req, response) {
 console.log("in email confirmation")
     //need to get user_id from cookie
     var user_id = req.cookies['user_id']
@@ -130,23 +135,100 @@ console.log("in email confirmation")
         } else {
             //no error 
             console.log(res.rows)
-            //res.rows[0].email_address has email address
-            var emailToSendTo = res.rows[0].email_address
 
-            //now we can actually send it
-            //need to set email first 
-            emailObj.setEmail(emailToSendTo)
-            //generate link to send
-            var linkToSend = emailObj.generateRandomUrl()
-            //email the link
-            emailObj.sendEmailSendGrid(linkToSend)
+            //only need to send email if email isn't verified already 
+            if (res.rows[0].email_verified == false) {
+                //res.rows[0].email_address has email address
+                var emailToSendTo = res.rows[0].email_address
+
+                //now we can actually send it
+                //need to set email first 
+                emailObj.setEmail(emailToSendTo, user_id)
+                //generate link to send
+                var linkToSend = emailObj.generateRandomUrl()
+                //email the link
+                emailObj.sendEmail(linkToSend)
+                //send emailConfirmation page
+                response.sendFile(path.join(__dirname + '/public/html/emailConfirmation.html'));
+            } else {
+                //if email is verified 
+                response.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
+            }
+            
+            
         }
     })
 
-    res.sendFile(path.join(__dirname + '/public/html/emailConfirmation.html'));
+   
 
     
 });
+
+
+//getting for email 
+app.get('/emailConfirm', function (req, response) {
+    //params have code 
+    var code = req.query.code//['code']
+
+    //get cookie one last time 
+    // var userId = req.cookies['user_id']
+    var userId = req.query.id
+
+    //need to compare to active codes
+    var isActive = emailObj.isActiveCode(code)
+
+    console.log("code")
+    console.log(code)
+    console.log("user id")
+    console.log(userId)
+    console.log(isActive)
+    console.log(emailObj.getCodes())
+
+    //if active code 
+    if (/*isActive == */true) {
+        //set cookies
+       
+        // res.cookie("usersName", username)
+        //saving user_id
+        // res.cookie("user_id", result.rows[0].user_id)
+        //code removed already
+
+
+        //replace email_verified in user_tbl
+        var query = format("UPDATE user_tbl SET email_verified = %L WHERE user_id = %L ", true, userId)
+        console.log("query")
+        console.log(query)
+        //query reqyest 
+        herokuClient.query(query, function (err, res) {
+            if (err) {
+                console.log("Error updating email_verified")
+                console.log(err)
+            } else {
+                //no error 
+
+                //remove email 
+                emailObj.deleteEmail()
+                //redirect to loginConfirmation
+                //set cookies 
+                // res.cookie
+                response.cookie("loggedIn", true)
+                response.cookie("user_id", userId)
+                response.cookie("showModal", true)
+                response.redirect(baseUrl + "/loginConfirmation.html")
+
+            }
+        })
+
+
+    } else {
+        //not active code
+        //redirect to loginConfirmation
+        res.redirect(baseUrl + "/loginConfirmation.html")
+
+
+    }
+})
+
 
 app.get('/userinfo.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/userinfo.html'));
@@ -183,6 +265,8 @@ app.get('/loginConfirmation.html', function(req, res) {
     var user_id = req.cookies['user_id']
     console.log("USER ID IS ")
     console.log(user_id)
+
+    //if not logg
     
     //check email verified
     var query = format("SELECT * FROM user_tbl where user_id = %L", user_id)
@@ -196,9 +280,13 @@ app.get('/loginConfirmation.html', function(req, res) {
             console.log(err)
             res.send({ data: false });
         } else {
+        
             console.log("no error in searching for user")
+            console.log(result.rows)
             // console.log(result.rows[0].email_verified)
-            // res.cookie("usersName", username)
+            var username = result.rows[0].firstname
+            res.cookie("usersName", username)
+            // res.cookie("showModal", true)
             //adding to table
             //query 2
             //second new query string 
@@ -211,10 +299,12 @@ app.get('/loginConfirmation.html', function(req, res) {
                 //send main page with alert to check email
             if (emailIsVerified == true) {
                 //send the file 
+                // res.cookie("showModal", true) //TODO change
                 res.sendFile(path.join(__dirname + '/public/html/loginConfirmation.html'));
             } else {
                 // res.sendFile(path.join(__dirname + '/public/html/emailConfirmation.html'));
-                res.redirect(baseUrl + "/emailConfirmation.html")
+                // res.redirect(baseUrl + "/emailConfirmation.html")
+                res.redirect(baseUrl + "/emailConfirmation")
             }
                     
             // herokuClient.query(query2, function (err, result) {
@@ -243,60 +333,6 @@ app.get('/contact.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/contact.html'));
 });
 
-//getting for email 
-app.get('/emailConfirm', function(req, response) {
-    //params have code 
-    var code = req.query.code//['code']
-
-    //get cookie one last time 
-    var userId = req.cookies['user_id']
-
-    //need to compare to active codes
-    var isActive = emailObj.isActiveCode(code)
-
-    console.log("code")
-    console.log(code)
-    console.log(isActive)
-    console.log(emailObj.getCodes())
-
-    //if active code 
-    if (/*isActive == */true) {
-        //set cookies
-        response.cookie("loggedIn", true)
-        // res.cookie("usersName", username)
-        //saving user_id
-        // res.cookie("user_id", result.rows[0].user_id)
-        //code removed already
-        
-
-        //replace email_verified in user_tbl
-        var query = format("UPDATE user_tbl SET email_verified = %L WHERE user_id = %L ", true, userId)
-        //query reqyest 
-        herokuClient.query(query, function(err, res) {
-            if (err) {
-                console.log("Error updating email_verified")
-                console.log(err)
-            } else {
-                //no error 
-
-                //remove email 
-                emailObj.deleteEmail()
-                //redirect to loginConfirmation
-                response.redirect(baseUrl + "/loginConfirmation.html")
-
-            }
-        })
-
-        
-    } else {
-        //not active code
-        //redirect to loginConfirmation
-        res.redirect(baseUrl + "/loginConfirmation.html")
-    
-
-    }
-})
-
 
 //getting data 
 app.get('/loaddata/all/:id/:tbl', function(req, res) {
@@ -321,6 +357,9 @@ app.get('/loaddata/all/:id/:tbl', function(req, res) {
         if(tbl == 'individual_income_tbl') {
             console.log("LOADING INCOME TABLE")
             queryString = format("select * from individual_income_tbl where account_id in (select account_id from account_tbl where user_id = %L);", userId)
+        }
+        if(tbl == 'account_tbl') {
+            queryString = format("select * from account_tbl where user_id = %L;", userId)
         }
      //sql command with cars
      console.log(queryString)
@@ -564,6 +603,7 @@ app.get('/userlogout', function(req, res) {
 //    res.cookie()
     res.cookie("loggedIn", false)
     res.cookie("user_id", -1)
+    res.cookie("showModal", false)
     //redirect?
     res.redirect(baseUrl)
     res.send();
@@ -573,7 +613,9 @@ app.get('/userlogout', function(req, res) {
   });
 
 app.get('/testresponse', function(req, res) {
-
+    //testing for updating balance goal 
+    //need to 
+    //UPDATE rows in account_tbl SET WHERE user_id = <user_id> 
 })
 
 //for searching user
@@ -610,6 +652,7 @@ app.get('/createuser', function(req, res) {
             console.log(result.rows[0].user_id)
             res.cookie("usersName", username)
             res.cookie("user_id", result.rows[0].user_id)
+            res.cookie("showModal", true)
             //user id 
             var user_id = result.rows[0].user_id;
             var usersName = username;
@@ -736,9 +779,9 @@ app.post('/saveexpense', function(req, res) {
         
         //new query string 
         //insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = '<Auto, Home, Food, Entertainment, or Miscellaneous>'), <user_id from cookie>, 'Auto insurance', 150);
-        query = format("insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = %L), %L, %L, %L);", labelArray[body.expense_type_id], body.user_id, body.description, body.cost_amount )
+        query = format("insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount, account_type) values ((select expense_type_id from expense_types_tbl where expense_type = %L), %L, %L, %L, %L);", labelArray[body.expense_type_id], body.user_id, body.description, body.cost_amount, body.account_type )
         //update account_tbl set balance = balance - 50 where user_id = <user_id from cookie> and account_type = 'Checking, Savings, or Credit';
-        query2 = format("update account_tbl set balance = balance - %L where user_id = %L and account_type = %L;", body.cost_amount, body.user_id, body.account_type)
+        // query2 = format("update account_tbl set balance = balance - %L where user_id = %L and account_type = %L;", body.cost_amount, body.user_id, body.account_type)
         
 
     }
@@ -746,11 +789,11 @@ app.post('/saveexpense', function(req, res) {
 
         //new query sring 
         //insert into account_tbl (user_id, account_type, balance) values (<user_id from cookie>, 'Checking, Savings, or Credit', 500) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;
-        query = format("insert into account_tbl (user_id, account_type, balance) values (%L, %L, %L) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", body.user_id, body.account_type, body.income_amount)
+        // query = format("insert into account_tbl (user_id, account_type, balance) values (%L, %L, %L) on conflict on constraint unique_user_account do update set balance = account_tbl.balance + excluded.balance;", body.user_id, body.account_type, body.income_amount)
 
         //second new query string 
         //insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = <user_id from cookie> and account_type = 'Checking or Savings or Credit'), 'Paycheck', 250);
-        query2 = format("insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = %L and account_type = %L), %L, %L);", body.user_id, body.account_type, body.description, body.income_amount )
+        query = format("insert into individual_income_tbl (account_id, description, income_amount, account_type) values ((select account_id from account_tbl where user_id = %L and account_type = %L), %L, %L, %L);", body.user_id, body.account_type, body.description, body.income_amount, body.account_type )
         
     }
 
@@ -767,17 +810,17 @@ app.post('/saveexpense', function(req, res) {
             //query 2
             //second new query string 
                     
-            herokuClient.query(query2, function (err, result) {
-                if (err) {
-                    console.log(err)
-                    res.send({ data: false });
-                } else {
-                    console.log("\n\nno error in adding\n\n")
-                    console.log(result)
+            // herokuClient.query(query2, function (err, result) {
+            //     if (err) {
+            //         console.log(err)
+            //         res.send({ data: false });
+            //     } else {
+            //         console.log("\n\nno error in adding\n\n")
+            //         console.log(result)
                     // res.cookie("usersName", username)
-                    return res.send({ data: true });
-                }
-            })
+            return res.send({ data: true });
+            //     }
+            // })
             // return res.send({ data: true });
         }
     })
@@ -785,10 +828,139 @@ app.post('/saveexpense', function(req, res) {
 
 })
 
+app.post('/updateaccounttbl', function(req, res) {
+    //parse data 
+    //vars 
+    //is a post so req.body has sent body 
+    var body = req.body 
+    //user id 
+    var user_id = req.cookies['user_id']
+    //query 
+    var query;
+    //multiple queries 
+    var valArr;
+    //return json
+    // response.setHeader('Content-Type', 'application/json');
+
+    //test goal or balance 
+    var whatToSet;
+
+    if(body.balanceOrGoal === 'goal') {
+        whatToSet = 'balance_goal'
+    }
+    if(body.balanceOrGoal === 'balance') {
+        whatToSet = 'balance'
+    }
+
+    //test goal or balance 
+    // if(body.balanceOrGoal === 'goal') {
+        // add to goals 
+        //need to get account id's 
+        //select account_id from account_tbl where account_type = %L and user_id = %L
+        query = format("select * from account_tbl where user_id = %L ",  user_id)
+
+        herokuClient.query(query, function(err, result) {
+            if (!err) {
+                // console.log("LSDJF")
+                // console.log(res)
+
+                var responseRows = result.rows
+                
+                var accountIDs = {}
+                accountIDs[responseRows[0].account_type] = responseRows[0].account_id
+                accountIDs[responseRows[1].account_type] = responseRows[1].account_id
+                accountIDs[responseRows[2].account_type] = responseRows[2].account_id
+                // console.log(accountIDs)
+
+                //UPDATE account_tbl SET balance_goal = <enter amount> WHERE account_id = <enter account_id></enter>
+                query = format("UPDATE account_tbl SET " + whatToSet + " = %L where account_id = %L;", body.valueObj['Checking'], accountIDs['Checking'])
+                //MULTIPLE QUERIES
+
+                herokuClient.query(query, function (err, result) {
+                    if (!err) {
+
+                        // console.log("update1")
+                        //new query 
+                        query = format("UPDATE account_tbl SET " + whatToSet + " = %L where account_id = %L;", body.valueObj['Savings'], accountIDs['Savings'])
+                        herokuClient.query(query, function (err, result) {
+                            if (!err) {
+                                // console.log(res)
+                                // console.log("update2")
+                                //new query 
+                                query = format("UPDATE account_tbl SET " + whatToSet + " = %L where account_id = %L;", body.valueObj['Credit'], accountIDs['Credit'])
+
+                                herokuClient.query(query, function (err, result) {
+                                    if (!err) {
+                                        // console.log(res)
+                                        // console.log("update3")
+
+                                        //no error 
+                                        // response.setHeader('Content-Type', 'application/json');
+                                        // response.json({didAdd: true})
+                                        // return res.json({ data: true });
+                                        // res.end()
+                                        res.cookie("showModal", false)
+                                        res.end(JSON.stringify({ didAdd: true }))
+
+                                    } else {
+                                        //error
+                                        // console.log("ELSE")
+                                        // response.setHeader('Content-Type', 'application/json');
+                                        res.end(JSON.stringify({ didAdd: false }))
+                                    }
+                                })
+
+                            } else {
+                                //error
+                                // console.log("ELSE")
+                                // res.setHeader('Content-Type', 'application/json');
+                                // res.json({ didAdd: "false" })
+                                res.end(JSON.stringify({ didAdd: false }))
+                            }
+                        })
+
+                    } else {
+                        // console.log("ELSE")
+                        //error
+                        // res.setHeader('Content-Type', 'application/json');
+                        // // response.json({ didAdd: false })
+                        // res.json({ didAdd: "false" })
+                        // res.end()
+                        res.end(JSON.stringify({ didAdd: false }))
+                    }
+                })
+                
+            } else {
+                //error
+                // res.setHeader('Content-Type', 'application/json');
+                // // response.json({ didAdd: false })
+                // res.json({ didAdd: "false" })
+                // res.end()
+                res.end(JSON.stringify({ didAdd: false }))
+            }
+            
+            
+        })
+        
+
+        
+
+    // }//where account_id in (select account_id from account_tbl where user_id = %L);
+    // if(body.balanceOrGoal === 'balance') {
+
+    //     console.log("balance")
+    //     // res.setHeader('Content-Type', 'application/json');
+    //     // return res.json({didAdd:true})
+    //     res.end(JSON.stringify({ didAdd: true }))
+        
+    // }
+})
+
 
 app.get('/user/:id/failed', function(req, res) {
     // res.send('user ' + req.params.id);
-    res.send({ status: 'FAILED' });
+    // res.send({ status: 'FAILED' });
+    res.end(JSON.stringify({didAdd: true}))
 });
 
 

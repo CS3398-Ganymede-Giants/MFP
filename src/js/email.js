@@ -12,19 +12,30 @@ const sgMail = require('@sendgrid/mail');
 // );
 var randomstring = require("randomstring");
 
+// let smtpConfig = {
+//     host: 'smtp.example.com',
+//     port: 587,
+//     secure: false, // upgrade later with STARTTLS
+//     auth: {
+//         user: 'username',
+//         pass: 'password'
+//     }
+// };
+
 
 
 
 //active codes 
 // var activeCodes = []
 
-module.exports = function (email = "") {
+module.exports = function (email = "", user_id = "") {
     //vars 
     //baseurl
-    // this.baseUrl = "http://localhost:8080"
-    this.baseUrl = "https://ganymede18.herokuapp.com"
+    this.baseUrl = "http://localhost:8080"
+    // this.baseUrl = "https://ganymede18.herokuapp.com"
     //email sent
     this.email = email
+    this.user_id = user_id
     //active email codes
     this.activeCodes = []
     //full url 
@@ -57,8 +68,9 @@ module.exports = function (email = "") {
         }
     }
     //storing email 
-    this.setEmail = function(email) {
+    this.setEmail = function(email, user_id) {
         this.email = email
+        this.user_id = user_id
     }
     //getting email 
     this.getEmail = function() {
@@ -67,6 +79,7 @@ module.exports = function (email = "") {
     //deleting email after 
     this.deleteEmail = function() {
         this.email = ""
+        this.user_id = ""
     }
 
 
@@ -80,7 +93,7 @@ module.exports = function (email = "") {
         });
 
         //need to parse it to a url form 
-        var fullUrlReturned = this.convertToFullUrl(this.randomUrlCode)
+        var fullUrlReturned = this.convertToFullUrl(this.randomUrlCode )
 
         //also add it to active codes 
         this.activeCodes.push(this.randomUrlCode)
@@ -100,7 +113,8 @@ module.exports = function (email = "") {
         //getting full url off of base url
         this.fullUrl = this.buildUrl(this.baseUrl + '/emailConfirm', {
             //params 
-            code: randomUrlCode
+            code: randomUrlCode,
+            id: this.user_id
         })
 
         //have the url and the code now 
@@ -153,10 +167,25 @@ module.exports = function (email = "") {
         //       console.log('Email sent: ' + info.response);
         //     }
         // });
+
+        var api_key = '5488ecf8f73889cbf30282d46064552c-52cbfb43-f34636c8';
+        var domain = 'sandbox87659401c3bd4ea5b6d63ccd6e678ad2.mailgun.org';
+        var mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
+
+        var data = {
+            from: '<noreply@mfpganymede.com>',
+            to: this.email,
+            subject: 'Email Verification',
+            text: "Please use the following link to verify your email address:\n\n" + url
+        };
+
+        mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+        });
           
     }
 
-    this.sendEmailSendGrid = function(url) {
+    // this.sendEmailSendGrid = function(url) {
         // transport.sendMail({
         //     from: 'mfpganymede@gmail.com',
         //     to: email ,
@@ -164,34 +193,34 @@ module.exports = function (email = "") {
         //     html: '<h1>Hello world!</h1>'
         // });
 
-        //getting link 
-        var emailText = "Please use the following link to verify your email address:\n\t" + url
+        // //getting link 
+        // var emailText = "Please use the following link to verify your email address:\n\t" + url
 
-        sgMail.setApiKey("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");
-        const msg = {
-        to: [this.email],
-        from: 'mfpganymede@gmail.com',
-        subject: 'MyFinancePal Email Verification',
-        text: emailText,
-        // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-        };
-        sgMail.send(msg)
-        .then(() => {
-          //Celebrate
-          console.log("\nEmail sent successully\n")
-        })
-        .catch(error => {
+        // sgMail.setApiKey("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");
+        // const msg = {
+        // to: [this.email],
+        // from: 'mfpganymede@gmail.com',
+        // subject: 'MyFinancePal Email Verification',
+        // text: emailText,
+        // // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        // };
+        // sgMail.send(msg)
+        // .then(() => {
+        //   //Celebrate
+        //   console.log("\nEmail sent successully to " + this.email + "\n")
+        // })
+        // .catch(error => {
       
-          //Log friendly error
-          console.error(error.toString());
+        //   //Log friendly error
+        //   console.error(error.toString());
       
-          //Extract error msg
-          const {message, code, response} = error;
+        //   //Extract error msg
+        //   const {message, code, response} = error;
       
-          //Extract response msg
-          const {headers, body} = response;
-        });
-    }
+        //   //Extract response msg
+        //   const {headers, body} = response;
+        // });
+    // }
 }
 
 
