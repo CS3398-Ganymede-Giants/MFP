@@ -850,37 +850,7 @@ function loadGraphs(expense, income, accountData) {
     //now to load the line chart data 
     var newCtx = document.getElementById("financeLineChart").getContext('2d')
 
-    //data object 
-    // data = processLineChart() //need to send data 
-
-    //how to format the data 
-    // using points formatting 
-    // data = [{
-    //     x: 0.10,
-    //     y: 0.20
-    // }, {
-    //     x: 0.15,
-    //     y: 0.10
-    // }]
-    //
-    //probably convert to epoch and use that for the x axis, range of the graph the range of the data loaded for x and y axis 
-
-
-    // //making the new chart 
-    // window.financeLineChart = new Chart(newCtx,{
-    //     type: 'line',
-    //     data: data,
-    //     options: {
-    //         title: {
-    //             display: true,
-    //             text: 'Finance Goal Progress'
-    //         }
-    //     }
-    // });
-
-    // //update
-    // window.financeLineChart.update()
-
+   
     //colors 
     var chartColors = {
         red: "#db3e00",
@@ -909,51 +879,7 @@ function loadGraphs(expense, income, accountData) {
     console.log(data4)
     
 
-    // //setting just the data
-    // var lineChartData = {
-    //     // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    //     datasets: [{
-    //         label: 'My First dataset',
-    //         borderColor: chartColors.red,
-    //         backgroundColor: chartColors.red,
-    //         fill: false,
-    //         data: data,
-    //         yAxisID: 'y-axis-1',
-    //     }, {
-    //         label: 'My Second dataset',
-    //         borderColor: chartColors.blue,
-    //         backgroundColor: chartColors.blue,
-    //         fill: false,
-    //         data: [7,6,5,4,3,2,1
-    //             // randomScalingFactor(),
-    //             // randomScalingFactor(),
-    //             // randomScalingFactor(),
-    //             // randomScalingFactor(),
-    //             // randomScalingFactor(),
-    //             // randomScalingFactor(),
-    //             // randomScalingFactor()
-    //         ],
-    //         yAxisID: 'y-axis-2'
-    //         }, 
-    //         //showing GREEN area on graph
-    //         {
-                
-    //             borderColor: chartColors.lightBlue,
-    //             backgroundColor: chartColors.lightBlue,
-    //             pointRadius: 0,
-    //             fill: 'origin',
-    //             data: [3,3,3,3,3,3
-    //                 // randomScalingFactor(),
-    //                 // randomScalingFactor(),
-    //                 // randomScalingFactor(),
-    //                 // randomScalingFactor(),
-    //                 // randomScalingFactor(),
-    //                 // randomScalingFactor(),
-    //                 // randomScalingFactor()
-    //             ],
-    //             yAxisID: 'y-axis-2'
-    //         }]
-    // };
+    
     //setting just the data
     var lineChartData = {
         // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -980,40 +906,7 @@ function loadGraphs(expense, income, accountData) {
             // yAxisID: 'y-axis-1',
         }
 
-            // , {
-            //     label: 'My Second dataset',
-            //     borderColor: chartColors.blue,
-            //     backgroundColor: chartColors.blue,
-            //     fill: false,
-            //     data: [7,6,5,4,3,2,1
-            //         // randomScalingFactor(),
-            //         // randomScalingFactor(),
-            //         // randomScalingFactor(),
-            //         // randomScalingFactor(),
-            //         // randomScalingFactor(),
-            //         // randomScalingFactor(),
-            //         // randomScalingFactor()
-            //     ],
-            //     yAxisID: 'y-axis-2'
-            //     }, 
-            //     //showing GREEN area on graph
-            //     {
-
-            //         borderColor: chartColors.lightBlue,
-            //         backgroundColor: chartColors.lightBlue,
-            //         pointRadius: 0,
-            //         fill: 'origin',
-            //         data: [3,3,3,3,3,3
-            //             // randomScalingFactor(),
-            //             // randomScalingFactor(),
-            //             // randomScalingFactor(),
-            //             // randomScalingFactor(),
-            //             // randomScalingFactor(),
-            //             // randomScalingFactor(),
-            //             // randomScalingFactor()
-            //         ],
-            //         yAxisID: 'y-axis-2'
-            //     }
+          
         ]
     };
     console.log("CREATING GRAPH")
@@ -1055,110 +948,12 @@ function loadGraphs(expense, income, accountData) {
                     }]
                 }
             }
-            // options: {
-            //     responsive: true,
-            //     hoverMode: 'index',
-            //     stacked: false,
-            //     title: {
-            //         display: true,
-            //         text: 'Chart.js Line Chart - Multi Axis'
-            //     },
-            //     scales: {
-                    // yAxes: [{
-                    //     type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                    //     display: true,
-                    //     position: 'left',
-                    //     id: 'y-axis-1',
-                    // }
-                    // , {
-                    //     type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                    //     display: true,
-                    //     position: 'right',
-                    //     id: 'y-axis-2',
-
-                    //     // grid line settings
-                    //     gridLines: {
-                    //         drawOnChartArea: false, // only want the grid lines for one axis to show up
-                    //     },
-                    // }
-                // ],
-                // }
-            // }
+            
         });
         financeLineChart.update()
     // };
 
 
-    // var ctx = document.getElementById('financeLineChart').getContext('2d');
-    // window.myLine = Chart.Line(ctx, {
-    //     data: lineChartData,
-    //     options: {
-    //         responsive: true,
-    //         hoverMode: 'index',
-    //         stacked: false,
-    //         title: {
-    //             display: true,
-    //             text: 'Chart.js Line Chart - Multi Axis'
-    //         },
-    //         scales: {
-    //             yAxes: [{
-    //                 type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-    //                 display: true,
-    //                 position: 'left',
-    //                 id: 'y-axis-1',
-    //             }, {
-    //                 type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-    //                 display: true,
-    //                 position: 'right',
-    //                 id: 'y-axis-2',
-    //                 // grid line settings
-    //                 gridLines: {
-    //                     drawOnChartArea: false, // only want the grid lines for one axis to show up
-    //                 },
-    //             }],
-    //         }
-    //     }
-    // });
-
-    // window.myLine.update()
-
-
-    // var myChart = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Gay"],
-    //         datasets: [{
-    //             label: '# of Votes',
-    //             data: [12, 19, 3, 5, 2, 3],
-    //             backgroundColor: [
-    //                 'rgba(255, 99, 132, 0.2)',
-    //                 'rgba(54, 162, 235, 0.2)',
-    //                 'rgba(255, 206, 86, 0.2)',
-    //                 'rgba(75, 192, 192, 0.2)',
-    //                 'rgba(153, 102, 255, 0.2)',
-    //                 'rgba(255, 159, 64, 0.2)'
-    //             ],
-    //             borderColor: [
-    //                 'rgba(255,99,132,1)',
-    //                 'rgba(54, 162, 235, 1)',
-    //                 'rgba(255, 206, 86, 1)',
-    //                 'rgba(75, 192, 192, 1)',
-    //                 'rgba(153, 102, 255, 1)',
-    //                 'rgba(255, 159, 64, 1)'
-    //             ],
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-    //             yAxes: [{
-    //                 ticks: {
-    //                     beginAtZero:true
-    //                 }
-    //             }]
-    //         }
-    //     }
-    // });
 }
 
 //need to get data for lineChart 
