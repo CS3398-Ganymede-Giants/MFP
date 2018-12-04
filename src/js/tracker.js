@@ -1100,6 +1100,8 @@ function updateGraphNewItem(newItem) {
 
     //if credit 
     if(newItem.account_type === 'Credit') {
+        amount = amount 
+    } else {
         amount = amount * -1
     }
 
@@ -1147,6 +1149,7 @@ function updateGraphNewItem(newItem) {
     var newObj = { t: d, y: amount + lastValue}
     
     financeLineChart.data.datasets[helperObj[newItem.account_type]].data[length] = newObj
+    financeLineChart.update()
     financeLineChart.update()
     // console.log(financeLineChart.data.datasets[helperObj[newItem.account_type]].data)
     

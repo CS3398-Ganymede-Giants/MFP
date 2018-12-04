@@ -168,8 +168,8 @@ module.exports = function (email = "", user_id = "") {
         //     }
         // });
 
-        var api_key = '5488ecf8f73889cbf30282d46064552c-52cbfb43-f34636c8';
-        var domain = 'sandbox87659401c3bd4ea5b6d63ccd6e678ad2.mailgun.org';
+        var api_key = process.env.API
+        var domain = 'sandbox87659401c3bd4ea5b6d63ccd6e678ad2.mailgun.org'; //TODO chamge
         var mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
         var data = {

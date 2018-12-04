@@ -578,7 +578,7 @@ app.get('/loadbudget/:id', function(req, res) {
 //for searching user
 app.get('/user/:id', function(req, res) {
 
-
+console.log("LKDSFJLKDSJFL")
     //user to search
      //this outputs
     // { username: 'asdf'}
@@ -628,6 +628,56 @@ app.get('/user/:id', function(req, res) {
 //     // res.send('user ' + req.params.id);
 //     res.send({ status: 'FAILED' });
 //   });
+
+app.get('/userData/:user_id', function(req, res) {
+
+    console.log("LKDSFJLKDSJFL")
+    //user to search
+    //this outputs
+    // { username: 'asdf'}
+    // console.log(req.query)
+    //NEED TO GET FROM REQUEST
+    var userId = req.params['user_id']
+    
+
+
+    //connecting for heroku client
+    // herokuClient.connect()
+
+    var ageQuery = format('SELECT * from user_tbl WHERE user_id = %L', userId)
+    herokuClient.query(ageQuery, function (err, result) {
+        if (err) {
+            console.log(err)
+            // res.send({ status: 'FAILED' });
+        }
+        // console.log(result.rows[0])
+
+        //see if user is found
+        // console.log("RESULT")
+        console.log(result)
+        //if there's not 0 entries
+        if (result != undefined) {
+            if (result.rows[0] != undefined) {
+                console.log("User found!")
+                res.send(JSON.stringify({data: result.rows, didLoad: true}));
+                // done()
+            } else {
+                console.log("User NOT found")
+                // res.send({ data: false });
+                res.send(JSON.stringify({ data: [], didLoad: false }));
+                // done()
+            }
+        } else {
+            console.log("NO ENTRIES FOUND")
+            // res.send({ data: false });
+            res.send(JSON.stringify({ data: [], didLoad: false }));
+            // done()
+        }
+
+
+    })
+}) 
+
 
 
 //for searching user
@@ -732,6 +782,14 @@ app.get('/testresponse', function(req, res) {
     //UPDATE rows in account_tbl SET WHERE user_id = <user_id> 
 })
 
+app.post('/updateUser', function(req, res) {
+    //vars 
+    var body = req.body
+
+    //send whole aprts
+
+})
+
 //for searching user
 app.get('/createuser', function(req, res) {
 
@@ -753,7 +811,7 @@ app.get('/createuser', function(req, res) {
     // }
    
     //query string 
-    query = format("INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES (%L, crypt(%L, gen_salt('bf')), %L, %L, %L, %L) RETURNING user_id", username, passw, firstName, lastName, email, true) //TODO fix email
+    query = format("INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES (%L, crypt(%L, gen_salt('bf')), %L, %L, %L, %L) RETURNING user_id", username, passw, firstName, lastName, email, false) //TODO fix email
 
     herokuClient.query(query, function (err, result) {
         if (err) {

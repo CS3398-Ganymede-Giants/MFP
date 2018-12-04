@@ -38,19 +38,23 @@
         <h2>Account Information</h2>
         <br>
         <h3>First Name</h3> <!-- Code for user's first name ---> 
-        <br>
+        <input id="accountSettingsF">
         <h3>Last Name</h3> <!-- last ---> 
-        <br>
+        <input id="accountSettingsL">
         <h3>Email</h3> <!-- last ---> 
-        <br> 
+        <input id="accountSettingsE">
+                <br>
+                <br>
+                <br>
+        <button type="submit" class="welcomeBackButton" onclick=(udpateData())>Save Data</button>
         <!-- ***************************************************************** -->
         <!-- This is the section that's more or less similar to the tracking page -->
         <!-- I was really just think they should see the information and just go to the tracking page to edit this --> 
         <h2>Finances</h2>
-        <br>
-        <h3>Expenses</h3> <!-- Pull user expenses -->
-        <br>
-        <h3>Income</h3> <!-- Pull user income -->
+        <p1>In the tracking page :)</p1>
+        <!-- <h3>Expenses</h3> Pull user expenses -->
+        <!-- <br> -->
+        <!-- <h3>Income</h3> Pull user income -->
         <!-- Another thing we could do if time permits is let the user know if they are in or over budget. If they spend more than they've earned I could add a message that says they're out of budget or in the clear -->
 
       </div>
@@ -63,6 +67,87 @@
   </div>
   <script type="text/javascript" src="js/db.js"></script>
   <script type="text/javascript">
+
+    loadData()
+
+    async function loadData() {
+      var userData = await loadDataAsync()
+
+      console.log("USER DAYA IS")
+      console.log(userData)
+
+      //storing in html 
+      document.getElementById("accountSettingsF").value = userData.data[0].firstname;
+      document.getElementById("accountSettingsL").value = userData.data[0].lastname;
+      document.getElementById("accountSettingsE").value = userData.data[0].email_address;
+      document.getElementById("accountSettingsF").value = userData.data[0].firstname;
+
+
+    }
+
+    async function updateData() {
+      // var didUpdate = await updateDataAsync()
+    }
+
+    function updateDataAsync() {  
+      // //get vals
+      // var fname = document.getElementById("accountSettingsF").value 
+      // var lname = document.getElementById("accountSettingsL").value 
+      // var email = document.getElementById("accountSettingsE").value 
+
+      // //compare 
+      // var parts1 = ""
+      // if(fname !== "") {
+      //   parts1
+      // }
+      
+    }
+
+    function loadDataAsync() {
+        //GET 
+        //'/loadUserPosts'
+        // var user_id = getCookie('user_id')
+        console.log("loading async")
+
+        //fetch 
+        //user id from cookies 
+        // var username = getCookie("usernameToView")
+        var user_id = getCookie("user_id")
+
+        //need to make a GET and return json 
+        //url from base 
+        // var baseUrl = "http://localhost:8080"
+        var baseUrl = "https://ganymede18.herokuapp.com"
+        var url = baseUrl + '/userData/' + user_id
+        // console.log("URL IS ")
+        console.log(url)
+
+
+        //return promise 
+        return new Promise(resolve => {
+          //fetch 
+          // Default options are marked with *
+          fetch(url, {
+            method: "GET",
+            mode: "same-origin",
+            // mode: "cors", // no-cors, cors, *same-origin
+            // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            // credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+              "Content-Type": "application/json",
+              // "Content-Type": "application/x-www-form-urlencoded",
+            },
+            // redirect: "follow", // manual, *follow, error
+            // referrer: "no-referrer", // no-referrer, *client
+            // body: postBody, // body data type must match "Content-Type" header
+          })
+            .then(response => {
+              //parsing response
+              //resolving
+              resolve(response.json())
+            }); // parses response to JSON
+        })
+      }
 
     function getCookie(name) {
     var value = "; " + document.cookie;

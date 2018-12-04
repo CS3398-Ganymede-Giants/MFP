@@ -80,6 +80,20 @@ padding: 6px 10px;
   cursor: pointer;
 }
 
+
+.welcomeBackButtonRight {
+display: inline-block;
+padding: 6px 10px;
+  /* margin-top: 8px; */
+  margin-right: 16px;
+  background-color: #555;
+  color: white;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  float: right ;
+}
+
 .menuButton {
   display: inline-block;
   

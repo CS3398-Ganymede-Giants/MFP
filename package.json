@@ -30,6 +30,7 @@
     "express": "^4.16.4",
     "knex": "^0.15.2",
     "locus": "^2.0.1",
+    "mailchimp-api-v3": "^1.12.1",
     "mailgun-js": "^0.22.0",
     "method-override": "^3.0.0",
     "morgan": "^1.9.1",
