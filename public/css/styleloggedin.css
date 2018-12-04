@@ -88,6 +88,15 @@ body {
 }
 .userposting {
   padding-top: 20px;
+  ul {
+    margin:0;
+    padding:0;
+    li {
+      list-style-type:none;
+      padding:20px 5px;
+      border-bottom:1px @blue solid;
+    }
+  }
 }
 .userposting input[type=text] {
   width: 90%;
