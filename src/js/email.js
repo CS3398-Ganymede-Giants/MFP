@@ -4,7 +4,7 @@
 //requirements
 // const nodemailer = require('nodemailer');
 // const nodemailerSendgrid = require('nodemailer-sendgrid');
-const sgMail = require('@sendgrid/mail');
+// const sgMail = require('@sendgrid/mail');
 // const transport = nodemailer.createTransport(
 //     nodemailerSendgrid({
 //         apiKey: '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'
@@ -169,7 +169,7 @@ module.exports = function (email = "", user_id = "") {
         // });
 
         var api_key = process.env.API
-        var domain = 'sandbox87659401c3bd4ea5b6d63ccd6e678ad2.mailgun.org'; //TODO chamge
+        var domain = process.env.domain; //TODO chamge
         var mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
         var data = {
