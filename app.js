@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 //email.js
 const Email = require('./src/js/email.js')
 //making new email object with email to send to 
-var emailObj = new Email()
+// var emailObj = new Email()
 
 //alert 
 // import alert from 'alert-node'
