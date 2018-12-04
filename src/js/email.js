@@ -1,5 +1,5 @@
 //EMAIL
-//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
+
 
 //requirements
 // const nodemailer = require('nodemailer');
@@ -31,9 +31,9 @@ var randomstring = require("randomstring");
 module.exports = function (email = "", user_id = "") {
     //vars 
     //baseurl
-    this.baseUrl = "http://localhost:8080"
-    // this.baseUrl = "https://ganymede18.herokuapp.com"
-    //email sent
+    // this.baseUrl = "http://localhost:8080"
+    this.baseUrl = "https://ganymede18.herokuapp.com"
+    // email sent
     this.email = email
     this.user_id = user_id
     //active email codes

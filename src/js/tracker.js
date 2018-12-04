@@ -1,6 +1,6 @@
 //vars 
-var baseUrl = "http://localhost:8080"
-// var baseUrl = "https://ganymede18.herokuapp.com"
+// var baseUrl = "http://localhost:8080"
+var baseUrl = "https://ganymede18.herokuapp.com"
 
 
 
@@ -774,8 +774,10 @@ var controller = (function (budgetCntrl, UICntrl) {
             var savedNewBudget = 0;
             
             savedNewBudget += parseInt(balance['Checking'])
-            savedNewBudget += parseInt(balance['Savings'])            
-            savedNewBudget -= parseInt(balance['Credit'])            
+            console.log(parseInt(balance['Checking']))
+            savedNewBudget += parseInt(balance['Savings'])  
+            console.log(parseInt(balance['Credit']))
+            savedNewBudget += parseInt(balance['Credit'])            
             console.log(savedNewBudget)
 
             budgetCntrl.updateBudgetAfterSavingModal(savedNewBudget)
@@ -1023,12 +1025,32 @@ function loadGraphs(expense, income, accountData) {
         financeLineChart = Chart.Line(newCtx, {
             data: lineChartData,
             options: {
+                title: {
+                    display: true,
+                    text: 'Account Balances'
+                },
                 scales: {
                     xAxes: [{
                         type: 'time',
-                        distribution: 'series',
+                        distribution: 'linear',
                         time: {
-                            unit: 'day'
+                            unit: 'hour'
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            source: 'auto'
+                        },
+                        gridLines: {
+                            display: true
+                        }
+
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        },
+                        gridLines: {
+                            display: true
                         }
                     }]
                 }
@@ -1281,6 +1303,11 @@ function updateGraphNewItem(newItem) {
         amount = newItem.value
     }
 
+    //if credit 
+    if(newItem.account_type === 'Credit') {
+        amount = amount * -1
+    }
+
     //for linechart
     var helperObj = {
         "Checking":0,
@@ -1305,25 +1332,28 @@ function updateGraphNewItem(newItem) {
     //add a day to the date
     // manipDate.setDate(manipDate.getDate() + 0.25);
 
-
-    console.log("TESTING 123")
-    console.log(d)
-    console.log(amount)
     var length = financeLineChart.data.datasets[helperObj[newItem.account_type]].data.length
    
-    console.log(financeLineChart.data.datasets[helperObj[newItem.account_type]].data[length - 1])
+    // console.log(financeLineChart.data.datasets[helperObj[newItem.account_type]].data[length - 1])
     // console.log(currentDate)
     //need to store value + previous value intead of just value 
     
     // console.log(manipDate)
     
-    var lastValue = financeLineChart.data.datasets[helperObj[newItem.account_type]].data[length - 1].y
-    console.log(lastValue)
+    var lastValue;
+    //if not 0
+    if (length != 0) {
+        lastValue = financeLineChart.data.datasets[helperObj[newItem.account_type]].data[length - 1].y
+    } else {
+        lastValue = 0
+    }
+    
+    // console.log(lastValue)
     var newObj = { t: d, y: amount + lastValue}
     
     financeLineChart.data.datasets[helperObj[newItem.account_type]].data[length] = newObj
     financeLineChart.update()
-    console.log(financeLineChart.data.datasets[helperObj[newItem.account_type]].data)
+    // console.log(financeLineChart.data.datasets[helperObj[newItem.account_type]].data)
     
 
     //need to change 
