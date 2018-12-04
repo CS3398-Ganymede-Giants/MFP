@@ -99,7 +99,7 @@ body {
     }
   }
 }
-.userposting input[type=text] {
+.userposting input, textarea  {
   width: 90%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -107,7 +107,7 @@ body {
   border: 2px solid #21B375;
   border-radius: 4px;
 }
-.userposting input[type=text]:focus {
+.userposting input, textarea :focus {
     border: 3px solid #21B375;
 }
 /* Add a card effect for articles */
