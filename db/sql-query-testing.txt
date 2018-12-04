@@ -1,0 +1,28 @@
+-- SQL Test statements
+insert into account_tbl (user_id, account_type, balance) values (21, 'Checking', 500) on conflict on constraint unique_user_account do update set balance = account_tbl.balance - excluded.balance;
+insert into individual_expense_tbl (expense_type_id, user_id, description, cost_amount) values ((select expense_type_id from expense_types_tbl where expense_type = 'Auto'), 21, 'Auto insurance', 150);
+select timestamp from individual_expense_tbl where expense_id = 5;
+select user_id from account_tbl where account_tbl.account_id = 1;
+select description, income_amount, "timestamp" from individual_income_tbl where account_id in (select account_id from account_tbl where user_id = 21) order by "timestamp" desc;
+update account_tbl set balance = balance - 50 where user_id = 21 and account_type = 'Checking';
+insert into individual_income_tbl (account_id, description, income_amount) values ((select account_id from account_tbl where user_id = 21 and account_type = 'Checking'), 'Paycheck', 250);
+
+update account_tbl set balance = balance - (select income_amount from individual_income_tbl where user_id = 21 and description = "Income" and "timestamp" = "2018-11-29 19:48:00") where user_id = 21 and account_id = (select account_id from individual_income_tbl where user_id = 21 and description = "Income" and "timestamp" = "2018-11-29 19:48:00");
+
+with income_view as (delete from individual_income_tbl where user_id = 21 and description = 'Income' and "timestamp" in (select "timestamp" from individual_income_tbl where "timestamp" > timestamp '2018-11-29 19:48:00' limit 1) returning account_id, income_amount)
+	update account_tbl set balance = balance - (select income_amount from income_view) where account_tbl.account_id = (select account_id from income_view);
+
+with income_view as (update individual_income_tbl where user_id = 21 and description = 'savings' and "timestamp" in (select "timestamp" from individual_income_tbl where "timestamp" > timestamp '2018-11-29 19:15:48' limit 1) set income_amount = 0 returning account_id, income_amount from individual_income_tbl)
+	update account_tbl set balance = balance - (select income_amount from income_view) where account_id = (select account_id from income_view);
+
+with old_income_amount as (select * from individual_income_tbl where user_id = 21 and description = 'savings' and "timestamp" in (select "timestamp" from individual_income_tbl where "timestamp" > timestamp '2018-11-29 19:15:48' limit 1)),
+	income_view as (update individual_income_tbl where user_id = 21 and description = 'savings' and "timestamp" in (select "timestamp" from individual_income_tbl where "timestamp" > timestamp '2018-11-29 19:15:48' limit 1) set income_amount = 0 returning account_id)
+	update account_tbl set balance = balance - old_income_amount.income_amount where account_id = (select account_id from income_view);
+
+select I.*, A.balance from individual_income_tbl I, account_tbl A where I.user_id = 21 and I.description = 'savings' and I."timestamp" in (select "timestamp" from individual_income_tbl where "timestamp" > timestamp '2018-11-29 19:15:48' limit 1)
+	and A.account_id = I.account_id;
+
+with income_view as (select I.*, A.balance from individual_income_tbl I, account_tbl A where I.user_id = 21 and I.description = 'savings' and I."timestamp" in (select "timestamp" from individual_income_tbl where "timestamp" > timestamp '2018-11-29 19:15:48' limit 1) and A.account_id = I.account_id)
+	update income_view IV
+	set IV.balance = IV.balance - 100,
+		IV.income_amount = IV.income_amount - 100;
