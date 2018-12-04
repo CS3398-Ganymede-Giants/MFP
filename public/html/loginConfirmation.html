@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="css/loginBar.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
   <!-- linking db.js code -->
-<script type="text/javascript" src="js/db.js"></script>
-<script type="application/javascript" src="/node_modules/angular/angular.js"></script>
-<script type="text/javascript" src="js/userPost.js"></script>
+  <script type="text/javascript" src="js/db.js"></script>
+  <!-- <script type="application/javascript" src="/node_modules/angular/angular.js"></script> -->
+  <script type="text/javascript" src="js/userPost.js"></script>
 
 
 
@@ -21,8 +21,8 @@
       <div class="welcomeBackText" id="welcomeBackUserText"> Welcome Back!</div>
       <button type="submit" onclick="logout()" class="welcomeBackButton" >Logout</button>
       <div class="search-container">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit">Submit</button>
+          <input type="text" placeholder="Search.." name="search" id="search_user_input">
+          <button type="submit" onclick="searchUser()">Submit</button>
       </div>
     </div>
 </div>
@@ -78,14 +78,16 @@
                 </form>
               </div> -->
               <div class="userposting" >
+                <h1>Your posts:</h1>
                 <div id="postsGoHere"></div>>
-                <form name="postForm"  novalidate>
+                <form name="postForm" type="Post" novalidate>
               
                   <h4>Write a Post: </h4>
-                  <textarea cols="30" rows="10" required></textarea>
+                  <textarea id="addPostTextArea" cols="30" rows="10" required></textarea>
               
-                  <input type="submit" value="Submit" onclick="saveNewPost()" />
+                  
                 </form>
+                <input type="submit" value="Submit" onclick="saveNewPost()" />
               </div>
 
 
@@ -120,6 +122,8 @@
 <script type="text/javascript" src="js/db.js"></script>
 <script>
 
+  //loading posts 
+  // loadPosts()
   
 
   document.getElementById("welcomeBackUserText").innerHTML = "Welcome back, " + getCookie("usersName") + "!"
@@ -128,6 +132,11 @@
       var value = "; " + document.cookie;
       var parts = value.split("; " + name + "=");
       if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+
+  function logout() {
+    // window.location.replace("http://localhost:8080/")
+    window.location.replace("https://ganymede18.herokuapp.com")
   }
 
   // window.onload(loadPosts())

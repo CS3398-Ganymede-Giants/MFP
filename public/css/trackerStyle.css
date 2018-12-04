@@ -524,5 +524,15 @@ make the navigation links stack on top of each other instead of next to each oth
 .innerModalRight {
     display: inline-block;
     float: left;
-     margin-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+.addedPostDivDate {
+    /* font-size: 20px; */
+    margin: 10px;
+}
+
+.addedPostDivText {
+    /* font-size: 14px; */
+    margin: 10px;
 }

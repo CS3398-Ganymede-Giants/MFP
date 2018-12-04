@@ -105,6 +105,114 @@ app.get('/', function(req, res) {
     // console.log("TEST")
 });
 
+//for saving user posts 
+app.post("/saveposts", function(req, response) {
+    //print data to test 
+    console.log("in saving post psot sptos tpsot")
+    console.log(req.body)
+
+    //query = 
+    //INSERT INTO user_posts_tbl (user_id, post_text) VALUES (%L, %L)
+    var query = format("INSERT INTO user_posts_tbl (user_id, post_text) VALUES (%L, %L) RETURNING timestamp", req.body.user_id, req.body.postText)
+
+    //query 
+    herokuClient.query(query, function(err, res) {
+        if(!err) {
+            console.log("NO error ")
+            response.setHeader('Content-Type', 'application/json');
+            response.json({ didAdd: true, data: res.rows})
+        } else {
+            console.log("Error")
+            response.setHeader('Content-Type', 'application/json');
+            response.json({ didAdd: false })
+        }
+    })
+
+    
+})
+
+//viewing other user 
+// app.get("/viewOtherUser/:username", function(req, response) {
+//     //req.params should have vars
+//     console.log("VIEW OTHER USER")
+//     response.cookie("otherUserToView", req.params.username)
+//     // response.setHeader('Content-Type', 'text/html')
+//     // response.sendFile(path.join(__dirname + '/public/html/viewUser.html'));
+//     // response.end()
+//     // response.redirect(baseUrl + "/viewUser.html")
+//     response.sendFile(path.join(__dirname + '/public/html/viewUser.html'));
+// })
+
+app.get('/viewUser.html', function(req, response) {
+    // response.setHeader('Content-Type', 'text/html')
+    // response.sendFile(path.join(__dirname + '/public/html/viewUser.html'))
+    // response.end()
+    console.log("VIEW OTHER USER")
+    // response.cookie("otherUserToView", req.params.username)
+
+    // response.redirect(baseUrl + "/viewUser.html")
+    response.sendFile(path.join(__dirname + '/public/html/viewUser.html'));
+})
+
+//loading posts 
+app.get("/loadUserPosts/:user_id", function(req, response) {
+    //userid
+    var user_id = req.params['user_id']
+
+    //query 
+    //SELECT * FROM user_posts_tbl WHERE user_id = %L
+    var query = format("SELECT * FROM user_posts_tbl WHERE user_id = %s", user_id)
+
+    //heroku client 
+    herokuClient.query(query, function(err, res) {
+        if (!err) {
+            console.log("no error in loading user posts")
+            //return data 
+            response.setHeader('Content-Type', 'application/json');
+            response.json(JSON.stringify({data:res.rows, didLoad: true}))
+
+        } else {
+            console.log("error in loading user posts")
+            console.log(err)
+            response.setHeader('Content-Type', 'application/json');
+            response.json(JSON.stringify({ data: [], didLoad: false }))
+        }
+    })
+})
+
+app.get('/loadOtherUserPosts/:username', function(req, response) {
+    //query 
+    var query = format("SELECT user_id FROM user_tbl WHERE username = %L", req.params['username'])
+
+    herokuClient.query(query, function(err, res) {
+        if(!err) {
+            console.log("RESPONSE ")
+            console.log(res)
+            var user_id = res.rows[0].user_id
+
+            var query2 = format("SELECT * FROM user_posts_tbl WHERE user_id = %L", user_id)
+
+            herokuClient.query(query2, function(err,res) {
+                if (!err) {
+                    console.log("RESPONSE 2")
+                    console.log(res)
+                    var posts = res.rows
+
+                    response.setHeader('Content-Type', 'application/json');
+                    response.json({data: posts, didLoad: true})
+                } else {
+                    response.setHeader('Content-Type', 'application/json');
+                    response.json({ data: [], didLoad: false })
+                }
+            })
+        } else {
+            response.setHeader('Content-Type', 'application/json');
+            response.json({ data: [], didLoad: false })
+        }
+        
+    })
+})
+
 //for testing page
 app.get('/test.html', function(req, res) {
     //creating cookie
@@ -265,6 +373,9 @@ app.get('/loginConfirmation.html', function(req, res) {
     var user_id = req.cookies['user_id']
     console.log("USER ID IS ")
     console.log(user_id)
+    //resetting cookies 
+    res.cookie("otherUserToView", "")
+    res.cookie("usernameToView", "")
 
     //if not logg
     
@@ -474,6 +585,7 @@ app.get('/user/:id', function(req, res) {
     // console.log(req.query)
     //NEED TO GET FROM REQUEST
     var userId = req.query['username'];
+    res.cookie("usernameToView", req.query['username'])
 
 
     //connecting for heroku client
@@ -604,6 +716,8 @@ app.get('/userlogout', function(req, res) {
     res.cookie("loggedIn", false)
     res.cookie("user_id", -1)
     res.cookie("showModal", false)
+    res.cookie("usernameToView", "")
+    res.cookie("otherUserToView", "")
     //redirect?
     res.redirect(baseUrl)
     res.send();

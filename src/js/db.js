@@ -209,18 +209,29 @@ var connect = function () {
     });
   }
 
+// function goBack() {
+//   window.location.replace(baseUrl + '/loginConfirmation.html')// + userNameToSearch) = 
+// }
+
   async function searchUser () {
     console.log("searchUser function called.");
 
     //getting username to search
     //NEED TO CHANGE ID
-    var userNameToSearch = document.getElementById("usernameinput").value;
+    var userNameToSearch = document.getElementById("search_user_input").value;
     //logging usernametosearch
     console.log(userNameToSearch)
 
     //storing result of search
     var searchResult = await searchUserAsync(userNameToSearch)
 
+    //if not found 
+    if (searchResult == false) {
+      alert("User not found :(")
+    } else {
+      alert("User found!")
+      window.location.href = baseUrl + '/viewUser.html'// + userNameToSearch
+    }
     console.log("IN OTHER FUNCTION ")
     console.log(searchResult)
 
@@ -273,7 +284,7 @@ var connect = function () {
     }),{
       mode: "same-origin"
     }).then(function() {
-      window.location.href = baseUrl;
+      window.location.replace(baseUrl)// = baseUrl;
     });
   }
 

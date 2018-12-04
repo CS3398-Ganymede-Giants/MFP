@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="css/styleloggedin.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/loginBar.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <!-- linking db.js code -->
+    <script type="text/javascript" src="js/db.js"></script>
+    <!-- <script type="text/javascript" src="js/db.js"></script> -->
+    <!-- <script type="application/javascript" src="/node_modules/angular/angular.js"></script> -->
+    <script type="text/javascript" src="js/userPost.js"></script>
+
+
+
+</head>
+
+<body>
+    <div class="topnav" class="topBar">
+        <div class="welcomeBackDiv">
+            <div class="welcomeBackText" id="welcomeBackUserText"> Welcome Back!</div>
+            <button type="submit" onclick="logout()" class="welcomeBackButton">Logout</button>
+            <div class="search-container">
+                <input type="text" placeholder="Search.." name="search" id="search_user_input">
+                <button type="submit" onclick="searchUser()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="leftcolumn">
+            <div class="card">
+                <h1 align="center"><img src="images/MFP_logo.png" style="float:center;width:200px;height:200px;"></h1>
+                <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/loginConfirmation.html">
+                        <img src="images/homeIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                        Home</a></h2>
+                <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/trackingPage.html"><img
+                            src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                        Tracker</a></h2>
+                <!-- <h2 style="padding-left:50px;"><a style="color:black;" href = "http://localhost:8080/trackingPage.html"><img src="images/budgetIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">  Tracker</a></h2> -->
+                <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/accountSettings.html"><img
+                            src="images/settingIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                        Account Settings</a></h2>
+                <h2 style="padding-left:50px;"><a style="color:black;" href="https://ganymede18.herokuapp.com/contact.html"><img
+                            src="images/emailIcon.png" style="float:left;width:45px;height:45px;margin-right:10px;">
+                        Contact Us</a></h2>
+            </div>
+        </div>
+
+        <div class="rightcolumn">
+            <div class="card">
+                <!-- <h1 align="center"><u>Having trouble tracking your money?</u></h1>
+                <h3 align="center"><b>MyFinancePal is here!</b></h3>
+                <img src="images/moneyCoins.png" align="left" width="140" height="100" />
+                <p style="margin-top:10px;margin-bottom:50px;">We are here to help ease your pain from eating ramen
+                    every night. Signing up to this website will give you a
+                    better understanding where all your money is going. It'll show you if you're spending a little too
+                    much for fun
+                    and gives you a smarter way to spend your money. While following the suggested spending as
+                    guidlines you may now
+                    afford to eat a fully balance meal everyday!</p>
+                <h1>-----------------------------------------------------------------------------------------------------------</h1>
+                <h2>Features</h2>
+                <h5>Here's a little information of what to expect</h5>
+                <p>&#9734; Tracking Page! Enter in all your expenses and income to see which expense are taking up more
+                    of your income than others.</p>
+                <p>&#9734; Set an amount you want to save!</p> -->
+                <!--
+      <div class = "userposting">
+          <label for="Post">Write a Post: </label>
+          <input type="text" id="post" name="userpost" placeholder="Let others know about your progress!">
+
+          <input type="submit" value="Submit">
+      </div>
+-->
+                <!-- <div class="userposting" ng-controller="PostController as postCtrl">
+                <ul>
+                  <li ng-repeat="posts in post.posts">
+                    {{posts.body}}
+                  </li>
+                </ul>
+                <form name="postForm" ng-submit="postForm.$valid && postCtrl.addPost(post)" novalidate>
+              
+              
+                  <h4>Write a Post: </h4>
+                  <textarea ng-model="postCtrl.posts.body" cols="30" rows="10" required></textarea>
+              
+                  <input type="submit" value="Submit" />
+                </form>
+              </div> -->
+                <div class="userposting" >
+                    <button class="welcomeBackButton" onclick="goBack()">Back</button>
+                    <h1>Posts by user:</h1>
+                    <div id="postsGoHere"></div>>
+                    <!-- <form name="postForm" type="Post" novalidate>
+
+                        <h4>Write a Post: </h4>
+                        <textarea id="addPostTextArea" cols="30" rows="10" required></textarea>
+
+
+                    </form>
+                    <input type="submit" value="Submit" onclick="saveNewPost()" /> -->
+                </div>
+
+
+
+                <!-- <div id="ctrl-as-exmpl" ng-controller="SettingsController1 as settings">
+  <label>Name: <input type="text" ng-model="settings.name" /></label>
+  <button ng-click="settings.greet()">greet</button><br />
+  Contact:
+  <ul>
+    <li ng-repeat="contact in settings.contacts">
+      <select ng-model="contact.type" aria-label="Contact method" id="select_{{$index}}">
+        <option>phone</option>
+        <option>email</option>
+      </select>
+      <input type="text" ng-model="contact.value" aria-labelledby="select_{{$index}}" />
+      <button ng-click="settings.clearContact(contact)">clear</button>
+      <button ng-click="settings.removeContact(contact)" aria-label="Remove">X</button>
+    </li>
+    <li><button ng-click="settings.addContact()">add</button></li>
+  </ul>
+</div> -->
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h3> &copy;MyFinancePal was develped by Ivy, Robert, Zaniab, James and Tyler (Group Ganymede).</h3>
+    </div>
+
+    
+    <script>
+
+        //loading posts 
+        // loadPosts()
+        //
+
+    async function loadPosts() {
+        //post objs 
+        // var postObjs = [{ user_id: 202, post_text: "Feeling good" }, { user_id: 202, post_text: "Feeling better" }]
+        var postObjs = await loadPostsAsync()
+        console.log("LOAD POSTS ASYNC")
+        console.log(postObjs)
+
+        if (postObjs.didLoad == true && postObjs.data.length != 0) {
+            //create new element for each one 
+            // Get the element you want to add your new element before or after
+            var target = document.getElementById("postsGoHere")
+
+            //for each one 
+            for (let p of postObjs.data) {
+                // Create the new element
+                // This can be any valid HTML element: p, article, span, etc...
+                var div = document.createElement('div');
+
+                //var date 
+                var date = new Date(p.timestamp)
+                date = date.toLocaleDateString("en-US");
+
+                // Add content to the new element
+                div.innerHTML = '<div class="addedPostDiv"><h2 class="addedPostDivDate">' + date + '</h2><h1 class="addedPostDivText">' + p.post_text + '</h1></div>';
+
+                // You could also add classes, IDs, and so on
+                // div is a fully manipulatable DOM Node
+
+                // Insert the element before our target element
+                target.parentNode.insertBefore(div, target);
+
+                // Insert the element after our target element
+                target.parentNode.insertBefore(div, target.nextSibling);
+            }
+        }
+
+
+
+
+    }
+
+    function loadPostsAsync() {
+        //GET 
+        //'/loadUserPosts'
+        // var user_id = getCookie('user_id')
+
+        //fetch 
+        //user id from cookies 
+        var username = getCookie("usernameToView")
+
+        //need to make a GET and return json 
+        //url from base 
+        var url = baseUrl + '/loadOtherUserPosts/' + username
+        // console.log("URL IS ")
+        console.log(url)
+
+
+        //return promise 
+        return new Promise(resolve => {
+            //fetch 
+            // Default options are marked with *
+            fetch(url, {
+                method: "GET",
+                mode: "same-origin",
+                // mode: "cors", // no-cors, cors, *same-origin
+                // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                // credentials: "same-origin", // include, *same-origin, omit
+                headers: {
+                    "Content-Type": "application/json",
+                    // "Content-Type": "application/x-www-form-urlencoded",
+                },
+                // redirect: "follow", // manual, *follow, error
+                // referrer: "no-referrer", // no-referrer, *client
+                // body: postBody, // body data type must match "Content-Type" header
+            })
+                .then(response => {
+                    //parsing response
+                    //resolving
+                    resolve(response.json())
+                }); // parses response to JSON
+        })
+    }
+
+    function goBack() {
+        // window.location.replace("http://localhost:8080/loginConfirmation.html")
+        window.location.replace("https://ganymede18.herokuapp.com/loginConfirmation.html")
+        // TODO CHANGE
+    }
+
+    function logout() {
+        // window.location.replace("http://localhost:8080/")
+        window.location.replace("https://ganymede18.herokuapp.com")
+    }
+
+    loadPosts()
+
+
+
+        document.getElementById("welcomeBackUserText").innerHTML = "Welcome back, " + getCookie("usersName") + "!"
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+        
+
+  // window.onload(loadPosts())
+    </script>
+
+
+
+</body>
+
+</html>
