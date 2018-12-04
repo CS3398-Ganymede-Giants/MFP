@@ -59,6 +59,24 @@
           <input type="submit" value="Submit">
       </div>
 
+               <div class="userposting" ng-controller="PostController as postCtrl">
+                 <h3>Posts</h3>
+                 <ul>
+                  <li ng-repeat="posts in post.posts">
+                    "{{posts.body}}"
+                  </li>
+                 </ul>
+                 <form name="postForm" ng-submit="postForm.$valid && postCtrl.addPost(post)" novalidate>
+
+
+                   <h4>Write a Post: </h4>
+                     <textarea ng-model="postCtrl.posts.body" cols="30" rows="10" required></textarea>
+                   <label for="">by:</label>
+
+                     <input type="submit" value="Submit" />
+                   </form>
+               </div>
+
     </div>
   </div>
 </div>
