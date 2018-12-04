@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
   <!-- linking db.js code -->
 <script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/userPost.js"></script>
 
 
 </head>
@@ -51,13 +52,31 @@
       <h5>Here's a little information of what to expect</h5>
       <p>&#9734; Tracking Page! Enter in all your expenses and income to see which expense are taking up more of your income than others.</p>
       <p>&#9734; Set an amount you want to save!</p>
-
+    <!--
       <div class = "userposting">
           <label for="Post">Write a Post: </label>
           <input type="text" id="post" name="userpost" placeholder="Let others know about your progress!">
 
           <input type="submit" value="Submit">
       </div>
+-->
+               <div class="userposting" ng-controller="PostController as postCtrl">
+                 <h3>Posts</h3>
+                 <ul>
+                  <li ng-repeat="posts in post.posts">
+                    {{posts.body}}
+                  </li>
+                 </ul>
+                 <form name="postForm" ng-submit="postForm.$valid && postCtrl.addPost(post)" novalidate>
+
+
+                   <h4>Write a Post: </h4>
+                     <textarea ng-model="postCtrl.posts.body" cols="30" rows="10" required></textarea>
+                   <label for="">by:</label>
+
+                     <input type="submit" value="Submit" />
+                   </form>
+               </div>
 
     </div>
   </div>
