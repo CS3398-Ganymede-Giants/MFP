@@ -28,5 +28,14 @@ Next Steps: Add dynamic graphs and functionality to the user info page. Assist i
 Combine User Info and Tracker page in Sprint 2: Have the tracker page include all the parts of the user info page so the user has one place to input everything and see a visual output of what their budget consists of. 
 Next Steps: Clean up the design of the whole app, adapt it for mobile.
 
+What went well for the team?
+- Everyone completed their work on time and were extremly helpful if someone needed assistance. 
+
+What might be impeding us from performing better?
+- Busy/conflicting scedules 
+
+What can we do to imporove? 
+- 
+
 ### Heroku Setup
 https://medium.com/@aem_iro/deploying-a-node-js-postgressql-app-to-heroku-hosting-platform-cc611287ae76
