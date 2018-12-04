@@ -173,7 +173,7 @@ module.exports = function (email = "", user_id = "") {
         var mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
         var data = {
-            from: '<noreply@mfpganymede.com>',
+            from: '"MFP" <noreply@mfpganymede.com>',
             to: this.email,
             subject: 'Email Verification',
             text: "Please use the following link to verify your email address:\n\n" + url
