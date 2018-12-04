@@ -20,6 +20,7 @@
   "homepage": "https://github.com/CS3398-Ganymede-Giants/MFP#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
+    "angular": "^1.7.5",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "chart.js": "^2.7.3",

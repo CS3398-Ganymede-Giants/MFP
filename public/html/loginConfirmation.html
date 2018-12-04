@@ -9,11 +9,13 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
   <!-- linking db.js code -->
 <script type="text/javascript" src="js/db.js"></script>
+<script type="application/javascript" src="/node_modules/angular/angular.js"></script>
 <script type="text/javascript" src="js/userPost.js"></script>
 
 
+
 </head>
-<body>
+<body onload="loadPosts()">
 <div class="topnav" class="topBar">
     <div class="welcomeBackDiv">
       <div class="welcomeBackText" id="welcomeBackUserText"> Welcome Back!</div>
@@ -60,21 +62,52 @@
           <input type="submit" value="Submit">
       </div>
 -->
-               <div class="userposting" ng-controller="PostController as postCtrl">
-                 <ul>
+              <!-- <div class="userposting" ng-controller="PostController as postCtrl">
+                <ul>
                   <li ng-repeat="posts in post.posts">
                     {{posts.body}}
                   </li>
-                 </ul>
-                 <form name="postForm" ng-submit="postForm.$valid && postCtrl.addPost(post)" novalidate>
+                </ul>
+                <form name="postForm" ng-submit="postForm.$valid && postCtrl.addPost(post)" novalidate>
+              
+              
+                  <h4>Write a Post: </h4>
+                  <textarea ng-model="postCtrl.posts.body" cols="30" rows="10" required></textarea>
+              
+                  <input type="submit" value="Submit" />
+                </form>
+              </div> -->
+              <div class="userposting" >
+                <div id="postsGoHere"></div>>
+                <form name="postForm"  novalidate>
+              
+                  <h4>Write a Post: </h4>
+                  <textarea cols="30" rows="10" required></textarea>
+              
+                  <input type="submit" value="Submit" onclick="saveNewPost()" />
+                </form>
+              </div>
 
 
-                   <h4>Write a Post: </h4>
-                     <textarea ng-model="postCtrl.posts.body" cols="30" rows="10" required></textarea>
 
-                     <input type="submit" value="Submit" />
-                   </form>
-               </div>
+<!-- <div id="ctrl-as-exmpl" ng-controller="SettingsController1 as settings">
+  <label>Name: <input type="text" ng-model="settings.name" /></label>
+  <button ng-click="settings.greet()">greet</button><br />
+  Contact:
+  <ul>
+    <li ng-repeat="contact in settings.contacts">
+      <select ng-model="contact.type" aria-label="Contact method" id="select_{{$index}}">
+        <option>phone</option>
+        <option>email</option>
+      </select>
+      <input type="text" ng-model="contact.value" aria-labelledby="select_{{$index}}" />
+      <button ng-click="settings.clearContact(contact)">clear</button>
+      <button ng-click="settings.removeContact(contact)" aria-label="Remove">X</button>
+    </li>
+    <li><button ng-click="settings.addContact()">add</button></li>
+  </ul>
+</div> -->
+
 
     </div>
   </div>
@@ -96,7 +129,10 @@
       var parts = value.split("; " + name + "=");
       if (parts.length == 2) return parts.pop().split(";").shift();
   }
+
+  // window.onload(loadPosts())
 </script>
+
 
 
 </body>
