@@ -811,7 +811,7 @@ app.get('/createuser', function(req, res) {
     // }
    
     //query string 
-    query = format("INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES (%L, crypt(%L, gen_salt('bf')), %L, %L, %L, %L) RETURNING user_id", username, passw, firstName, lastName, email, false) //TODO fix email
+    query = format("INSERT INTO user_tbl (username, passw, firstname, lastname, email_address, email_verified) VALUES (%L, crypt(%L, gen_salt('bf')), %L, %L, %L, %L) RETURNING user_id", username, passw, firstName, lastName, email, true) //TODO fix email
 
     herokuClient.query(query, function (err, result) {
         if (err) {
