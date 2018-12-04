@@ -63,7 +63,7 @@
                <div class="userposting" ng-controller="PostController as postCtrl">
                  <ul>
                   <li ng-repeat="posts in post.posts">
-                    {{posts.body}}
+                    "{{posts.body}}"
                   </li>
                  </ul>
                  <form name="postForm" ng-submit="postForm.$valid && postCtrl.addPost(post)" novalidate>
