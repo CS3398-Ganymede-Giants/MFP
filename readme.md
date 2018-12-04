@@ -13,7 +13,14 @@ James: Assist with back-end code, connecting with database, maybe help front-end
 
 Robert: Created SQL database design in Sprint 1; working on deployment to Heroku PostgreSQL and writing get and set functions in JS/PHP for app to communicate to the database in SPRINT 2. NEXT STEP: Sanitize all user form input before attempting to store to avoid SQL injection attack; hash user passwords before storage; provide remaining database functions to complete the UI/backend integration.
 
-Tyler:Created a UI protoype to illustrate design and functionality of the final website and basic logo, and front-end design of web app. 
+Tyler:
+UI protoype in Sprint 1:
+Created a UI protoype to illustrate design and functionality of the final website and basic logo, and front-end design of web app. 
+Next steps: Start adding UI to backend
+Applied front end design to homepage in Sprint 2:
+Next steps:create user profile page 
+Created account setting for Sprint 3 :
+Created account setting for user to see general overview of their account. 
 
 Zainab:
 Created User Info page in Sprint 1; 
