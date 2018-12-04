@@ -1,6 +1,6 @@
 
 (function(){
-  var app = angular.module('userPost',[]);
+  var app = angular.module('blogApp',[]);
 
 
 
