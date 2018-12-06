@@ -32,7 +32,7 @@ What went well for the team?
 - Everyone completed their work on time and were extremly helpful if someone needed assistance. 
 
 What might be impeding us from performing better?
-- Busy/conflicting scedules 
+- Busy/conflicting schedules 
 
 What can we do to imporove? 
 - 
