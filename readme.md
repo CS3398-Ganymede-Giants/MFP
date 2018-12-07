@@ -7,7 +7,7 @@ https://ganymede18.herokuapp.com/
 Prototype: https://xd.adobe.com/view/22e000c5-aa4d-45f5-78b7-1ae7ec68a229-54d1/?fullscreen
 
 
-Ivy: created main page, tracker page, and sin up page with the corresponding .css files in SPRINT 1.  Fixing up tracking page. SPRINT 2. NEXT STEPS adding more functionality and tab for user account and tracker page.
+Ivy: created main page, tracker page, and sin up page with the corresponding .css files in SPRINT 1.  Fixing up tracking page. SPRINT 2. NEXT STEPS adding more functionality and tab for user account and tracker page. SPRINT 3: created front end visuals(css)  and design of the pages. Did some validation for sign up page including password/username checks. OVERALL had a great team and enjoyed building a website that is functioning.  
 
 James: Assist with back-end code, connecting with database, maybe help front-end with converting project to ReactJS.
 
@@ -31,12 +31,15 @@ Next Steps: Clean up the design of the whole app, adapt it for mobile.
 What went well for the team?
 - Everyone completed their work on time and were extremely helpful if someone needed assistance.
 - Team worked well together as we ran into problems and compromised and overcame them quickly to get a working demo running.
+- Communicated better in sprint 3.
 
 What might be impeding us from performing better?
 - Busy/conflicting schedules
+- setbacks of database construction. just waiting to get thinggs setup.
 
 What can we do to improve?
 - More accurate descriptions of work in progress to avoid duplicating efforts.
+- set short time goals of one to two days of certain issues.
 
 ### Heroku Setup
 https://medium.com/@aem_iro/deploying-a-node-js-postgressql-app-to-heroku-hosting-platform-cc611287ae76
