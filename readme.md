@@ -9,7 +9,13 @@ Prototype: https://xd.adobe.com/view/22e000c5-aa4d-45f5-78b7-1ae7ec68a229-54d1/?
 
 Ivy: created main page, tracker page, and sin up page with the corresponding .css files in SPRINT 1.  Fixing up tracking page. SPRINT 2. NEXT STEPS adding more functionality and tab for user account and tracker page. SPRINT 3: created front end visuals(css)  and design of the pages. Did some validation for sign up page including password/username checks. OVERALL had a great team and enjoyed building a website that is functioning.  
 
-James: Assist with back-end code, connecting with database, maybe help front-end with converting project to ReactJS.
+James: 
+SPRINT 1: Created Node.js server, using ExpressJS as the framework. Integrated our shared repo with Heroky to deploy the project automatically publicly, on each push to the Master branch.
+SPRINT 2: Integrated SQL code into the Project to save users, login users, logout users, and provided more framework for Node server.
+SPRINT 3: Integrated all other SQL code into project, including code for saving expenses/income, loading expenses/income, integrated code with provided front-end, added email-verification for user creation, created modal on tracking-page for user to edit finance goals, added save/load functionality to user account page, added graphs and graph creation functionality on tracking page, added user search, added user post on profile functionality and HTML, added ability to view other user's posts.
+Next Steps: Further bug fix. Create official domain with email mass delivery service to have email functionality working correctly, make HTML more modular to increase stability and reliability.
+
+Assist with back-end code, connecting with database, maybe help front-end with converting project to ReactJS.
 
 Robert: Created SQL database design in Sprint 1; working on deployment to Heroku PostgreSQL and writing get and set functions in JS/PHP for app to communicate to the database in SPRINT 2. NEXT STEP: Sanitize all user form input before attempting to store to avoid SQL injection attack; hash user passwords before storage; provide remaining database functions to complete the UI/backend integration. SPRINT 3 REVIEW/RETROSPECTIVE: Accomplished user input sanitization through the use of Node pg package interface to PostgreSQL database. Added password hashing to app.js to secure passwords prior to storage on the database. Provided remaining SQL queries for app to store and retrieve information from the database, located inside app.js file. Uploaded new database schema into db/ directory, including updated UML diagram of final database design. All Sprint 3 goals were met. NEXT STEP: Continue expanding app capabilities and possibly redesign database for more efficiency in a deployed environment.
 
