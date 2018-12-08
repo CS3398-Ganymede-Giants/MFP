@@ -27,6 +27,7 @@ Applied front end design to homepage in Sprint 2:
 Next steps:create user profile page
 Created account setting for Sprint 3 :
 Created account setting for user to see general overview of their account.
+Next steps: add better editing functionality to account settings, clean up graphs on Tracking page
 
 Zainab:
 Created User Info page in Sprint 1;
