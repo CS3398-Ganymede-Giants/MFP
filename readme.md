@@ -34,6 +34,8 @@ Created User Info page in Sprint 1;
 Next Steps: Add dynamic graphs and functionality to the user info page. Assist in building a tracking page that uses the information given by the user.
 Combine User Info and Tracker page in Sprint 2: Have the tracker page include all the parts of the user info page so the user has one place to input everything and see a visual output of what their budget consists of.
 Next Steps: Clean up the design of the whole app, adapt it for mobile.
+User Search and Post in Sprint 3: Include a search bar when user is logged in, allowing them to search for other users on the site and see their posts. Create a post area on user's logged in homepage, allowing them to write about progress and have other users view it. 
+Next Steps: Adapt it for mobile, clean up the design, allow users to add one another as friends.
 
 What went well for the team?
 - Everyone completed their work on time and were extremely helpful if someone needed assistance.
